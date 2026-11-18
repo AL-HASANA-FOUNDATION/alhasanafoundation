@@ -7,24 +7,17 @@ img,svg,video{max-width:100%;height:auto}
   .wrap{padding-left:12px!important;padding-right:12px!important}
   .hero{padding:22px 16px!important}
   .hero h1{font-size:1.55rem!important}
-  .tcard .timg{flex:0 0 38%!important;width:38%!important}
-  .ttitle{font-size:1rem!important;padding:12px!important}
   .card{padding:14px!important}
   .topphoto img{border-radius:12px!important}
 }
 @media (min-width:561px) and (max-width:899px){
   .wrap{max-width:100%!important;padding-left:20px!important;padding-right:20px!important}
   .hero{padding:32px 24px!important}
-  .tcard{min-height:132px!important}
-  .tcard .timg{flex:0 0 36%!important;width:36%!important}
 }
 @media (min-width:900px){
   .wrap{max-width:1280px!important;padding-left:28px!important;padding-right:28px!important}
   .hero{padding:44px 36px!important}
   .hero h1{font-size:2.5rem!important}
-  .tcard{min-height:140px!important}
-  .tcard .timg{flex:0 0 320px!important;width:320px!important;max-width:38%!important}
-  .ttitle{font-size:1.25rem!important;padding:20px 22px!important}
   .committee-grid{grid-template-columns:repeat(3,1fr)!important}
   .topphoto img{aspect-ratio:1200/420!important;border-radius:18px!important}
 }
@@ -132,6 +125,7 @@ nav.tabs{grid-template-columns:repeat(5,1fr)!important}
   .tab::after{transition:none}
 }
 
+
 </style></head><body>
 <title>আল হাসানা ফাউন্ডেশন</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -141,7 +135,7 @@ nav.tabs{grid-template-columns:repeat(5,1fr)!important}
    Treatment: calm green institutional palette, Bengali serif for headlines, clear forms and ledgers. */
 :root{
   --bg:#F3F6F4; --surface:#FFFFFF; --surface2:#EAF0EC; --ink:#14211C; --muted:#58675F; --line:#D8E1DC;
-  --accent:#0E5B46; --accent-hover:#0B4A39; --accent-ink:#FFFFFF; --accent-soft:#DCEFE7;
+  --accent:#0E5B46; --accent-hover:#0B4A39; --accent-ink:#FFFFFF; --accent-soft:#DCEFE7; --gold-btn:#E9C46A; --gold-btn-hover:#E2B84F; --gold-btn-ink:#14211C;
   --gold:#7A5400; --gold-soft:#F5E9C8; --bad:#B3261E; --bad-soft:#F8DEDB;
   --f-body:'Hind Siliguri',system-ui,'Noto Sans Bengali','Segoe UI',sans-serif;
   --f-display:'Noto Serif Bengali','Hind Siliguri',Georgia,serif;
@@ -149,13 +143,13 @@ nav.tabs{grid-template-columns:repeat(5,1fr)!important}
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#0E1713; --surface:#16221D; --surface2:#1E2E27; --ink:#E6EFEA; --muted:#9BACA3; --line:#2A3C34;
-    --accent:#5FCBA3; --accent-hover:#7AD8B2; --accent-ink:#06241A; --accent-soft:#1B3B30;
+    --accent:#5FCBA3; --accent-hover:#7AD8B2; --accent-ink:#06241A; --accent-soft:#1B3B30; --gold-btn:#E3B64F; --gold-btn-hover:#F0C75E; --gold-btn-ink:#14211C;
     --gold:#E3B64F; --gold-soft:#33290F; --bad:#F2A39D; --bad-soft:#3B1B19; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#0E1713; --surface:#16221D; --surface2:#1E2E27; --ink:#E6EFEA; --muted:#9BACA3; --line:#2A3C34;
-  --accent:#5FCBA3; --accent-hover:#7AD8B2; --accent-ink:#06241A; --accent-soft:#1B3B30;
+  --accent:#5FCBA3; --accent-hover:#7AD8B2; --accent-ink:#06241A; --accent-soft:#1B3B30; --gold-btn:#E3B64F; --gold-btn-hover:#F0C75E; --gold-btn-ink:#14211C;
   --gold:#E3B64F; --gold-soft:#33290F; --bad:#F2A39D; --bad-soft:#3B1B19; color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -385,6 +379,31 @@ body.gating::before{display:none}
 .receipt h2{font-size:1.3rem;margin-bottom:4px}
 .receipt .rmeta{color:#555;font-size:.9rem;margin-bottom:12px}
 @media print{header.top,nav.tabs,main,#toast,#gate,#npanel,#tsheet,#fabWrap{display:none!important}#receipt-print{display:block!important}}
+
+/* ---------- Seba cards (final): button right, only button clickable, compact responsive ---------- */
+.tgrid{display:grid!important;grid-template-columns:1fr;gap:12px!important;width:100%!important;max-width:none!important}
+.tgrid .tcard{display:flex!important;flex-direction:row!important;align-items:center!important;gap:12px!important;padding:12px!important;min-height:0!important;height:auto!important;cursor:default!important;overflow:hidden}
+.tgrid .tcard .timg{position:relative;flex:0 0 auto!important;width:auto!important;max-width:none;height:110px!important;min-height:0!important;aspect-ratio:4/3!important;align-self:center!important;border-radius:10px!important;overflow:hidden!important;margin:0!important}
+.tgrid .tcard .timg svg{position:absolute;inset:0;width:100%!important;height:100%!important;max-width:none}
+.tgrid .tcard .ttitle{flex:1!important;min-width:0;display:flex!important;align-items:center!important;justify-content:flex-end!important;padding:0!important;background:transparent!important}
+.tgrid .tcard .ttext-btn{flex:0 0 auto!important;width:auto!important;min-height:0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;padding:10px 14px!important;border-radius:12px!important;background:var(--accent)!important;color:var(--accent-ink)!important;border:1px solid var(--accent)!important;font:inherit;font-weight:700;cursor:pointer;text-align:left}
+.tgrid .tcard .ttext-btn .ttitle-text{color:var(--accent-ink)!important;font-size:.95rem!important}
+.tgrid .tcard .ttext-btn .tarrow{color:var(--accent-ink)!important;font-size:1.05rem!important}
+.tgrid .tcard .ttext-btn:hover{background:var(--accent-hover)!important;border-color:var(--accent-hover)!important}
+.tgrid .tcard:hover{transform:none!important;box-shadow:none!important;border-color:var(--line)!important}
+@media (min-width:561px){
+  .tgrid .tcard .timg{height:130px!important}
+  .tgrid .tcard .ttext-btn{padding:12px 20px!important}
+  .tgrid .tcard .ttext-btn .ttitle-text{font-size:1.05rem!important}
+}
+@media (min-width:900px){
+  .tgrid{grid-template-columns:1fr 1fr}
+  .tgrid .tcard .timg{height:150px!important}
+}
+@media (min-width:900px){.hero{padding:30px 36px!important;gap:10px!important}.hero p{max-width:64em}.hero h1 br{display:none}}
+.tgrid .tcard .ttitle{padding-right:28px!important}
+@media (min-width:561px){.tgrid .tcard .ttitle{padding-right:56px!important}}
+@media (min-width:900px){.tgrid .tcard .ttitle{padding-right:64px!important}}
 </style>
 
 <div id="gate" hidden></div>
@@ -545,9 +564,9 @@ function renderSheet(){
   el.innerHTML='<div class="tbackdrop" data-a="tclose"></div><div class="tbox" role="dialog" aria-modal="true" aria-label="'+esc(x.t)+'"><div class="timg">'+x.img+'</div><div class="tbody"><h2>'+esc(x.t)+'</h2><p>'+esc(x.d)+'</p>'+
     loanDetailExtra(x.t)+
     '<h3>কী কী লাগবে</h3><ul class="tlist"><li>জাতীয় পরিচয়পত্র / জন্মনিবন্ধন নম্বর</li><li>মোবাইল নম্বর</li><li>বর্তমান ও স্থায়ী ঠিকানা</li><li>কী কাজে টাকা লাগবে, তা পরিষ্কার করে লেখা</li><li><b>১ জন জামানতদার লাগবে</b> - তার নাম, মোবাইল ও NID</li><li><b>ব্যাংক চেক লাগবে</b> - সিকিউরিটি হিসেবে ব্যাংক চেক জমা দিতে হবে</li></ul>'+
-    '<div class="card stack" style="background:var(--gold-soft);border-color:transparent"><b>জামানতদার + ব্যাংক চেক কেন লাগবে?</b><p class="small">টাকা ফেরত দেওয়ার নিশ্চয়তার জন্য ১ জন জামানতদার লাগবে। জামানতদার মানে - আপনি দিতে না পারলে তিনি দায়িত্ব নেবেন, এটা শুধু বিশ্বাসের জন্য। আর সিকিউরিটি হিসেবে ১ টি ব্যাংক চেক জমা দিতে হবে। ঋণ পুরো শোধ হয়ে গেলে চেক ফেরত দিয়ে দেওয়া হবে। চেকের টাকা কাটা হবে না, যদি আপনি নিয়মমতো কিস্তি দেন।</p></div>'+
+    '<div class="card stack" style="background:var(--gold-soft);border-color:transparent"><b>জামানতদার + ব্যাংক চেক কেন লাগবে?</b><p class="small">টাকা ফেরত দেওয়ার নিশ্চয়তার জন্য ১ জন জামানতদার লাগবে। জামানতদার মানে - আপনি দিতে না পারলে তিনি দায়িত্ব নেবেন। আর সিকিউরিটি হিসেবে ১ টি ব্যাংক চেক জমা দিতে হবে। ঋণ পুরো শোধ হয়ে গেলে চেক ফেরত দিয়ে দেওয়া হবে। চেকের টাকা কাটা হবে না, যদি আপনি নিয়মমতো কিস্তি দেন।</p></div>'+
     '<h3>কীভাবে শোধ করবেন</h3><ul class="tlist"><li>সুদ বা অতিরিক্ত চার্জ নেই, যতটুকু নেবেন ততটুকুই ফেরত দেবেন</li><li>সামর্থ্য অনুযায়ী মাসিক কিস্তি</li><li>আবেদন নম্বর দিয়ে অ্যাপেই অবস্থা দেখা যাবে</li></ul>'+
-    '<div class="card stack" style="background:var(--accent-soft);border-color:transparent"><b>বিস্তারিত পড়েছেন?</b><p class="small muted">ভালো লাগলে এখনই এই ঋণের জন্য আবেদন করুন। আবেদন করতে কোনো ফি লাগে না।</p><div class="actions"><button class="btn primary" data-a="loantype" data-v="'+esc(x.t)+'">এই ঋণের জন্য আবেদন করুন</button><button class="btn" data-a="tclose">বন্ধ করুন</button></div></div></div></div>';
+    '<div class="card stack" style="background:var(--accent-soft);border-color:transparent"><b>বিস্তারিত পড়েছেন?</b><p class="small muted">ভালো লাগলে এখনই এই ঋণের জন্য আবেদন করুন। আবেদন করতে কোনো ফি লাগে না।</p><div class="actions"><button class="btn primary" data-a="loantype" data-v="'+esc(x.t)+'">আবেদন করুন</button><button class="btn" data-a="tclose">বন্ধ করুন</button></div></div></div></div>';
   el.hidden=false;
 }
 function committeeHome(){
@@ -567,9 +586,9 @@ function viewHome(){
 /* ---------- Seba ---------- */
 function viewSeba(){
   var cards=TYPES.map(function(x,i){
-    return '<button class="card tcard tmain" data-a="tdetail" data-v="'+i+'" aria-label="'+esc(x.t)+' দেখুন" style="width:100%;text-align:left"><span class="timg">'+x.img+'</span><span class="ttitle">'+esc(x.t)+'<span class="tarrow" aria-hidden="true">\u2192</span></span></button>';
+    return '<div class="card tcard" style="width:100%;text-align:left"><span class="timg">'+x.img+'</span><span class="ttitle"><button class="ttext-btn tbtn-gold" data-a="tdetail" data-v="'+i+'" aria-label="'+esc(x.t)+' বিস্তারিত দেখুন"><span class="ttitle-text">'+esc(x.t)+'</span></button></span></div>';
   }).join('');
-  return '<div><h2>আমাদের সেবা</h2><p class="muted">কোনো সুদ বা অতিরিক্ত চার্জ নেই। আপনার প্রয়োজন বেছে নিন।</p><p class="small" style="background:var(--gold-soft);padding:10px 12px;border-radius:10px">সব ঋণের জন্য <b>১ জন জামানতদার + ব্যাংক চেক</b> লাগবে। নিচে একটার পর একটা দেওয়া আছে। যেকোনো অপশনের উপরে চাপ দিলেই তার বিস্তারিত দেখতে পাবেন।</p></div><div class="tgrid">'+cards+'</div>';
+  return '<div><h2>আমাদের সেবা</h2><p class="muted">কোনো সুদ বা অতিরিক্ত চার্জ নেই। আপনার প্রয়োজন বেছে নিন।</p></div><div class="tgrid">'+cards+'</div>';
 }
 
 /* ---------- Apply ---------- */
@@ -1217,12 +1236,23 @@ document.addEventListener('submit',function(e){
 });
 document.addEventListener('scroll',function(e){var c=e.target;if(c&&c.id==='slides')updSlideCount(c);},true);
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(typeOpen>=0){typeOpen=-1;renderSheet();}else if(panelOpen)closePanel();}});
-document.addEventListener('click',function(ev){var _w=document.getElementById('fabWrap');if(!_w)return;if(!ev.target.closest('#fabWrap')){var _m=document.getElementById('fabMenu');var _b=document.getElementById('fabBtn');if(_m&&!_m.hidden){_m.hidden=true;if(_b){_b.setAttribute('aria-expanded','false');_b.innerHTML='<svg viewBox="0 0 24 24" width="24" height="24" fill="#fff" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>';}}}});
+document.addEventListener('click',function(ev){var _w=document.getElementById('fabWrap');if(!_w)return;if(!(ev.composedPath?ev.composedPath().indexOf(_w)>-1:_w.contains(ev.target))){var _m=document.getElementById('fabMenu');var _b=document.getElementById('fabBtn');if(_m&&!_m.hidden){_m.hidden=true;if(_b){_b.setAttribute('aria-expanded','false');_b.innerHTML='<svg viewBox="0 0 24 24" width="24" height="24" fill="#fff" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>';}}}});
 window.addEventListener('hashchange',function(){readHash();pending=null;if(panelOpen)closePanel();window.scrollTo(0,0);render();});
 if(user){draft.name=user.name;draft.phone=user.phone;}
 document.getElementById('hlogo').src=LOGO;
 readHash();render();
 initDb();
+
+/* tab bar: hash-er upor nirbhor na kore sorasori route change (iframe/preview-e o kaj korbe) */
+document.addEventListener('click',function(e){
+  var a=e.target.closest&&e.target.closest('#nav a.tab');if(!a)return;
+  var h=(a.getAttribute('href')||'').replace('#','');if(!VIEWS[h])return;
+  e.preventDefault();
+  route=h;pending=null;if(typeof panelOpen!=='undefined'&&panelOpen)closePanel();
+  try{history.replaceState(null,'','#'+h);}catch(x){}
+  window.scrollTo(0,0);render();
+},true);
+document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;var m=document.getElementById('fabMenu'),b=document.getElementById('fabBtn');if(m&&!m.hidden&&b)b.click();});
 })();
 </script>
 
