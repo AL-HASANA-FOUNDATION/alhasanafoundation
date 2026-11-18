@@ -48,11 +48,11 @@ img,svg,video{max-width:100%;height:auto}
 .dots-btn:hover{background:var(--surface);border-color:var(--accent)}
 .dots-ic{display:flex;gap:4px;align-items:center;justify-content:center}
 .dots-ic i{width:5px;height:5px;border-radius:50%;background:currentColor;display:block}
-.dots-menu{position:absolute;left:12px;top:calc(100% + 6px);z-index:50;min-width:220px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.18);padding:8px;overflow:hidden}
+.dots-menu{position:absolute;right:12px;left:auto;top:calc(100% + 6px);z-index:50;min-width:220px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.18);padding:8px;overflow:hidden}
 .dots-menu button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:12px 12px;border:0;background:transparent;color:var(--ink);font:inherit;font-weight:600;cursor:pointer;border-radius:10px}
 .dots-menu button:hover{background:var(--accent-soft)}
 .dots-menu button span.ic{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:16px;background:var(--surface2);border:1px solid var(--line)}
-@media (max-width:560px){.dots-menu{left:8px;right:12px;min-width:0}}
+@media (max-width:560px){.dots-menu{left:12px;right:12px;min-width:0}}
 
 
 /* ---------- Committee photo upload - Admin ---------- */
@@ -65,6 +65,73 @@ img,svg,video{max-width:100%;height:auto}
 .mem-row-photo{flex:none}
 .mem-actions{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 
+
+/* ---------- Notification inside Nav Bar ---------- */
+nav.tabs{grid-template-columns:repeat(5,1fr)!important}
+.tab.nav-bell{position:relative;background:none;border:0;font:inherit;cursor:pointer}
+.tab-ic{position:relative;display:grid;place-items:center;line-height:0}
+.tab-ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tab-ic .badge{position:absolute;top:-7px;right:-11px;min-width:18px;height:18px;padding:0 4px;line-height:18px}
+.tab.nav-bell[aria-expanded="true"]{color:var(--accent);font-weight:700}
+/* Panel - mobile e nav bar er upore, PC te nav bar er niche */
+
+@media (min-width:720px){
+  nav.tabs{grid-template-columns:repeat(5,auto)!important}
+  .npanel{top:calc(env(safe-area-inset-top,0px) + 62px)!important;bottom:auto!important;left:auto!important;right:16px!important;width:min(380px,calc(100% - 32px))!important;max-height:min(70vh,520px)}
+  .tab.nav-bell{flex-direction:row!important;gap:8px!important;font-size:.92rem!important;padding:10px 14px!important}
+}
+
+
+/* ---------- Notification inside 3 dots ---------- */
+.dots-btn{position:relative}
+.dots-badge{position:absolute;top:6px;right:6px;width:11px;height:11px;border-radius:50%;background:var(--bad);border:2px solid var(--surface);display:block}
+.dots-badge[hidden]{display:none}
+.dots-menu button{position:relative}
+.dots-menu .badge{position:absolute;right:12px;top:50%;transform:translateY(-50%);min-width:19px;height:19px;padding:0 5px;border-radius:99px;background:var(--bad);color:var(--surface);font-size:.72rem;font-weight:700;line-height:19px;text-align:center}
+.dots-menu .badge[hidden]{display:none}
+
+
+/* ---------- Professional hover - design / color same, sudhu interaction ---------- */
+.btn,.tab,.chip,.tcard,.dots-btn,.dots-menu button,.fab-btn,.fab-item,.theme-switch,.mem-upload-label,.toc a,summary,.subtabs .chip{transition:background-color .25s ease,color .25s ease,border-color .25s ease,box-shadow .25s ease,transform .25s ease}
+.tab{position:relative}
+.tab::after{content:"";position:absolute;left:50%;bottom:2px;width:0;height:2px;border-radius:2px;background:var(--accent);transition:width .25s ease,left .25s ease}
+@media (hover:hover) and (pointer:fine){
+  /* Buttons - primary theme er ektu garo / ujjol shade */
+  .btn:hover{background:var(--surface2);border-color:var(--accent);color:var(--ink);transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+  .btn.primary:hover{background:var(--accent-hover);border-color:var(--accent-hover);color:var(--accent-ink);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.10)}
+  .btn.danger:hover{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+  .btn.ghost:hover{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.7)}
+  .hero .btn.primary:hover{background:var(--accent-ink);color:var(--accent);border-color:var(--accent-ink)}
+  /* Links */
+  a:not(.btn):not(.tab):not(.toc a):hover{color:var(--accent-hover);text-decoration:underline}
+  /* Nav menu - soft bg + underline */
+  .tab:hover{background:var(--accent-soft);color:var(--accent)}
+  .tab:hover::after{width:56%;left:22%}
+  .tab[aria-current="page"]:hover{background:var(--accent-soft);color:var(--accent)}
+  /* Service card - samanno upore + subtle shadow */
+  .tcard:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.08);border-color:var(--accent)!important}
+  .tcard:hover .tarrow{transform:translateX(2px)}
+  .tcard .tarrow{transition:transform .25s ease}
+  /* Chips / subtabs */
+  .chip:hover,.subtabs .chip:hover{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  .chip[aria-pressed="true"]:hover{background:var(--accent-hover);border-color:var(--accent-hover);color:var(--accent-ink)}
+  /* Dots menu + header */
+  .dots-btn:hover{background:var(--accent-soft);border-color:var(--accent)}
+  .dots-menu button:hover{background:var(--accent-soft);color:var(--ink)}
+  .theme-switch:hover{border-color:var(--accent)}
+  /* Floating Call / WhatsApp */
+  .fab-btn:hover{filter:brightness(1.06);transform:translateY(-1px)}
+  .fab-item:hover{background:var(--accent-soft)}
+  /* TOC / summary / upload */
+  .toc a:hover{background:var(--accent-soft)}
+  summary:hover{color:var(--accent)}
+  .mem-upload-label:hover{background:var(--accent-soft);border-color:var(--accent)}
+}
+@media (prefers-reduced-motion:reduce){
+  .btn,.tab,.chip,.tcard,.dots-btn,.dots-menu button,.fab-btn,.fab-item,.theme-switch,.mem-upload-label,.toc a,summary{transition:none}
+  .tab::after{transition:none}
+}
+
 </style></head><body>
 <title>আল হাসানা ফাউন্ডেশন</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -74,7 +141,7 @@ img,svg,video{max-width:100%;height:auto}
    Treatment: calm green institutional palette, Bengali serif for headlines, clear forms and ledgers. */
 :root{
   --bg:#F3F6F4; --surface:#FFFFFF; --surface2:#EAF0EC; --ink:#14211C; --muted:#58675F; --line:#D8E1DC;
-  --accent:#0E5B46; --accent-ink:#FFFFFF; --accent-soft:#DCEFE7;
+  --accent:#0E5B46; --accent-hover:#0B4A39; --accent-ink:#FFFFFF; --accent-soft:#DCEFE7;
   --gold:#7A5400; --gold-soft:#F5E9C8; --bad:#B3261E; --bad-soft:#F8DEDB;
   --f-body:'Hind Siliguri',system-ui,'Noto Sans Bengali','Segoe UI',sans-serif;
   --f-display:'Noto Serif Bengali','Hind Siliguri',Georgia,serif;
@@ -82,13 +149,13 @@ img,svg,video{max-width:100%;height:auto}
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#0E1713; --surface:#16221D; --surface2:#1E2E27; --ink:#E6EFEA; --muted:#9BACA3; --line:#2A3C34;
-    --accent:#5FCBA3; --accent-ink:#06241A; --accent-soft:#1B3B30;
+    --accent:#5FCBA3; --accent-hover:#7AD8B2; --accent-ink:#06241A; --accent-soft:#1B3B30;
     --gold:#E3B64F; --gold-soft:#33290F; --bad:#F2A39D; --bad-soft:#3B1B19; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#0E1713; --surface:#16221D; --surface2:#1E2E27; --ink:#E6EFEA; --muted:#9BACA3; --line:#2A3C34;
-  --accent:#5FCBA3; --accent-ink:#06241A; --accent-soft:#1B3B30;
+  --accent:#5FCBA3; --accent-hover:#7AD8B2; --accent-ink:#06241A; --accent-soft:#1B3B30;
   --gold:#E3B64F; --gold-soft:#33290F; --bad:#F2A39D; --bad-soft:#3B1B19; color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -101,7 +168,7 @@ p{margin:0}
 a{color:var(--accent)}
 .wrap{width:100%;max-width:1440px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 header.top{background:var(--surface);border-bottom:1px solid var(--line)}
-header.top .wrap{display:flex;align-items:center;gap:12px;padding-block:12px}
+header.top .wrap{display:flex;align-items:center;gap:12px;padding-block:12px}.top .wrap .brand{flex:1;min-width:0}
 .logo{width:42px;height:42px;border-radius:50%;background:#fff;border:1px solid var(--line);display:grid;place-items:center;flex:none;padding:5px;overflow:hidden}
 .logo img{display:block;width:100%;height:100%;object-fit:contain}
 .gate-badge .logo{width:50px;height:50px;border:0;box-shadow:0 1px 8px rgba(0,0,0,.35)}
@@ -322,15 +389,17 @@ body.gating::before{display:none}
 
 <div id="gate" hidden></div>
 <header class="top"><div class="wrap">
-  <button class="dots-btn" id="dotsBtn" data-a="dotsMenu" aria-label="মেনু" aria-expanded="false" aria-haspopup="true"><span class="dots-ic" aria-hidden="true"><i></i><i></i><i></i></span></button>
+  
   <div class="logo"><img id="hlogo" alt="আল হাসানা ফাউন্ডেশনের লোগো" width="40" height="40"></div>
   <div class="brand"><b>আল হাসানা ফাউন্ডেশন</b><span>কর্জে হাসানা সহায়তা অ্যাপ</span></div>
-  <button class="theme-switch" id="themeSwitch" data-a="theme" role="switch" aria-checked="false" aria-label="ডার্ক মোড চালু / বন্ধ"><span class="ts-track"><span class="ts-icon sun">☀</span><span class="ts-icon moon">☾</span><span class="ts-knob"></span></span></button><button class="bell" id="bell" data-a="bell" aria-label="নোটিফিকেশন" aria-expanded="false"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10.3 20a2 2 0 0 0 3.4 0"/></svg><span class="badge" id="bbadge" hidden></span></button>
+  <button class="theme-switch" id="themeSwitch" data-a="theme" role="switch" aria-checked="false" aria-label="ডার্ক মোড চালু / বন্ধ"><span class="ts-track"><span class="ts-icon sun">☀</span><span class="ts-icon moon">☾</span><span class="ts-knob"></span></span></button>
+  <button class="dots-btn" id="dotsBtn" data-a="dotsMenu" aria-label="মেনু" aria-expanded="false" aria-haspopup="true"><span class="dots-ic" aria-hidden="true"><i></i><i></i><i></i></span><span class="dots-badge" id="dotsBadge" hidden aria-hidden="true"></span></button>
 </div>
 <div class="dots-menu" id="dotsMenu" hidden role="menu" aria-label="Home মেনু">
 <button data-a="dotsGo" data-v="about" role="menuitem"><span class="ic" aria-hidden="true">📘</span>আমাদের সম্পর্কে</button>
 <button data-a="dotsGo" data-v="goal" role="menuitem"><span class="ic" aria-hidden="true">🎯</span>প্রধান উদ্দেশ্য</button>
 <button data-a="dotsGo" data-v="committee" role="menuitem"><span class="ic" aria-hidden="true">👥</span>কার্যকর কমিটি</button>
+<button id="bell" data-a="bell" role="menuitem" aria-label="নোটিফিকেশন" aria-expanded="false"><span class="ic" aria-hidden="true">🔔</span>নোটিফিকেশন<span class="badge" id="bbadge" hidden></span></button>
 </div></header>
 <div id="tsheet" class="tsheet" hidden></div>
 <div id="npanel" class="npanel" role="dialog" aria-label="নোটিফিকেশন" hidden></div>
@@ -863,6 +932,7 @@ function updNotif(){
   var unread=notifs.filter(function(n){return n.at>seenAt;}).length;
   var b=document.getElementById('bbadge');
   if(b){b.hidden=unread===0;b.textContent=bn(unread>99?'99+':unread);}
+  var _db=document.getElementById('dotsBadge');if(_db)_db.hidden=unread===0;
   var bell=document.getElementById('bell');if(bell)bell.setAttribute('aria-expanded',panelOpen?'true':'false');
   renderPanel();
 }
@@ -1035,7 +1105,7 @@ document.addEventListener('click',function(e){
     case 'receipt':showReceipt(id,el.dataset.idx);break;
     case 'printReceipt':window.print();break;
     case 'closeReceipt':var _rp=document.getElementById('receipt-print');if(_rp){_rp.hidden=true;_rp.innerHTML='';}break;
-    case 'bell':if(panelOpen)closePanel();else openPanel();break;
+    case 'bell':var _dmB=document.getElementById('dotsMenu');if(_dmB)_dmB.hidden=true;var _dbB=document.getElementById('dotsBtn');if(_dbB)_dbB.setAttribute('aria-expanded','false');if(panelOpen)closePanel();else openPanel();break;
     case 'next':if(validate()){step++;window.scrollTo(0,0);}render();break;
     case 'back':step--;errs={};window.scrollTo(0,0);render();break;
     case 'submit':if(validate()){submitApp();window.scrollTo(0,0);}render();break;
