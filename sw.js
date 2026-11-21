@@ -3,7 +3,6 @@ const CACHE = 'alhasana-v1';
 const CORE = [
   './',
   './index.html',
-  './Index.html',
   './manifest.json',
   './icon-192.png',
   './icon-384.png',
@@ -39,7 +38,7 @@ self.addEventListener('fetch', (e) => {
         const copy = res.clone();
         caches.open(CACHE).then((c) => c.put('./index.html', copy));
         return res;
-      }).catch(() => caches.match('./index.html').then((r) => r || caches.match('./Index.html')))
+      }).catch(() => caches.match('./index.html').then((r) => r || caches.match('./index.html')))
     );
     return;
   }
