@@ -2338,7 +2338,7 @@ document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;var m
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('sw.js?v2').catch(function(e){ console.log('SW fail', e); });
+    navigator.serviceWorker.register('sw.js?v3?v2').catch(function(e){ console.log('SW fail', e); });
   });
 }
 </script>
