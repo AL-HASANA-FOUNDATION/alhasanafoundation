@@ -1083,6 +1083,22 @@ function updPreview(){
   var a=Number(toEn(draft.amount)),n=parseInt(toEn(draft.months),10);
   el.textContent=(draft.method==='মাসিক কিস্তি'&&a>0&&n>0)?'মাসিক কিস্তি প্রায় '+money(Math.ceil(a/n))+' (সুদ ও চার্জ ৳0)':'';
 }
+/* এক নম্বরে একসাথে একটাই চালু আবেদন; আগের ঋণ বাকি থাকলে নতুন কর্জে হাসানার আবেদন নয় */
+function phoneBlock(phone,type){
+  var ph=toEn(phone||''); if(!ph)return '';
+  var isSch=type==='শিক্ষা বৃত্তি';
+  var open=(S.apps||[]).find(function(x){return toEn(x.phone)===ph&&(x.status==='submitted'||x.status==='under_review');});
+  if(open)return 'এই নম্বরে আবেদন ('+open.no+') আগেই জমা আছে ও চলছে। সেটির সিদ্ধান্ত না হওয়া পর্যন্ত নতুন আবেদন করা যাবে না।';
+  if(!isSch){
+    var due=(S.loans||[]).find(function(l){
+      if(!l.ins||!l.ins.length)return false;
+      if(toWa(l.phone)!==toWa(ph))return false;
+      return l.ins.some(function(i){return !i.paidOn;});
+    });
+    if(due)return 'এই নম্বরে আগের ঋণের কিস্তি এখনো বাকি আছে। আগের ঋণ পুরোপুরি শোধ হলে তবেই নতুন কর্জে হাসানার আবেদন করা যাবে।';
+  }
+  return '';
+}
 function validate(){
   var e={},d=draft;
   function need(k,msg){if(!String(d[k]||'').trim())e[k]=msg;}
@@ -1093,6 +1109,7 @@ function validate(){
     if(!/^(\d{10}|\d{13}|\d{17})$/.test(toEn(d.nid)))e.nid='10, 13 বা 17 অঙ্কের নম্বর দিন।';
     need('occupation',isSch?'অভিভাবকের পেশা লিখুন।':'পেশা লিখুন।');
     if(!/^01[3-9]\d{8}$/.test(toEn(d.phone)))e.phone='সঠিক মোবাইল নম্বর দিন (যেমন 01712345678)।';
+    else{var _pb=phoneBlock(d.phone,d.type);if(_pb)e.phone=_pb;}
     if(!/^\d+$/.test(toEn(d.income)))e.income='মাসিক আয় সংখ্যায় লিখুন।';
   }else if(step===2){
     need('pv','গ্রামের নাম লিখুন।');need('pp','ডাকঘরের নাম লিখুন।');need('pu','উপজেলার নাম লিখুন।');need('pd','জেলার নাম লিখুন।');
@@ -1122,6 +1139,7 @@ function validate(){
   errs=e;return Object.keys(e).length===0;
 }
 function submitAppCore(){
+  var _blk=phoneBlock(draft.phone,draft.type);if(_blk){toast(_blk);return;}
   var d=draft,no='AHF-'+new Date().getFullYear()+'-'+String(S.nextApp).padStart(3,'0');
   var pres={v:d.pv.trim(),p:d.pp.trim(),u:d.pu.trim(),d:d.pd.trim()};
   var isSch=d.type==='শিক্ষা বৃত্তি';
