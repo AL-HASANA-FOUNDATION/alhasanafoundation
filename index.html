@@ -1352,10 +1352,10 @@ function adminApps(){
     }
     var note=(a.status==='submitted'||a.status==='under_review')?'<div class="field"><label for="note-'+a.id+'">মন্তব্য</label><textarea id="note-'+a.id+'" rows="2">'+esc(a.note||'')+'</textarea></div>':(a.note?'<p class="small"><b>মন্তব্য:</b> '+esc(a.note)+'</p>':'');
     var kistiEdit='';
-    if(a.type!=='শিক্ষা বৃত্তি'&&(a.status==='submitted'||a.status==='under_review')){
+    if(a.type!=='শিক্ষা বৃত্তি'&&a.status==='under_review'){
       var curPer=Math.ceil(a.amount/(a.months||1));
-      var origTxt=a.kistiChanged?'<div class="small" style="color:var(--accent)">Moderator change korse: Age chilo '+bn(a.origMonths||a.months)+' ta kisti ('+money(a.origKistiAmt||curPer)+' kore) - Ekhon '+bn(a.months)+' ta kisti ('+money(curPer)+' kore) - By '+esc(a.kistiChangedBy||'')+'</div>':'<div class="small muted">Abedonkari chaichilo: '+bn(a.months)+' ta kisti, '+money(curPer)+' kore. Foundation chaile ekhan theke bodlay den, Churanto Copy te notun ta asbe.</div>';
-      kistiEdit='<div class="card" style="background:var(--surface2);border-color:transparent"><b>Kisti Change - Approve er Age</b>'+origTxt+'<div class="grid2" style="margin-top:8px"><div class="field"><label for="kisti-n-'+a.id+'">Kistir Sonkha (ta)</label><input id="kisti-n-'+a.id+'" type="number" min="1" max="60" value="'+a.months+'"></div><div class="field"><label for="kisti-amt-'+a.id+'">Proti Kistir Poriman (taka)</label><input id="kisti-amt-'+a.id+'" type="number" min="100" step="100" value="'+curPer+'"></div></div><div class="small muted">Total '+money(a.amount)+' same thakbe. Kistir poriman komale sonkha barbe, barale sonkha kombe.</div><button class="btn sm primary" data-a="kistiEdit" data-id="'+a.id+'" style="margin-top:8px">Kisti Change Save</button></div>';
+      var origTxt=a.kistiChanged?'<div class="small" style="color:var(--accent)">Moderator change korse: Age chilo '+bn(a.origMonths||a.months)+' ta kisti ('+money(a.origKistiAmt||curPer)+' kore) - Ekhon '+bn(a.months)+' ta kisti ('+money(curPer)+' kore) - By '+esc(a.kistiChangedBy||'')+'</div>':'<div class="small muted">Abedonkari chaichilo: '+bn(a.months)+' ta kisti, '+money(curPer)+' kore. Jachai Shuru hoye gese, ekhon Foundation chaile ekhan theke bodlay den, Churanto Copy te notun ta asbe.</div>';
+      kistiEdit='<div class="card" style="background:var(--surface2);border-color:transparent"><b>Kisti Change - Jachai Shuru er Por</b>'+origTxt+'<div class="grid2" style="margin-top:8px"><div class="field"><label for="kisti-n-'+a.id+'">Kistir Sonkha (ta)</label><input id="kisti-n-'+a.id+'" type="number" min="1" max="60" value="'+a.months+'"></div><div class="field"><label for="kisti-amt-'+a.id+'">Proti Kistir Poriman (taka)</label><input id="kisti-amt-'+a.id+'" type="number" min="100" step="100" value="'+curPer+'"></div></div><div class="small muted">Total '+money(a.amount)+' same thakbe. Kistir poriman komale sonkha barbe, barale sonkha kombe.</div><button class="btn sm primary" data-a="kistiEdit" data-id="'+a.id+'" style="margin-top:8px">Kisti Change Save</button></div>';
     }
     return '<details class="card"><summary><span><b>'+esc(a.name)+'</b><br><span class="small muted">'+money(a.amount)+' · '+fmtDate(a.createdAt)+'</span></span>'+pill(a.status)+'</summary><div class="stack">'+appDetails(a)+kistiEdit+copyBtns(a)+note+(act?'<div class="actions">'+act+'</div>':'')+'</div></details>';
   }).join('')+'</div>';
@@ -1972,7 +1972,7 @@ document.addEventListener('click',function(e){
     case 'kistiEdit':
       var ka=findApp(id);if(!ka){toast('Abedon paoya jayni');break;}
       if(ka.type==='শিক্ষা বৃত্তি'){toast('Brittir kisti nai');break;}
-      if(ka.status!=='submitted'&&ka.status!=='under_review'){toast('Approve hoye gese, ekhon kisti change hobe na');break;}
+      if(ka.status==='submitted'){toast('Age Jachai Shuru chap den, tarpor Kisti Change asbe');break;}if(ka.status!=='under_review'){toast('Approve hoye gese, ekhon kisti change hobe na');break;}
       var _nEl=document.getElementById('kisti-n-'+id), _aEl=document.getElementById('kisti-amt-'+id);
       var _oldN=ka.months||1, _oldPer=Math.ceil(ka.amount/_oldN);
       var _inN=_nEl?parseInt(_nEl.value,10):_oldN, _inAmt=_aEl?parseInt(_aEl.value,10):_oldPer;
@@ -2363,7 +2363,7 @@ document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;var m
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('sw.js?v4?v2').catch(function(e){ console.log('SW fail', e); });
+    navigator.serviceWorker.register('sw.js?v5?v2').catch(function(e){ console.log('SW fail', e); });
   });
 }
 </script>
