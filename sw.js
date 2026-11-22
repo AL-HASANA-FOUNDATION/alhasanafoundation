@@ -1,5 +1,5 @@
 /* Al Hasana Foundation - PWA Service Worker - Step 2 */
-const CACHE = 'alhasana-v3';
+const CACHE = 'alhasana-v4';
 const CORE = [
   './',
   './index.html',
