@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0B6B3A"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Al Hasana"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
 /* ---------- Responsive - PC faka jayga bad + sob device ---------- */
 html,body{width:100%;overflow-x:hidden}
 img,svg,video{max-width:100%;height:auto}
@@ -731,11 +731,11 @@ nav.tabs .tab svg{flex:none}
   <button class="dots-btn" id="dotsBtn" data-a="dotsMenu" aria-label="মেনু" aria-expanded="false" aria-haspopup="true"><span class="dots-ic" aria-hidden="true"><i></i><i></i><i></i></span><span class="dots-badge" id="dotsBadge" hidden aria-hidden="true"></span></button>
 </div>
 <div class="dots-menu" id="dotsMenu" hidden role="menu" aria-label="Home মেনু">
+<button id="bell" data-a="bell" role="menuitem" aria-label="নোটিফিকেশন" aria-expanded="false"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg></span>নোটিফিকেশন<span class="badge" id="bbadge" hidden></span></button>
 <button data-a="dotsGo" data-v="about" role="menuitem"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></span>আমাদের সম্পর্কে</button>
 <button data-a="dotsGo" data-v="goal" role="menuitem"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg></span>প্রধান উদ্দেশ্য</button>
-<button data-a="dotsGo" data-v="committee" role="menuitem"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 12.75c1.63 0 3.07.39 4.24.9 1.08.48 1.76 1.56 1.76 2.73V18H6v-1.61c0-1.18.68-2.26 1.76-2.73 1.17-.52 2.61-.91 4.24-.91zM4 13c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm1.13 1.1c-.37-.06-.74-.1-1.13-.1-.99 0-1.93.21-2.78.58C.48 14.9 0 15.62 0 16.43V18h4.5v-1.61c0-.83.23-1.61.63-2.29zM20 13c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm4 3.43c0-.81-.48-1.53-1.22-1.85-.85-.37-1.79-.58-2.78-.58-.39 0-.76.04-1.13.1.4.68.63 1.46.63 2.29V18H24v-1.57zM12 6c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3z"/></svg></span>কার্যকর কমিটি</button>
 <button data-a="dotsGo" data-v="admin" role="menuitem"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18 8h-1V6a5 5 0 0 0-10 0v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zM9 6a3 3 0 0 1 6 0v2H9z"/></svg></span>কমিটি লগইন</button>
-<button id="bell" data-a="bell" role="menuitem" aria-label="নোটিফিকেশন" aria-expanded="false"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg></span>নোটিফিকেশন<span class="badge" id="bbadge" hidden></span></button>
+<button data-a="dotsGo" data-v="committee" role="menuitem"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 12.75c1.63 0 3.07.39 4.24.9 1.08.48 1.76 1.56 1.76 2.73V18H6v-1.61c0-1.18.68-2.26 1.76-2.73 1.17-.52 2.61-.91 4.24-.91zM4 13c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm1.13 1.1c-.37-.06-.74-.1-1.13-.1-.99 0-1.93.21-2.78.58C.48 14.9 0 15.62 0 16.43V18h4.5v-1.61c0-.83.23-1.61.63-2.29zM20 13c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm4 3.43c0-.81-.48-1.53-1.22-1.85-.85-.37-1.79-.58-2.78-.58-.39 0-.76.04-1.13.1.4.68.63 1.46.63 2.29V18H24v-1.57zM12 6c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3z"/></svg></span>কার্যকর কমিটি</button>
 </div></header>
 <div id="tsheet" class="tsheet" hidden></div>
 <div id="npanel" class="npanel" role="dialog" aria-label="নোটিফিকেশন" hidden></div>
@@ -888,7 +888,7 @@ var ICONS={
   committee:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',
   myloan:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h2M14 12h2M8 16h2M14 16h2"/>',
   nasihat:'<path d="M4 4h16v16H4z"/><path d="M12 4v16"/><path d="M8 8h2M8 12h2"/>',
-  donation:'<path d="M12 20.5C7 16.5 3 13.3 3 9.3 3 6.2 5.2 4 8 4c1.6 0 3.1.8 4 2 .9-1.2 2.4-2 4-2 2.8 0 5 2.2 5 5.3 0 4-4 7.2-9 11.2z"/><path d="M7 11h2l1.2-2.5L12 12l1-2h3"/>',
+  donation:'<path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16"/><path d="m7 20 1.6 1.4c.3.4.8.6 1.4.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 15 6 6"/><path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z"/>',
   admin:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'
 };
 var TABS=[['home','হোম'],['seba','আমাদের সেবা'],['nasihat','নসিহত'],['donation','ডোনেশন'],['myloan','আমার ঋণ']];
@@ -953,7 +953,7 @@ function viewHome(){
   return '<div class="topphoto home-slider" id="homeSlider"><div class="home-slider-track" id="homeSliderTrack"><div class="home-slide active"><img src="'+HOMEPHOTO+'" alt="আল হাসানা ফাউন্ডেশন ব্যানার - নৌকায় পাট নিয়ে কাজ করছেন একজন মানুষ" width="1200" height="467"></div><div class="home-slide"><img src="'+HOMEPHOTO2+'" alt="আল হাসানা ফাউন্ডেশন ব্যানার - Together we work for the hereafter" width="1200" height="446"></div></div><button class="home-slider-arrow prev" type="button" aria-label="আগের ছবি">\u2039</button><button class="home-slider-arrow next" type="button" aria-label="পরের ছবি">\u203a</button><div class="home-slider-dots"><button class="home-dot active" type="button" aria-label="১ নম্বর ছবি"></button><button class="home-dot" type="button" aria-label="২ নম্বর ছবি"></button></div></div>'+
     '<section class="hero"><p class="eyebrow">সুদবিহীন ঋণ</p><h1>কর্জে হাসানা দিয়ে<br>পাশে থাকি</h1>'+
     '<p>অসচ্ছল মানুষকে সুদ ও অতিরিক্ত চার্জ ছাড়া ঋণ দিয়ে আমরা তাদের পায়ে দাঁড়াতে সাহায্য করি। যতটুকু দেওয়া হয়, কিস্তিতে ততটুকুই ফেরত আসে, আর সেই টাকা আবার আরেকজনের কাজে লাগে।</p></section>'+
-    +_todayHtml+'<section id="sec-about" class="card stack home-about"><div class="home-box-head"><h2>আমাদের সম্পর্কে</h2></div><p>ফাউন্ডেশনটি একটি অলাভজনক, সমাজকল্যাণমূলক ও সুদবিহীন নীতিতে পরিচালিত প্রতিষ্ঠান হিসেবে কার্যক্রম পরিচালনা করবে।</p></section>'+
+    _todayHtml+'<section id="sec-about" class="card stack home-about"><div class="home-box-head"><h2>আমাদের সম্পর্কে</h2></div><p>ফাউন্ডেশনটি একটি অলাভজনক, সমাজকল্যাণমূলক ও সুদবিহীন নীতিতে পরিচালিত প্রতিষ্ঠান হিসেবে কার্যক্রম পরিচালনা করবে।</p></section>'+
     '<section id="sec-goal" class="card stack home-goal"><div class="home-box-head"><h2>প্রধান উদ্দেশ্য</h2></div><p>ফাউন্ডেশনের প্রধান উদ্দেশ্য হলো আর্থিকভাবে অসচ্ছল ও প্রকৃত প্রয়োজনগ্রস্ত ব্যক্তিদের কর্জে হাসানা (সুদবিহীন ঋণ) প্রদান এবং পারস্পরিক সহযোগিতার মাধ্যমে মানবকল্যাণে ভূমিকা রাখা।</p></section>'+
     committeeHome();
 }
@@ -1178,7 +1178,7 @@ function canManageModerators(){return isAdminRole();}
 function canManageAdmins(){return curRole()==='super';}
 function canViewHistory(){return isAdminRole();}
 function canEditFund(){return isAdminRole();}
-function canDeleteNasihat(){return isAdminRole();}
+function canDeleteNasihat(){return isAdminRole()||isModerator();}
 function roleLabel(r){if(r==='super')return 'Super Admin';if(r==='moderator')return 'Moderator';return 'Admin';}
 function normRole(r){var x=String(r||'').toLowerCase();if(x==='moderator')return 'moderator';if(x==='super')return 'super';return 'admin';}
 function adminName(){return curAdmin?curAdmin.name:'অ্যাডমিন';}
@@ -1276,7 +1276,7 @@ function adminNasihat(){
     '<div class="field"><label for="ns-source">সূত্র (যেমন: সূরা বাকারা, আয়াত 245)</label><input id="ns-source" autocomplete="off" value="'+esc(editing?editing.source:'')+'"></div>'+
     '<div class="field"><label for="ns-body">বিস্তারিত লেখা (প্রতি প্যারা নতুন লাইনে)</label><textarea id="ns-body" rows="6">'+esc(editing?editing.body:'')+'</textarea></div>'+
     '<div class="actions"><button class="btn primary" type="submit">'+(editing?'আপডেট করুন':'যোগ করুন')+'</button>'+(editing?'<button class="btn" type="button" data-a="nasihatCancel">বাতিল</button>':'')+'</div>'+
-    '<p class="small muted">Save dilei Firebase/Demo-te save hobe, sobar phone-e sathe sathe chole jabe।'+(isModerator()?' Moderator hisabe tumi likhte / edit korte parbe, kintu delete korte parbe na।':'')+'</p></form>';
+    '<p class="small muted">Save dilei Firebase/Demo-te save hobe, sobar phone-e sathe sathe chole jabe।'+(isModerator()?' Moderator hisabe tumi likhte / edit / nasihat delete korte parbe।':'')+'</p></form>';
   var list='<div class="stack tight">'+(S.nasihats||[]).map(function(n){
     var delBtn = canDeleteNasihat() ? '<button class="btn sm '+(pending==='nasihat'+n.id?'danger':'')+'" data-a="nasihatDel" data-id="'+n.id+'">'+(pending==='nasihat'+n.id?'নিশ্চিত করুন':'মুছুন')+'</button>' : '<span class="small muted">Delete sudhu Admin korbe</span>';
     return '<div class="card"><div class="row" style="justify-content:space-between;align-items:flex-start"><div class="grow"><b>'+esc(n.title)+'</b><div class="small muted">'+esc(n.cat)+' • '+esc(n.source||'')+' • '+esc(n.by||'')+'</div><p class="small" style="margin-top:6px;white-space:pre-wrap">'+esc(String(n.quote||'').slice(0,160))+'</p></div><div class="actions" style="flex:none"><button class="btn sm" data-a="nasihatEdit" data-id="'+n.id+'">এডিট</button>'+delBtn+'</div></div></div>';
@@ -2335,11 +2335,4 @@ document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;var m
 })();
 </script>
 
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('sw.js?v3?v2').catch(function(e){ console.log('SW fail', e); });
-  });
-}
-</script>
 </body></html>
