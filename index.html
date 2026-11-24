@@ -1232,7 +1232,7 @@ function fmtTimeFull(ts){try{var d=new Date(ts);return bn(d.getDate())+'/'+bn(d.
 /* ---------- Nasihat ---------- */
 function viewNasihat(){
   var all=S.nasihats||[];
-  var list = nasihatFilter==='সব' ? all : all.filter(function(x){return x.cat===nasihatFilter;});
+  var list = all;
   var day = new Date(); var dayNum = Math.floor(day.getTime()/86400000);
   var todays = all.length ? all[dayNum % all.length] : null;
   var cats=['সব'].concat(NASIHAT_CATS);
@@ -1246,7 +1246,7 @@ function viewNasihat(){
     '<p class="small muted">— '+esc(n.by||'')+'</p></section>';
   }).join('');
   if(!secs) secs='<p class="muted">এই ক্যাটাগরিতে এখনো কোনো নসিহত নেই।</p>';
-  return '<h2>নসিহত</h2><p class="muted">কুরআন, হাদিস ও সদকার আলোকে কর্জে হাসানা সম্পর্কে কিছু নসিহত।</p>'+todayHtml+filterHtml+tocHtml+secs;
+  return '<h2>নসিহত</h2><p class="muted">কুরআন, হাদিস ও সদকার আলোকে কর্জে হাসানা সম্পর্কে কিছু নসিহত।</p>'+todayHtml+tocHtml+secs;
 }
 
 /* ---------- Admin ---------- */
