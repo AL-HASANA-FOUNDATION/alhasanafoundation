@@ -158,6 +158,30 @@ nav.tabs{grid-template-columns:repeat(5,1fr)!important}
 .top .wrap .logo{
   box-shadow:none !important;
 }
+
+/* ---------- Committee member popup: full photo + introduction ---------- */
+.cmember[data-mem]{cursor:pointer}
+.cmember[data-mem]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#memModal{position:fixed;inset:0;z-index:400;display:flex;align-items:center;justify-content:center;padding:16px}
+#memModal[hidden]{display:none}
+#memModal .mm-bg{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+#memModal .mm-box{position:relative;width:min(440px,100%);max-height:100%;overflow-y:auto;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:16px;box-shadow:0 16px 40px rgba(0,0,0,.3)}
+#memModal .mm-x{position:absolute;top:10px;right:10px;z-index:2;width:36px;height:36px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#fff;font-size:18px;line-height:1;cursor:pointer}
+#memModal .mm-photo{display:block;width:100%;max-height:60vh;object-fit:contain;background:var(--surface2);border-radius:16px 16px 0 0}
+#memModal .mm-def{height:220px;display:grid;place-items:center;border-radius:16px 16px 0 0}
+#memModal .mm-def.m{background:#DBEAFE;color:#2563EB}
+#memModal .mm-def.f{background:#FCE7F3;color:#DB2777}
+:root[data-theme="dark"] #memModal .mm-def.m{background:#1E3A5F;color:#7DB2FF}
+:root[data-theme="dark"] #memModal .mm-def.f{background:#4A1D3A;color:#F59AC8}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) #memModal .mm-def.m{background:#1E3A5F;color:#7DB2FF}:root:not([data-theme="light"]) #memModal .mm-def.f{background:#4A1D3A;color:#F59AC8}}
+#memModal .mm-body{padding:16px 18px 20px}
+#memModal .mm-body h2{margin:0 0 2px;font-size:1.25rem}
+#memModal .mm-role{color:var(--accent);font-weight:700;margin-bottom:10px}
+#memModal .mm-bio{white-space:pre-line;line-height:1.7}
+
+/* ---------- 3-dots menu: button er niche, PC + mobile responsive ---------- */
+.dots-menu{position:fixed!important;left:auto!important;right:12px;top:60px;width:min(280px,calc(100vw - 24px))!important;min-width:0!important;max-height:calc(100vh - 80px);max-height:calc(100dvh - 80px);overflow-y:auto;overscroll-behavior:contain;z-index:120}
+@media (min-width:900px){.dots-menu{width:300px!important}}
 </style></head><body>
 <title>আল হাসানা ফাউন্ডেশন</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -738,6 +762,7 @@ nav.tabs .tab svg{flex:none}
 <button id="bell" data-a="bell" role="menuitem" aria-label="নোটিফিকেশন" aria-expanded="false"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg></span>নোটিফিকেশন<span class="badge" id="bbadge" hidden></span></button>
 </div></header>
 <div id="tsheet" class="tsheet" hidden></div>
+<div id="memModal" hidden></div>
 <div id="npanel" class="npanel" role="dialog" aria-label="নোটিফিকেশন" hidden></div>
 <nav class="tabs" id="nav" aria-label="প্রধান মেনু"></nav>
 <main class="wrap"><div id="app" class="stack"></div></main>
@@ -888,7 +913,7 @@ var ICONS={
   committee:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',
   myloan:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h2M14 12h2M8 16h2M14 16h2"/>',
   nasihat:'<path d="M4 4h16v16H4z"/><path d="M12 4v16"/><path d="M8 8h2M8 12h2"/>',
-  donation:'<path d="M12 20.5C7 16.5 3 13.3 3 9.3 3 6.2 5.2 4 8 4c1.6 0 3.1.8 4 2 .9-1.2 2.4-2 4-2 2.8 0 5 2.2 5 5.3 0 4-4 7.2-9 11.2z"/><path d="M7 11h2l1.2-2.5L12 12l1-2h3"/>',
+  donation:'<path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16"/><path d="m7 20 1.6 1.4c.3.4.8.6 1.4.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.6a2 2 0 0 0-2.8-2.8l-3.6 3.6"/><path d="m2 15 6 6"/><path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z"/>',
   admin:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'
 };
 var TABS=[['home','হোম'],['seba','আমাদের সেবা'],['nasihat','নসিহত'],['donation','ডোনেশন'],['myloan','আমার ঋণ']];
@@ -944,7 +969,7 @@ function renderSheet(){
 }
 function committeeHome(){
   return '<section id="sec-committee" class="card stack"><h2>কার্যকর কমিটি</h2><p class="muted">ফাউন্ডেশন পরিচালনায় যারা আছেন।</p><div class="committee-grid">'+S.committee.map(function(m){
-    return '<div class="cmember">'+committeeAvatar(m)+'<div class="grow"><b>'+esc(m.name)+'</b><div class="small muted">'+esc(m.role)+(m.phone?' · '+bn(esc(m.phone)):'')+'</div></div></div>';
+    return '<div class="cmember" data-mem="'+esc(m.id)+'" role="button" tabindex="0">'+committeeAvatar(m)+'<div class="grow"><b>'+esc(m.name)+'</b><div class="small muted">'+esc(m.role)+(m.phone?' · '+bn(esc(m.phone)):'')+'</div></div></div>';
   }).join('')+'</div></section>';
 }
 function viewHome(){
@@ -953,7 +978,7 @@ function viewHome(){
   return '<div class="topphoto home-slider" id="homeSlider"><div class="home-slider-track" id="homeSliderTrack"><div class="home-slide active"><img src="'+HOMEPHOTO+'" alt="আল হাসানা ফাউন্ডেশন ব্যানার - নৌকায় পাট নিয়ে কাজ করছেন একজন মানুষ" width="1200" height="467"></div><div class="home-slide"><img src="'+HOMEPHOTO2+'" alt="আল হাসানা ফাউন্ডেশন ব্যানার - Together we work for the hereafter" width="1200" height="446"></div></div><button class="home-slider-arrow prev" type="button" aria-label="আগের ছবি">\u2039</button><button class="home-slider-arrow next" type="button" aria-label="পরের ছবি">\u203a</button><div class="home-slider-dots"><button class="home-dot active" type="button" aria-label="১ নম্বর ছবি"></button><button class="home-dot" type="button" aria-label="২ নম্বর ছবি"></button></div></div>'+
     '<section class="hero"><p class="eyebrow">সুদবিহীন ঋণ</p><h1>কর্জে হাসানা দিয়ে<br>পাশে থাকি</h1>'+
     '<p>অসচ্ছল মানুষকে সুদ ও অতিরিক্ত চার্জ ছাড়া ঋণ দিয়ে আমরা তাদের পায়ে দাঁড়াতে সাহায্য করি। যতটুকু দেওয়া হয়, কিস্তিতে ততটুকুই ফেরত আসে, আর সেই টাকা আবার আরেকজনের কাজে লাগে।</p></section>'+
-    +_todayHtml+'<section id="sec-about" class="card stack home-about"><div class="home-box-head"><h2>আমাদের সম্পর্কে</h2></div><p>ফাউন্ডেশনটি একটি অলাভজনক, সমাজকল্যাণমূলক ও সুদবিহীন নীতিতে পরিচালিত প্রতিষ্ঠান হিসেবে কার্যক্রম পরিচালনা করবে।</p></section>'+
+    _todayHtml+'<section id="sec-about" class="card stack home-about"><div class="home-box-head"><h2>আমাদের সম্পর্কে</h2></div><p>ফাউন্ডেশনটি একটি অলাভজনক, সমাজকল্যাণমূলক ও সুদবিহীন নীতিতে পরিচালিত প্রতিষ্ঠান হিসেবে কার্যক্রম পরিচালনা করবে।</p></section>'+
     '<section id="sec-goal" class="card stack home-goal"><div class="home-box-head"><h2>প্রধান উদ্দেশ্য</h2></div><p>ফাউন্ডেশনের প্রধান উদ্দেশ্য হলো আর্থিকভাবে অসচ্ছল ও প্রকৃত প্রয়োজনগ্রস্ত ব্যক্তিদের কর্জে হাসানা (সুদবিহীন ঋণ) প্রদান এবং পারস্পরিক সহযোগিতার মাধ্যমে মানবকল্যাণে ভূমিকা রাখা।</p></section>'+
     committeeHome();
 }
@@ -1161,7 +1186,7 @@ function viewBen(){
 /* ---------- Committee ---------- */
 function viewCommittee(){
   return '<h2>কার্যকর কমিটি</h2><div class="stack tight">'+S.committee.map(function(m){
-    return '<div class="card row"><div>'+committeeAvatar(m)+'</div><div class="grow"><b>'+esc(m.name)+'</b><div class="small muted">'+esc(m.role)+(m.phone?' · '+bn(esc(m.phone)):'')+'</div></div></div>';
+    return '<div class="card row cmember" data-mem="'+esc(m.id)+'" role="button" tabindex="0"><div>'+committeeAvatar(m)+'</div><div class="grow"><b>'+esc(m.name)+'</b><div class="small muted">'+esc(m.role)+(m.phone?' · '+bn(esc(m.phone)):'')+'</div></div></div>';
   }).join('')+'</div>';
 }
 
@@ -1453,10 +1478,11 @@ function adminMem(){
     '<div class="field"><label for="m-phone">মোবাইল <span class="opt">(ঐচ্ছিক)</span></label><input id="m-phone" inputmode="numeric" autocomplete="off"></div>'+
     '<fieldset class="choices"><legend>ডিফল্ট আইকন</legend><div class="chips"><label class="opt-chip"><input type="radio" name="m-gender" value="m" checked><span>পুরুষ</span></label><label class="opt-chip"><input type="radio" name="m-gender" value="f"><span>নারী</span></label></div></fieldset>'+
     '<div class="field"><label>প্রোফাইল ছবি <span class="opt">(ঐচ্ছিক)</span></label><div class="mem-photo-box"><div class="mem-photo-preview" id="m-photo-preview">'+_prev+'</div><div><label class="mem-upload-label" for="m-photo">📷 ছবি বাছাই করুন</label><input type="file" id="m-photo" accept="image/*" hidden><p class="small muted" style="margin-top:6px">গ্যালারি থেকে ছবি নিন। ছবি না দিলে পুরুষ/নারী আইকন দেখাবে।</p></div></div></div>'+
+    '<div class="field"><label for="m-bio">পরিচয় <span class="opt">(ঐচ্ছিক)</span></label><textarea id="m-bio" rows="4" placeholder="সদস্যের সংক্ষিপ্ত পরিচয় লিখুন"></textarea></div>'+
     '<button class="btn primary" type="submit" style="align-self:flex-start">যোগ করুন</button></form>';
   var list='<div class="stack tight">'+S.committee.map(function(m){
     var _has = committeePhoto(m) ? '<button class="btn sm" data-a="memPhotoRemove" data-id="'+m.id+'">ছবি বাদ দিন</button>' : '';
-    return '<div class="card"><div class="row" style="align-items:flex-start"><div class="mem-row-photo">'+committeeAvatar(m)+'</div><div class="grow"><b>'+esc(m.name)+'</b><div class="small muted">'+esc(m.role)+(m.phone?' · '+bn(esc(m.phone)):'')+'</div><div class="mem-actions" style="margin-top:8px"><button class="btn sm" data-a="memGender" data-id="'+m.id+'">আইকন: '+(memGender(m)==='f'?'নারী → পুরুষ':'পুরুষ → নারী')+'</button><label class="mem-upload-label" for="mem-photo-'+m.id+'" style="padding:6px 12px;font-size:.85rem">📷 ছবি বদলান</label><input type="file" id="mem-photo-'+m.id+'" data-a="memPhoto" data-id="'+m.id+'" accept="image/*" hidden>'+_has+'</div></div><button class="btn sm '+(pending==='mem'+m.id?'danger':'')+'" data-a="del" data-k="mem" data-id="'+m.id+'">'+(pending==='mem'+m.id?'নিশ্চিত করুন':'সরান')+'</button></div></div>';
+    return '<div class="card"><div class="row" style="align-items:flex-start"><div class="mem-row-photo">'+committeeAvatar(m)+'</div><div class="grow"><b>'+esc(m.name)+'</b><div class="small muted">'+esc(m.role)+(m.phone?' · '+bn(esc(m.phone)):'')+'</div><div class="mem-actions" style="margin-top:8px"><button class="btn sm" data-a="memGender" data-id="'+m.id+'">আইকন: '+(memGender(m)==='f'?'নারী → পুরুষ':'পুরুষ → নারী')+'</button><label class="mem-upload-label" for="mem-photo-'+m.id+'" style="padding:6px 12px;font-size:.85rem">📷 ছবি বদলান</label><input type="file" id="mem-photo-'+m.id+'" data-a="memPhoto" data-id="'+m.id+'" accept="image/*" hidden>'+_has+'</div><div class="field" style="margin-top:10px"><label for="mem-bio-'+m.id+'" class="small">পরিচয়</label><textarea id="mem-bio-'+m.id+'" rows="3" placeholder="সদস্যের সংক্ষিপ্ত পরিচয় লিখুন">'+esc(m.bio||'')+'</textarea><button class="btn sm" style="align-self:flex-start;margin-top:6px" data-a="memBio" data-id="'+m.id+'">পরিচয় সেভ করুন</button></div></div><button class="btn sm '+(pending==='mem'+m.id?'danger':'')+'" data-a="del" data-k="mem" data-id="'+m.id+'">'+(pending==='mem'+m.id?'নিশ্চিত করুন':'সরান')+'</button></div></div>';
   }).join('')+'</div>';
   return form+list;
 }
@@ -1926,8 +1952,9 @@ document.addEventListener('click',function(e){
     case 'loantype':typeOpen=-1;renderSheet();draft.type=el.dataset.v;lastApp=null;step=1;location.hash='#apply';break;
     case 'applyGeneral':lastApp=null;step=1;location.hash='#apply';break;
     case 'nasihatGoto':var _ng=document.getElementById(el.dataset.v);if(_ng)_ng.scrollIntoView({behavior:'smooth',block:'start'});break;
-    case 'dotsMenu':var _dm=document.getElementById('dotsMenu');var _db=document.getElementById('dotsBtn');if(_dm){var _o=_dm.hidden;_dm.hidden=!_o;if(_db)_db.setAttribute('aria-expanded',_o?'true':'false');}break;
+    case 'dotsMenu':var _dm=document.getElementById('dotsMenu');var _db=document.getElementById('dotsBtn');if(_dm){var _o=_dm.hidden;_dm.hidden=!_o;if(_o)placeDots();if(_db)_db.setAttribute('aria-expanded',_o?'true':'false');}break;
     case 'memGender':if(!canManageCommittee()){toast('Committee manage sudhu Admin / Super Admin korte parbe।');break;}var _mg=S.committee.find(function(x){return x.id===id;});if(_mg){_mg.gender=memGender(_mg)==='f'?'m':'f';save();render();}break;
+    case 'memBio':if(!canManageCommittee()){toast('পরিচয় বদলাতে শুধু Admin / Super Admin পারবেন।');break;}var _mb=S.committee.find(function(x){return x.id===id;});var _mbe=document.getElementById('mem-bio-'+id);if(_mb&&_mbe){_mb.bio=_mbe.value.trim();save();toast('পরিচয় সেভ হয়েছে।');}break;
     case 'memPhotoRemove':if(!canManageCommittee()){toast('Photo batil sudhu Admin / Super Admin korte parbe।');break;}var _mr=S.committee.find(function(x){return x.id===id;});if(_mr){_mr.photo='';save();render();toast('ছবি বাদ দেওয়া হয়েছে।');}break;
     case 'donateShow':donateOpen=true;render();setTimeout(function(){var _dm=document.getElementById('donate-methods');if(_dm)_dm.scrollIntoView({behavior:'smooth',block:'start'});},80);break;
     case 'donateHide':donateOpen=false;render();window.scrollTo(0,0);break;
@@ -2128,7 +2155,7 @@ document.addEventListener('submit',function(e){
   else if(f==='mem'){
     if(!canManageCommittee()){toast('Committee add sudhu Admin / Super Admin korte parbe।');return;}
     var nm=document.getElementById('m-name').value.trim(),rl=document.getElementById('m-role').value.trim();
-    if(nm&&rl){S.committee.push({id:'M'+Date.now(),name:nm,role:rl,phone:toEn(document.getElementById('m-phone').value),gender:(document.querySelector('input[name=m-gender]:checked')||{value:'m'}).value,photo:window._newMemPhoto||''});window._newMemPhoto='';save();toast('সদস্য যোগ হয়েছে');render();}
+    if(nm&&rl){S.committee.push({id:'M'+Date.now(),name:nm,role:rl,phone:toEn(document.getElementById('m-phone').value),gender:(document.querySelector('input[name=m-gender]:checked')||{value:'m'}).value,photo:window._newMemPhoto||'',bio:((document.getElementById('m-bio')||{}).value||'').trim()});window._newMemPhoto='';save();toast('সদস্য যোগ হয়েছে');render();}
   }
 });
 document.addEventListener('scroll',function(e){var c=e.target;if(c&&c.id==='slides')updSlideCount(c);},true);
@@ -2357,6 +2384,30 @@ document.addEventListener('click',function(e){
   window.scrollTo(0,0);render();
 },true);
 document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;var m=document.getElementById('fabMenu'),b=document.getElementById('fabBtn');if(m&&!m.hidden&&b)b.click();});
+
+/* ---------- Committee member popup ---------- */
+function openMemModal(id){
+  var m=S.committee.find(function(x){return String(x.id)===String(id);});if(!m)return;
+  var el=document.getElementById('memModal');if(!el)return;
+  var ph=committeePhoto(m),g=memGender(m);
+  var top=ph?'<img class="mm-photo" src="'+ph+'" alt="'+esc(m.name)+'">':'<div class="mm-def '+g+'"><svg viewBox="0 0 24 24" width="96" height="96" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>';
+  var bio=(m.bio||'').trim();
+  el.innerHTML='<div class="mm-bg" data-mmclose="1"></div><div class="mm-box" role="dialog" aria-modal="true" aria-label="'+esc(m.name)+'"><button class="mm-x" type="button" data-mmclose="1" aria-label="বন্ধ করুন">✕</button>'+top+'<div class="mm-body"><h2>'+esc(m.name)+'</h2><div class="mm-role">'+esc(m.role)+'</div>'+(bio?'<p class="mm-bio">'+esc(bio)+'</p>':'<p class="muted small">পরিচয় এখনো যোগ করা হয়নি।</p>')+'</div></div>';
+  el.hidden=false;
+}
+function closeMemModal(){var el=document.getElementById('memModal');if(el){el.hidden=true;el.innerHTML='';}}
+document.addEventListener('click',function(e){
+  if(e.target.closest('[data-mmclose]')){closeMemModal();return;}
+  var c=e.target.closest('[data-mem]');if(c)openMemModal(c.getAttribute('data-mem'));
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape')closeMemModal();
+  if((e.key==='Enter'||e.key===' ')&&e.target&&e.target.getAttribute&&e.target.getAttribute('data-mem')){e.preventDefault();openMemModal(e.target.getAttribute('data-mem'));}
+});
+
+
+function placeDots(){var m=document.getElementById('dotsMenu'),b=document.getElementById('dotsBtn');if(!m||!b||m.hidden)return;var r=b.getBoundingClientRect();m.style.top=(r.bottom+8)+'px';m.style.right=Math.max(12,window.innerWidth-r.right)+'px';}
+window.addEventListener('resize',placeDots);window.addEventListener('scroll',placeDots,{passive:true});
 })();
 </script>
 
