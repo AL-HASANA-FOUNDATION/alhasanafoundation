@@ -1,0 +1,21 @@
+// Firestore Rules - fcmTokens এর জন্য এই ২ লাইন যোগ করো
+// Firebase Console > Firestore Database > Rules এ গিয়ে
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // আগের rules গুলো যেমন আছে থাকবে...
+
+    match /notifications/{id} {
+      allow read: if true;
+      allow create, delete: if request.auth != null; // শুধু Admin - তোমার আগের rule যেটা ছিল ওইটাই রাখো
+    }
+
+    // FCM token - যে কেউ (লগইন ছাড়াও) নিজের token সেভ করতে পারবে
+    match /fcmTokens/{token} {
+      allow read: if false; // কেউ পড়তে পারবে না, শুধু Cloud Function পড়বে
+      allow create, update: if true;
+      allow delete: if false;
+    }
+  }
+}

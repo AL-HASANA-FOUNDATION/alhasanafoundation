@@ -158,30 +158,6 @@ nav.tabs{grid-template-columns:repeat(5,1fr)!important}
 .top .wrap .logo{
   box-shadow:none !important;
 }
-
-/* ---------- Committee member popup: full photo + introduction ---------- */
-.cmember[data-mem]{cursor:pointer}
-.cmember[data-mem]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-#memModal{position:fixed;inset:0;z-index:400;display:flex;align-items:center;justify-content:center;padding:16px}
-#memModal[hidden]{display:none}
-#memModal .mm-bg{position:absolute;inset:0;background:rgba(0,0,0,.55)}
-#memModal .mm-box{position:relative;width:min(440px,100%);max-height:100%;overflow-y:auto;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:16px;box-shadow:0 16px 40px rgba(0,0,0,.3)}
-#memModal .mm-x{position:absolute;top:10px;right:10px;z-index:2;width:36px;height:36px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#fff;font-size:18px;line-height:1;cursor:pointer}
-#memModal .mm-photo{display:block;width:100%;max-height:60vh;object-fit:contain;background:var(--surface2);border-radius:16px 16px 0 0}
-#memModal .mm-def{height:220px;display:grid;place-items:center;border-radius:16px 16px 0 0}
-#memModal .mm-def.m{background:#DBEAFE;color:#2563EB}
-#memModal .mm-def.f{background:#FCE7F3;color:#DB2777}
-:root[data-theme="dark"] #memModal .mm-def.m{background:#1E3A5F;color:#7DB2FF}
-:root[data-theme="dark"] #memModal .mm-def.f{background:#4A1D3A;color:#F59AC8}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) #memModal .mm-def.m{background:#1E3A5F;color:#7DB2FF}:root:not([data-theme="light"]) #memModal .mm-def.f{background:#4A1D3A;color:#F59AC8}}
-#memModal .mm-body{padding:16px 18px 20px}
-#memModal .mm-body h2{margin:0 0 2px;font-size:1.25rem}
-#memModal .mm-role{color:var(--accent);font-weight:700;margin-bottom:10px}
-#memModal .mm-bio{white-space:pre-line;line-height:1.7}
-
-/* ---------- 3-dots menu: button er niche, PC + mobile responsive ---------- */
-.dots-menu{position:fixed!important;left:auto!important;right:12px;top:60px;width:min(280px,calc(100vw - 24px))!important;min-width:0!important;max-height:calc(100vh - 80px);max-height:calc(100dvh - 80px);overflow-y:auto;overscroll-behavior:contain;z-index:120}
-@media (min-width:900px){.dots-menu{width:300px!important}}
 </style></head><body>
 <title>আল হাসানা ফাউন্ডেশন</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -744,14 +720,6 @@ nav.tabs .tab svg{flex:none}
   nav.tabs{flex-wrap:wrap}
   nav.tabs .tab{white-space:nowrap}
 }
-
-/* ---- Active tab: filled icon (ICONS_F) ---- */
-header.top{z-index:600}
-.dots-menu{z-index:700!important}
-.npanel{z-index:650!important}
-.tab[aria-current="page"],.tab[aria-current="page"]:hover{background:none!important;color:var(--accent)!important;font-weight:700}
-@media (hover:hover){.tab:hover{background:none!important;color:var(--accent)!important}}
-.dots-menu button:hover span.ic,.dots-menu button:active span.ic{background:var(--accent);color:var(--accent-ink,#fff);border-color:var(--accent)}
 </style>
 
 <div id="gate" hidden></div>
@@ -763,15 +731,13 @@ header.top{z-index:600}
   <button class="dots-btn" id="dotsBtn" data-a="dotsMenu" aria-label="মেনু" aria-expanded="false" aria-haspopup="true"><span class="dots-ic" aria-hidden="true"><i></i><i></i><i></i></span><span class="dots-badge" id="dotsBadge" hidden aria-hidden="true"></span></button>
 </div>
 <div class="dots-menu" id="dotsMenu" hidden role="menu" aria-label="Home মেনু">
-<button id="bell" data-a="bell" role="menuitem" aria-label="নোটিফিকেশন" aria-expanded="false"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg></span>নোটিফিকেশন<span class="badge" id="bbadge" hidden></span></button>
 <button data-a="dotsGo" data-v="about" role="menuitem"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></span>আমাদের সম্পর্কে</button>
 <button data-a="dotsGo" data-v="goal" role="menuitem"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg></span>প্রধান উদ্দেশ্য</button>
 <button data-a="dotsGo" data-v="committee" role="menuitem"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 12.75c1.63 0 3.07.39 4.24.9 1.08.48 1.76 1.56 1.76 2.73V18H6v-1.61c0-1.18.68-2.26 1.76-2.73 1.17-.52 2.61-.91 4.24-.91zM4 13c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm1.13 1.1c-.37-.06-.74-.1-1.13-.1-.99 0-1.93.21-2.78.58C.48 14.9 0 15.62 0 16.43V18h4.5v-1.61c0-.83.23-1.61.63-2.29zM20 13c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm4 3.43c0-.81-.48-1.53-1.22-1.85-.85-.37-1.79-.58-2.78-.58-.39 0-.76.04-1.13.1.4.68.63 1.46.63 2.29V18H24v-1.57zM12 6c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3z"/></svg></span>কার্যকর কমিটি</button>
-<button data-a="dotsGo" data-v="donation" role="menuitem"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54z"/></svg></span>ডোনেশন</button>
 <button data-a="dotsGo" data-v="admin" role="menuitem"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18 8h-1V6a5 5 0 0 0-10 0v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zM9 6a3 3 0 0 1 6 0v2H9z"/></svg></span>কমিটি লগইন</button>
+<button id="bell" data-a="bell" role="menuitem" aria-label="নোটিফিকেশন" aria-expanded="false"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg></span>নোটিফিকেশন<span class="badge" id="bbadge" hidden></span></button>
 </div></header>
 <div id="tsheet" class="tsheet" hidden></div>
-<div id="memModal" hidden></div>
 <div id="npanel" class="npanel" role="dialog" aria-label="নোটিফিকেশন" hidden></div>
 <nav class="tabs" id="nav" aria-label="প্রধান মেনু"></nav>
 <main class="wrap"><div id="app" class="stack"></div></main>
@@ -786,9 +752,23 @@ var KEY='ahf-demo-v1';
    নিচের null-এর জায়গায় Firebase থেকে পাওয়া config বসান। যেমন:
    var FIREBASE_CONFIG={apiKey:"...",authDomain:"...",projectId:"...",storageBucket:"...",messagingSenderId:"...",appId:"..."};
    null থাকলে অ্যাপ আগের মতো ডেমো মোডে (শুধু এই ফোনে) চলবে। */
-var FIREBASE_CONFIG=null;
+var FIREBASE_CONFIG={
+  apiKey: "AIzaSyDyywiqI_6WHN7JrfkXv0Y4v2zg-K8Wr3M",
+  authDomain: "al-hasana-foundation.firebaseapp.com",
+  projectId: "al-hasana-foundation",
+  storageBucket: "al-hasana-foundation.firebasestorage.app",
+  messagingSenderId: "85822434048",
+  appId: "1:85822434048:web:a00f603b44313c04a9a1e5",
+  measurementId: "G-BGWQZHVBXS"
+};
+/* ===== FCM - Push Notification =====
+   VAPID Key - Firebase Console > Project settings > Cloud Messaging > Web Push certificates থেকে নেওয়া।
+   LIVE ফাইলে তোমার আগের FIREBASE_CONFIG টা এখানে আবার বসাতে হবে, নাহলে FCM চলবে না।
+   এই আপলোড করা ফাইলে FIREBASE_CONFIG null ছিল, তাই আমি ওটা null-ই রাখলাম। */
+var FCM_VAPID_KEY='BMUy_6biMHr21TrqTRTjIDLCYz_Jw44vM4McHfHI19lnPFfZffKhBjK91bpXm9MKwY6JMmRBtgH1QydTy5hEDlw';
+var FCM_TOKEN_KEY='ahf-fcm-token';
 /* ===== SUPER ADMIN (Upay 2 - Email link e password set) ===== */
-var SUPER_ADMIN_EMAIL=atob('bW9jLmxpYW1nQDY0NjcyN21hbHNpbHViaWthcg==').split('').reverse().join('');
+var SUPER_ADMIN_EMAIL='rakibulislam727646@gmail.com';
 var SUPER_ADMIN_NAME='রাকিব হোসেন মিয়াজী';
 var NASIHAT_CATS=['কুরআন','হাদিস','নামাজ','সদকা','পরিবার','অন্যান্য'];
 var curAdmin=null;
@@ -922,20 +902,13 @@ var ICONS={
   committee:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',
   myloan:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h2M14 12h2M8 16h2M14 16h2"/>',
   nasihat:'<path d="M4 4h16v16H4z"/><path d="M12 4v16"/><path d="M8 8h2M8 12h2"/>',
-  donation:'<path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16"/><path d="m7 20 1.6 1.4c.3.4.8.6 1.4.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.6a2 2 0 0 0-2.8-2.8l-3.6 3.6"/><path d="m2 15 6 6"/><path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z"/>',
+  donation:'<path d="M12 20.5C7 16.5 3 13.3 3 9.3 3 6.2 5.2 4 8 4c1.6 0 3.1.8 4 2 .9-1.2 2.4-2 4-2 2.8 0 5 2.2 5 5.3 0 4-4 7.2-9 11.2z"/><path d="M7 11h2l1.2-2.5L12 12l1-2h3"/>',
   admin:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'
-};
-var ICONS_F={
-  home:'<path style="fill:currentColor;stroke:none" d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path style="fill:none;stroke:var(--surface);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round" d="M12 21v-5"/><rect style="fill:var(--surface);stroke:none" x="9.5" y="14" width="5" height="7" rx="1"/>',
-  seba:'<path style="fill:currentColor;stroke:none" d="M12 3l9 5-9 5-9-5z"/><path style="fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round" d="M3 13l9 5 9-5"/><path style="fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round" d="M3 18l9 5 9-5"/>',
-  nasihat:'<rect style="fill:currentColor;stroke:none" x="4" y="4" width="16" height="16" rx="2"/><path style="fill:none;stroke:var(--surface);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round" d="M12 4v16"/><path style="fill:none;stroke:var(--surface);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round" d="M7.5 8.5h2M7.5 12h2M14.5 8.5h2M14.5 12h2"/>',
-  donation:'<path style="fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round" d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16"/><path style="fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round" d="m7 20 1.6 1.4c.3.4.8.6 1.4.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.6a2 2 0 0 0-2.8-2.8l-3.6 3.6"/><path style="fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round" d="m2 15 6 6"/><path style="fill:currentColor;stroke:none" d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z"/>',
-  myloan:'<rect style="fill:currentColor;stroke:none" x="5" y="3" width="14" height="18" rx="2"/><path style="fill:none;stroke:var(--surface);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round" d="M8 7h8M8 12h2M14 12h2M8 16h2M14 16h2"/>'
 };
 var TABS=[['home','হোম'],['seba','আমাদের সেবা'],['nasihat','নসিহত'],['donation','ডোনেশন'],['myloan','আমার ঋণ']];
 function renderNav(){
   document.getElementById('nav').innerHTML=TABS.map(function(t){
-    return '<a class="tab" href="#'+t[0]+'"'+(route===t[0]?' aria-current="page"':'')+'><svg viewBox="0 0 24 24" aria-hidden="true">'+((route===t[0]&&ICONS_F[t[0]])?ICONS_F[t[0]]:ICONS[t[0]])+'</svg><span>'+t[1]+'</span></a>';
+    return '<a class="tab" href="#'+t[0]+'"'+(route===t[0]?' aria-current="page"':'')+'><svg viewBox="0 0 24 24" aria-hidden="true">'+ICONS[t[0]]+'</svg><span>'+t[1]+'</span></a>';
   }).join('');
 }
 
@@ -985,7 +958,7 @@ function renderSheet(){
 }
 function committeeHome(){
   return '<section id="sec-committee" class="card stack"><h2>কার্যকর কমিটি</h2><p class="muted">ফাউন্ডেশন পরিচালনায় যারা আছেন।</p><div class="committee-grid">'+S.committee.map(function(m){
-    return '<div class="cmember" data-mem="'+esc(m.id)+'" role="button" tabindex="0">'+committeeAvatar(m)+'<div class="grow"><b>'+esc(m.name)+'</b><div class="small muted">'+esc(m.role)+(m.phone?' · '+bn(esc(m.phone)):'')+'</div></div></div>';
+    return '<div class="cmember">'+committeeAvatar(m)+'<div class="grow"><b>'+esc(m.name)+'</b><div class="small muted">'+esc(m.role)+(m.phone?' · '+bn(esc(m.phone)):'')+'</div></div></div>';
   }).join('')+'</div></section>';
 }
 function viewHome(){
@@ -994,7 +967,7 @@ function viewHome(){
   return '<div class="topphoto home-slider" id="homeSlider"><div class="home-slider-track" id="homeSliderTrack"><div class="home-slide active"><img src="'+HOMEPHOTO+'" alt="আল হাসানা ফাউন্ডেশন ব্যানার - নৌকায় পাট নিয়ে কাজ করছেন একজন মানুষ" width="1200" height="467"></div><div class="home-slide"><img src="'+HOMEPHOTO2+'" alt="আল হাসানা ফাউন্ডেশন ব্যানার - Together we work for the hereafter" width="1200" height="446"></div></div><button class="home-slider-arrow prev" type="button" aria-label="আগের ছবি">\u2039</button><button class="home-slider-arrow next" type="button" aria-label="পরের ছবি">\u203a</button><div class="home-slider-dots"><button class="home-dot active" type="button" aria-label="১ নম্বর ছবি"></button><button class="home-dot" type="button" aria-label="২ নম্বর ছবি"></button></div></div>'+
     '<section class="hero"><p class="eyebrow">সুদবিহীন ঋণ</p><h1>কর্জে হাসানা দিয়ে<br>পাশে থাকি</h1>'+
     '<p>অসচ্ছল মানুষকে সুদ ও অতিরিক্ত চার্জ ছাড়া ঋণ দিয়ে আমরা তাদের পায়ে দাঁড়াতে সাহায্য করি। যতটুকু দেওয়া হয়, কিস্তিতে ততটুকুই ফেরত আসে, আর সেই টাকা আবার আরেকজনের কাজে লাগে।</p></section>'+
-    _todayHtml+'<section id="sec-about" class="card stack home-about"><div class="home-box-head"><h2>আমাদের সম্পর্কে</h2></div><p>ফাউন্ডেশনটি একটি অলাভজনক, সমাজকল্যাণমূলক ও সুদবিহীন নীতিতে পরিচালিত প্রতিষ্ঠান হিসেবে কার্যক্রম পরিচালনা করবে।</p></section>'+
+    +_todayHtml+'<section id="sec-about" class="card stack home-about"><div class="home-box-head"><h2>আমাদের সম্পর্কে</h2></div><p>ফাউন্ডেশনটি একটি অলাভজনক, সমাজকল্যাণমূলক ও সুদবিহীন নীতিতে পরিচালিত প্রতিষ্ঠান হিসেবে কার্যক্রম পরিচালনা করবে।</p></section>'+
     '<section id="sec-goal" class="card stack home-goal"><div class="home-box-head"><h2>প্রধান উদ্দেশ্য</h2></div><p>ফাউন্ডেশনের প্রধান উদ্দেশ্য হলো আর্থিকভাবে অসচ্ছল ও প্রকৃত প্রয়োজনগ্রস্ত ব্যক্তিদের কর্জে হাসানা (সুদবিহীন ঋণ) প্রদান এবং পারস্পরিক সহযোগিতার মাধ্যমে মানবকল্যাণে ভূমিকা রাখা।</p></section>'+
     committeeHome();
 }
@@ -1202,7 +1175,7 @@ function viewBen(){
 /* ---------- Committee ---------- */
 function viewCommittee(){
   return '<h2>কার্যকর কমিটি</h2><div class="stack tight">'+S.committee.map(function(m){
-    return '<div class="card row cmember" data-mem="'+esc(m.id)+'" role="button" tabindex="0"><div>'+committeeAvatar(m)+'</div><div class="grow"><b>'+esc(m.name)+'</b><div class="small muted">'+esc(m.role)+(m.phone?' · '+bn(esc(m.phone)):'')+'</div></div></div>';
+    return '<div class="card row"><div>'+committeeAvatar(m)+'</div><div class="grow"><b>'+esc(m.name)+'</b><div class="small muted">'+esc(m.role)+(m.phone?' · '+bn(esc(m.phone)):'')+'</div></div></div>';
   }).join('')+'</div>';
 }
 
@@ -1238,7 +1211,7 @@ function fmtTimeFull(ts){try{var d=new Date(ts);return bn(d.getDate())+'/'+bn(d.
 /* ---------- Nasihat ---------- */
 function viewNasihat(){
   var all=S.nasihats||[];
-  var list = all;
+  var list = nasihatFilter==='সব' ? all : all.filter(function(x){return x.cat===nasihatFilter;});
   var day = new Date(); var dayNum = Math.floor(day.getTime()/86400000);
   var todays = all.length ? all[dayNum % all.length] : null;
   var cats=['সব'].concat(NASIHAT_CATS);
@@ -1252,7 +1225,7 @@ function viewNasihat(){
     '<p class="small muted">— '+esc(n.by||'')+'</p></section>';
   }).join('');
   if(!secs) secs='<p class="muted">এই ক্যাটাগরিতে এখনো কোনো নসিহত নেই।</p>';
-  return '<h2>নসিহত</h2><p class="muted">কুরআন, হাদিস ও সদকার আলোকে কর্জে হাসানা সম্পর্কে কিছু নসিহত।</p>'+todayHtml+tocHtml+secs;
+  return '<h2>নসিহত</h2><p class="muted">কুরআন, হাদিস ও সদকার আলোকে কর্জে হাসানা সম্পর্কে কিছু নসিহত।</p>'+todayHtml+filterHtml+tocHtml+secs;
 }
 
 /* ---------- Admin ---------- */
@@ -1267,7 +1240,7 @@ function adminLoginView(){
       (adminAuthMsg?'<p class="err">'+esc(adminAuthMsg)+'</p>':'')+'<div class="actions"><button class="btn primary" type="submit">পাসওয়ার্ড সেট করুন</button><button class="btn" type="button" data-a="adminBackLogin">← লগইনে ফিরুন</button></div>')+
       '</form></section>';
   }
-  return '<section class="card stack pinbox"><h2>কমিটি লগইন</h2><p class="muted">Admin / Moderator / Super Admin der jonno। Super Admin der email ekhane dekhano hoy na।</p>'+
+  return '<section class="card stack pinbox"><h2>কমিটি লগইন</h2><p class="muted">Admin / Moderator / Super Admin der jonno। Super Admin: '+esc(SUPER_ADMIN_EMAIL)+'</p>'+
     '<form data-form="adminLogin" class="stack tight"><div class="field"><label for="al-em">ইমেইল</label><input id="al-em" type="email" autocomplete="username" value="'+esc(adminAuthEmail)+'"></div>'+
     '<div class="field"><label for="al-pw">পাসওয়ার্ড</label><input id="al-pw" type="password" autocomplete="current-password"></div>'+
     (adminAuthMsg?'<p class="err">'+esc(adminAuthMsg)+'</p>':'')+
@@ -1291,7 +1264,7 @@ function viewAdmin(){
   if(isAdminRole()) tabs.push(['admins', isSuperAdmin()?'Admin & Moderator':'Moderator']);
   var head='<div class="row" style="justify-content:space-between"><div><h2 style="margin:0">অ্যাডমিন প্যানেল</h2><div class="small muted">লগইন: '+esc(curAdmin.name)+' • '+esc(curAdmin.email)+' • '+roleLabel(curRole())+'</div></div><button class="btn sm danger" data-a="logout">বের হন</button></div>'+
     '<div class="subtabs">'+tabs.map(function(x){return '<button class="chip" data-a="atab" data-v="'+x[0]+'" aria-pressed="'+(adminTab===x[0])+'">'+x[1]+'</button>';}).join('')+'</div>';
-  if(isModerator()) head+='<div class="demo">তুমি Moderator হিসেবে লগইন করেছো। তুমি আবেদন যাচাই, Approve er age কিস্তি Change, কিস্তি এন্ট্রি, নোটিফিকেশন আর নসিহত লিখতে পারবে। Approve, কাউকে add/batil, History আর Fund edit করতে পারবে না।</div>';
+  if(isModerator()) head+='<div class="demo">তুমি Moderator হিসেবে লগইন করেছো। তুমি আবেদন যাচাই, কিস্তি এন্ট্রি, নোটিফিকেশন আর নসিহত লিখতে পারবে। Approve, কাউকে add/batil, History আর Fund edit করতে পারবে না।</div>';
   var body='';
   if(adminTab==='apps')body=adminApps();
   else if(adminTab==='loans')body=adminLoans();
@@ -1339,7 +1312,7 @@ function adminAdmins(){
       return '<div class="card"><div class="row" style="justify-content:space-between"><div class="grow"><b>'+esc(a.name)+'</b><div class="small muted">'+esc(a.email)+' • '+roleLabel(normRole(a.role))+' • '+(a.status==='pending'?'Password set hoyni':'Active')+'</div></div>'+(canDel?'<button class="btn sm '+(pending==='admin'+a.id?'danger':'')+'" data-a="adminDel" data-id="'+a.id+'">'+(pending==='admin'+a.id?'নিশ্চিত করুন':'সরান')+'</button>':'<span class="small muted">সরানো যাবে না</span>')+'</div></div>';
     }).join('')+'</div>';
   }
-  out+='<form data-form="moderatorAdd" class="card stack"><h3>নতুন Moderator যোগ করুন ('+(isSuperAdmin()?'Super Admin / Admin':'Admin')+')</h3><p class="small muted">Moderator ra abedon jachai, Approve er age kisti change, kisti entry, notification ar nasihat likhte parbe। Kintu kew ke add/batil, approve, history ar fund edit korte parbe na। Email diye add korben, notun moderator-ke bolben "কমিটি লগইন → পাসওয়ার্ড সেট" e giye password banate।</p>'+
+  out+='<form data-form="moderatorAdd" class="card stack"><h3>নতুন Moderator যোগ করুন ('+(isSuperAdmin()?'Super Admin / Admin':'Admin')+')</h3><p class="small muted">Moderator ra abedon jachai, kisti entry, notification ar nasihat likhte parbe। Kintu kew ke add/batil, approve, history ar fund edit korte parbe na। Email diye add korben, notun moderator-ke bolben "কমিটি লগইন → পাসওয়ার্ড সেট" e giye password banate।</p>'+
     '<div class="grid2"><div class="field"><label for="mo-name">নাম</label><input id="mo-name" autocomplete="off"></div><div class="field"><label for="mo-email">ইমেইল</label><input id="mo-email" type="email" autocomplete="off"></div></div>'+
     '<button class="btn primary" type="submit" style="align-self:flex-start">Moderator যোগ করুন</button></form>';
   var modList=(S.admins||[]).filter(function(a){return normRole(a.role)==='moderator';});
@@ -1377,7 +1350,7 @@ function appDetails(a){
     '<dt>পেশা</dt><dd>'+esc(a.occupation)+'</dd><dt>মোবাইল</dt><dd>'+bn(esc(a.phone))+'</dd><dt>মাসিক আয়</dt><dd>'+money(Number(a.income)||0)+'</dd>'+
     '<dt>বর্তমান ঠিকানা</dt><dd>'+esc(addrTxt(a.present,a.address))+'</dd><dt>স্থায়ী ঠিকানা</dt><dd>'+esc(addrTxt(a.perm,a.address))+'</dd>'+
     '<dt>অর্থের পরিমাণ</dt><dd>'+money(a.amount)+'</dd><dt>ঋণের ধরন</dt><dd>'+esc(a.type||'')+'</dd><dt>উদ্দেশ্য</dt><dd>'+esc(a.purpose)+'</dd>'+(a.usage?'<dt>ব্যবহারের বিস্তারিত</dt><dd>'+esc(a.usage)+'</dd>':'')+
-    '<dt>পরিশোধের সময়</dt><dd>'+bn(a.months)+' মাস'+(a.months?' (মাসে প্রায় '+money(Math.ceil(a.amount/a.months))+')':'')+((a.kistiChanged)?'<br><span class="small" style="color:var(--accent)">Moderator change korse: Age chilo '+bn(a.origMonths||'')+' ta kisti ('+money(a.origKistiAmt||Math.ceil(a.amount/(a.origMonths||a.months)))+ ' kore) - Ekhon '+bn(a.months)+' ta kisti ('+money(Math.ceil(a.amount/a.months))+' kore) - By '+esc(a.kistiChangedBy||'')+'</span>':'')+'</dd><dt>পরিশোধের পদ্ধতি</dt><dd>'+esc(method)+'</dd>'+
+    '<dt>পরিশোধের সময়</dt><dd>'+bn(a.months)+' মাস'+(a.months?' (মাসে প্রায় '+money(Math.ceil(a.amount/a.months))+')':'')+'</dd><dt>পরিশোধের পদ্ধতি</dt><dd>'+esc(method)+'</dd>'+
     '<dt>আগে ঋণ নিয়েছেন?</dt><dd>'+esc(a.prev||'')+'</dd>'+(a.gname?'<dt>জামানতদার</dt><dd>'+esc(a.gname)+' ('+esc(a.grel||'')+') · '+bn(esc(a.gphone||''))+' · NID ••••'+bn(esc(String(a.gnid||'').slice(-4)))+'</dd>':'')+'<dt>ব্যাংক চেক</dt><dd>'+esc(a.cheque||'হ্যাঁ')+' - সিকিউরিটি হিসেবে জমা দিতে হবে</dd>'+(a.sig?'<dt>স্বাক্ষর</dt><dd><img src="'+a.sig+'" alt="স্বাক্ষর" style="max-width:200px;height:auto;background:#fff;border:1px solid var(--line);border-radius:8px"> <div class="small muted">'+fmtDate(a.signedOn)+'</div></dd>':'')+'</dl>';
 }
 function adminApps(){
@@ -1392,13 +1365,7 @@ function adminApps(){
       else act='<button class="btn sm primary" data-a="approve" data-id="'+a.id+'">অনুমোদন</button><button class="btn sm danger" data-a="reject" data-id="'+a.id+'">বাতিল</button>';
     }
     var note=(a.status==='submitted'||a.status==='under_review')?'<div class="field"><label for="note-'+a.id+'">মন্তব্য</label><textarea id="note-'+a.id+'" rows="2">'+esc(a.note||'')+'</textarea></div>':(a.note?'<p class="small"><b>মন্তব্য:</b> '+esc(a.note)+'</p>':'');
-    var kistiEdit='';
-    if(a.type!=='শিক্ষা বৃত্তি'&&a.status==='under_review'){
-      var curPer=Math.ceil(a.amount/(a.months||1));
-      var origTxt=a.kistiChanged?'<div class="small" style="color:var(--accent)">Moderator change korse: Age chilo '+bn(a.origMonths||a.months)+' ta kisti ('+money(a.origKistiAmt||curPer)+' kore) - Ekhon '+bn(a.months)+' ta kisti ('+money(curPer)+' kore) - By '+esc(a.kistiChangedBy||'')+'</div>':'<div class="small muted">Abedonkari chaichilo: '+bn(a.months)+' ta kisti, '+money(curPer)+' kore. Jachai Shuru hoye gese, ekhon Foundation chaile ekhan theke bodlay den, Churanto Copy te notun ta asbe.</div>';
-      kistiEdit='<div class="card" style="background:var(--surface2);border-color:transparent"><b>Kisti Change - Jachai Shuru er Por</b>'+origTxt+'<div class="grid2" style="margin-top:8px"><div class="field"><label for="kisti-n-'+a.id+'">Kistir Sonkha (ta)</label><input id="kisti-n-'+a.id+'" type="number" min="1" max="60" value="'+a.months+'"></div><div class="field"><label for="kisti-amt-'+a.id+'">Proti Kistir Poriman (taka)</label><input id="kisti-amt-'+a.id+'" type="number" min="100" step="100" value="'+curPer+'"></div></div><div class="small muted">Total '+money(a.amount)+' same thakbe. Kistir poriman komale sonkha barbe, barale sonkha kombe.</div><button class="btn sm primary" data-a="kistiEdit" data-id="'+a.id+'" style="margin-top:8px">Kisti Change Save</button></div>';
-    }
-    return '<details class="card"><summary><span><b>'+esc(a.name)+'</b><br><span class="small muted">'+money(a.amount)+' · '+fmtDate(a.createdAt)+'</span></span>'+pill(a.status)+'</summary><div class="stack">'+appDetails(a)+kistiEdit+copyBtns(a)+note+(act?'<div class="actions">'+act+'</div>':'')+'</div></details>';
+    return '<details class="card"><summary><span><b>'+esc(a.name)+'</b><br><span class="small muted">'+money(a.amount)+' · '+fmtDate(a.createdAt)+'</span></span>'+pill(a.status)+'</summary><div class="stack">'+appDetails(a)+copyBtns(a)+note+(act?'<div class="actions">'+act+'</div>':'')+'</div></details>';
   }).join('')+'</div>';
 }
 
@@ -1494,11 +1461,10 @@ function adminMem(){
     '<div class="field"><label for="m-phone">মোবাইল <span class="opt">(ঐচ্ছিক)</span></label><input id="m-phone" inputmode="numeric" autocomplete="off"></div>'+
     '<fieldset class="choices"><legend>ডিফল্ট আইকন</legend><div class="chips"><label class="opt-chip"><input type="radio" name="m-gender" value="m" checked><span>পুরুষ</span></label><label class="opt-chip"><input type="radio" name="m-gender" value="f"><span>নারী</span></label></div></fieldset>'+
     '<div class="field"><label>প্রোফাইল ছবি <span class="opt">(ঐচ্ছিক)</span></label><div class="mem-photo-box"><div class="mem-photo-preview" id="m-photo-preview">'+_prev+'</div><div><label class="mem-upload-label" for="m-photo">📷 ছবি বাছাই করুন</label><input type="file" id="m-photo" accept="image/*" hidden><p class="small muted" style="margin-top:6px">গ্যালারি থেকে ছবি নিন। ছবি না দিলে পুরুষ/নারী আইকন দেখাবে।</p></div></div></div>'+
-    '<div class="field"><label for="m-bio">পরিচয় <span class="opt">(ঐচ্ছিক)</span></label><textarea id="m-bio" rows="4" placeholder="সদস্যের সংক্ষিপ্ত পরিচয় লিখুন"></textarea></div>'+
     '<button class="btn primary" type="submit" style="align-self:flex-start">যোগ করুন</button></form>';
   var list='<div class="stack tight">'+S.committee.map(function(m){
     var _has = committeePhoto(m) ? '<button class="btn sm" data-a="memPhotoRemove" data-id="'+m.id+'">ছবি বাদ দিন</button>' : '';
-    return '<div class="card"><div class="row" style="align-items:flex-start"><div class="mem-row-photo">'+committeeAvatar(m)+'</div><div class="grow"><b>'+esc(m.name)+'</b><div class="small muted">'+esc(m.role)+(m.phone?' · '+bn(esc(m.phone)):'')+'</div><div class="mem-actions" style="margin-top:8px"><button class="btn sm" data-a="memGender" data-id="'+m.id+'">আইকন: '+(memGender(m)==='f'?'নারী → পুরুষ':'পুরুষ → নারী')+'</button><label class="mem-upload-label" for="mem-photo-'+m.id+'" style="padding:6px 12px;font-size:.85rem">📷 ছবি বদলান</label><input type="file" id="mem-photo-'+m.id+'" data-a="memPhoto" data-id="'+m.id+'" accept="image/*" hidden>'+_has+'</div><div class="field" style="margin-top:10px"><label for="mem-bio-'+m.id+'" class="small">পরিচয়</label><textarea id="mem-bio-'+m.id+'" rows="3" placeholder="সদস্যের সংক্ষিপ্ত পরিচয় লিখুন">'+esc(m.bio||'')+'</textarea><button class="btn sm" style="align-self:flex-start;margin-top:6px" data-a="memBio" data-id="'+m.id+'">পরিচয় সেভ করুন</button></div></div><button class="btn sm '+(pending==='mem'+m.id?'danger':'')+'" data-a="del" data-k="mem" data-id="'+m.id+'">'+(pending==='mem'+m.id?'নিশ্চিত করুন':'সরান')+'</button></div></div>';
+    return '<div class="card"><div class="row" style="align-items:flex-start"><div class="mem-row-photo">'+committeeAvatar(m)+'</div><div class="grow"><b>'+esc(m.name)+'</b><div class="small muted">'+esc(m.role)+(m.phone?' · '+bn(esc(m.phone)):'')+'</div><div class="mem-actions" style="margin-top:8px"><button class="btn sm" data-a="memGender" data-id="'+m.id+'">আইকন: '+(memGender(m)==='f'?'নারী → পুরুষ':'পুরুষ → নারী')+'</button><label class="mem-upload-label" for="mem-photo-'+m.id+'" style="padding:6px 12px;font-size:.85rem">📷 ছবি বদলান</label><input type="file" id="mem-photo-'+m.id+'" data-a="memPhoto" data-id="'+m.id+'" accept="image/*" hidden>'+_has+'</div></div><button class="btn sm '+(pending==='mem'+m.id?'danger':'')+'" data-a="del" data-k="mem" data-id="'+m.id+'">'+(pending==='mem'+m.id?'নিশ্চিত করুন':'সরান')+'</button></div></div>';
   }).join('')+'</div>';
   return form+list;
 }
@@ -1564,7 +1530,13 @@ function renderPanel(){
   else if(dbState==='slow')msg='<p class="muted small">সংযোগ হতে সময় লাগছে। ইন্টারনেট দেখে নিন।</p>';
   else if(dbState==='err')msg='<p class="muted small">নোটিফিকেশন আনা যায়নি।</p>';
   else if(dbState==='ok'&&!notifs.length)msg='<p class="muted">এখনো কোনো নোটিফিকেশন নেই। ফাউন্ডেশন কিছু পাঠালে এখানে দেখা যাবে।</p>';
-  el.innerHTML='<div class="nhead"><h3>নোটিফিকেশন</h3><button class="btn sm" data-a="bell">বন্ধ করুন</button></div>'+msg+items;
+  var fcmBtn='';
+  if(FB.cfg && typeof Notification!=='undefined' && Notification.permission!=='granted'){
+    fcmBtn='<div class="card" style="margin-bottom:10px"><b>ফোনে Notification পেতে চান?</b><p class="small muted" style="margin:4px 0 8px">Allow করলে Admin কিছু পাঠালে ফোনে পুশ আসবে, অ্যাপ বন্ধ থাকলেও।</p><button class="btn primary sm" type="button" data-a="enable-push">Notification চালু করুন</button></div>';
+  } else if(FB.cfg && typeof Notification!=='undefined' && Notification.permission==='denied'){
+    fcmBtn='<div class="card" style="margin-bottom:10px"><p class="small muted">Notification Block আছে। ব্রাউজার Settings > Site settings > Notifications থেকে Allow করতে হবে।</p></div>';
+  }
+  el.innerHTML='<div class="nhead"><h3>নোটিফিকেশন</h3><button class="btn sm" data-a="bell">বন্ধ করুন</button></div>'+fcmBtn+msg+items;
   el.hidden=false;
 }
 function updNotif(){
@@ -1602,7 +1574,7 @@ function initDb(){
   }).catch(function(){clearTimeout(timer);useLocal();updNotif();});
 }
 function adminNotif(){
-  var form=canPost?'<form data-form="nsend" class="card stack"><h3>নোটিফিকেশন পাঠান</h3><div class="field"><label for="n-title">শিরোনাম</label><input id="n-title" maxlength="80" autocomplete="off"></div><div class="field"><label for="n-body">বার্তা <span class="opt">(ঐচ্ছিক)</span></label><textarea id="n-body" rows="3" maxlength="400"></textarea></div><button class="btn primary" type="submit" style="align-self:flex-start">সবাইকে পাঠান</button><p class="small muted">'+(dbRef?'যাঁদের অ্যাপ খোলা আছে তাঁদের কাছে সঙ্গে সঙ্গে পৌঁছায়। বাকিরা পরে খুললে ঘণ্টার চিহ্নে দেখবেন।':'ডেমো অবস্থা: নোটিফিকেশন শুধু এই ফোনেই সংরক্ষিত থাকে, অন্যদের কাছে যায় না। সবার কাছে পাঠাতে Firebase লাগবে।')+'</p></form>'
+  var form=canPost?'<form data-form="nsend" class="card stack"><h3>নোটিফিকেশন পাঠান</h3><div class="field"><label for="n-title">শিরোনাম</label><input id="n-title" maxlength="80" autocomplete="off"></div><div class="field"><label for="n-body">বার্তা <span class="opt">(ঐচ্ছিক)</span></label><textarea id="n-body" rows="3" maxlength="400"></textarea></div><button class="btn primary" type="submit" style="align-self:flex-start">সবাইকে পাঠান</button><p class="small muted">'+(dbRef?'যারা ফোনে Notification চালু করেছে, তাদের ফোনে পুশ যাবে (অ্যাপ বন্ধ থাকলেও)। বাকিরা অ্যাপ খুললে ঘণ্টার চিহ্নে দেখবে।':'ডেমো অবস্থা: নোটিফিকেশন শুধু এই ফোনেই সংরক্ষিত থাকে, অন্যদের কাছে যায় না। সবার কাছে পাঠাতে Firebase লাগবে।')+'</p></form>'
     :'<div class="demo">শুধু অ্যাপের মালিক বা এডিটর নোটিফিকেশন পাঠাতে পারেন।'+(dbState==='ok'?'':' এখন লাইভ সংযোগও নেই।')+'</div>';
   var list=notifs.length?'<div class="stack tight">'+notifs.map(function(n){
     return '<div class="card row" style="align-items:flex-start"><div class="grow"><b>'+esc(n.title)+'</b>'+(n.body?'<p class="small" style="white-space:pre-wrap;word-break:break-word">'+esc(n.body)+'</p>':'')+'<span class="small muted">'+fmtTime(n.at)+'</span></div>'+(isAdminRole()?'<button class="btn sm '+(pending==='noti'+n.id?'danger':'')+'" data-a="del" data-k="noti" data-id="'+n.id+'">'+(pending==='noti'+n.id?'নিশ্চিত করুন':'মুছুন')+'</button>':'')+'</div>';
@@ -1968,14 +1940,13 @@ document.addEventListener('click',function(e){
     case 'loantype':typeOpen=-1;renderSheet();draft.type=el.dataset.v;lastApp=null;step=1;location.hash='#apply';break;
     case 'applyGeneral':lastApp=null;step=1;location.hash='#apply';break;
     case 'nasihatGoto':var _ng=document.getElementById(el.dataset.v);if(_ng)_ng.scrollIntoView({behavior:'smooth',block:'start'});break;
-    case 'dotsMenu':var _dm=document.getElementById('dotsMenu');var _db=document.getElementById('dotsBtn');if(_dm){var _o=_dm.hidden;_dm.hidden=!_o;if(_o)placeDots();if(_db)_db.setAttribute('aria-expanded',_o?'true':'false');}break;
+    case 'dotsMenu':var _dm=document.getElementById('dotsMenu');var _db=document.getElementById('dotsBtn');if(_dm){var _o=_dm.hidden;_dm.hidden=!_o;if(_db)_db.setAttribute('aria-expanded',_o?'true':'false');}break;
     case 'memGender':if(!canManageCommittee()){toast('Committee manage sudhu Admin / Super Admin korte parbe।');break;}var _mg=S.committee.find(function(x){return x.id===id;});if(_mg){_mg.gender=memGender(_mg)==='f'?'m':'f';save();render();}break;
-    case 'memBio':if(!canManageCommittee()){toast('পরিচয় বদলাতে শুধু Admin / Super Admin পারবেন।');break;}var _mb=S.committee.find(function(x){return x.id===id;});var _mbe=document.getElementById('mem-bio-'+id);if(_mb&&_mbe){_mb.bio=_mbe.value.trim();save();toast('পরিচয় সেভ হয়েছে।');}break;
     case 'memPhotoRemove':if(!canManageCommittee()){toast('Photo batil sudhu Admin / Super Admin korte parbe।');break;}var _mr=S.committee.find(function(x){return x.id===id;});if(_mr){_mr.photo='';save();render();toast('ছবি বাদ দেওয়া হয়েছে।');}break;
     case 'donateShow':donateOpen=true;render();setTimeout(function(){var _dm=document.getElementById('donate-methods');if(_dm)_dm.scrollIntoView({behavior:'smooth',block:'start'});},80);break;
     case 'donateHide':donateOpen=false;render();window.scrollTo(0,0);break;
     case 'copyDonate':(function(){var _v=el.dataset.v||'';function _done(){toast('নম্বর কপি হয়েছে: '+_v);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(_v).then(_done).catch(function(){var _ta=document.createElement('textarea');_ta.value=_v;document.body.appendChild(_ta);_ta.select();try{document.execCommand('copy');_done();}catch(e){toast(_v);}document.body.removeChild(_ta);});}else{var _ta2=document.createElement('textarea');_ta2.value=_v;document.body.appendChild(_ta2);_ta2.select();try{document.execCommand('copy');_done();}catch(e){toast(_v);}document.body.removeChild(_ta2);}})();break;
-    case 'dotsGo':if(el.dataset.v==='admin'||el.dataset.v==='donation'){var _dm0=document.getElementById('dotsMenu');if(_dm0)_dm0.hidden=true;location.hash='#'+el.dataset.v;break;}var _tgt='sec-'+el.dataset.v;var _dm2=document.getElementById('dotsMenu');if(_dm2)_dm2.hidden=true;var _db2=document.getElementById('dotsBtn');if(_db2)_db2.setAttribute('aria-expanded','false');if(route!=='home'){window._dotsTarget=_tgt;location.hash='#home';}else{var _el=document.getElementById(_tgt);if(_el)_el.scrollIntoView({behavior:'smooth',block:'start'});}break;
+    case 'dotsGo':if(el.dataset.v==='admin'){var _dm0=document.getElementById('dotsMenu');if(_dm0)_dm0.hidden=true;location.hash='#admin';break;}var _tgt='sec-'+el.dataset.v;var _dm2=document.getElementById('dotsMenu');if(_dm2)_dm2.hidden=true;var _db2=document.getElementById('dotsBtn');if(_db2)_db2.setAttribute('aria-expanded','false');if(route!=='home'){window._dotsTarget=_tgt;location.hash='#home';}else{var _el=document.getElementById(_tgt);if(_el)_el.scrollIntoView({behavior:'smooth',block:'start'});}break;
     case 'fabToggle':var _fm=document.getElementById('fabMenu');var _fb=document.getElementById('fabBtn');if(_fm&&_fb){var _open=_fm.hidden;_fm.hidden=!_open;_fb.setAttribute('aria-expanded',_open?'true':'false');_fb.innerHTML=_open?'✕':'<svg viewBox="0 0 24 24" width="24" height="24" fill="#fff" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>';}break;
     case 'theme':var _cur=document.documentElement.getAttribute('data-theme');var _nxt=_cur==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',_nxt);try{localStorage.setItem('ahf-theme',_nxt);}catch(e){}el.setAttribute('aria-checked',_nxt==='dark'?'true':'false');break;
     case 'receipt':showReceipt(id,el.dataset.idx);break;
@@ -2012,22 +1983,6 @@ document.addEventListener('click',function(e){
       S.loans.push({id:'L'+Date.now(),uid:ap.uid||'',appNo:ap.no,name:ap.name,phone:toWa(ap.wa||ap.phone),amount:ap.amount,n:ap.months,disbursed:t,ins:schedule(ap.amount,ap.months,addMonths(t,1)),consent:false});
       addHistory('app_approve',ap?ap.no:id,'Abedon approve korlo');
       save();toast('অনুমোদিত। কিস্তির সময়সূচি তৈরি হয়েছে।');render();break;
-    case 'kistiEdit':
-      var ka=findApp(id);if(!ka){toast('Abedon paoya jayni');break;}
-      if(ka.type==='শিক্ষা বৃত্তি'){toast('Brittir kisti nai');break;}
-      if(ka.status==='submitted'){toast('Age Jachai Shuru chap den, tarpor Kisti Change asbe');break;}if(ka.status!=='under_review'){toast('Approve hoye gese, ekhon kisti change hobe na');break;}
-      var _nEl=document.getElementById('kisti-n-'+id), _aEl=document.getElementById('kisti-amt-'+id);
-      var _oldN=ka.months||1, _oldPer=Math.ceil(ka.amount/_oldN);
-      var _inN=_nEl?parseInt(_nEl.value,10):_oldN, _inAmt=_aEl?parseInt(_aEl.value,10):_oldPer;
-      var _newN=_oldN;
-      if(_inN&&_inN!==_oldN){ _newN=_inN; }
-      else if(_inAmt&&_inAmt!==_oldPer&&_inAmt>0){ _newN=Math.ceil(ka.amount/_inAmt); }
-      else { toast('Kono change nai - Sonkha ba Poriman bodlan'); break; }
-      if(!_newN||_newN<1||_newN>60){toast('Kistir sonkha 1-60 er moddhe hote hobe');break;}
-      if(!ka.origMonths){ ka.origMonths=_oldN; ka.origKistiAmt=_oldPer; }
-      ka.months=_newN; ka.kistiChanged=true; ka.kistiChangedBy=adminName(); ka.kistiChangedAt=t;
-      addHistory('kisti_edit',ka?ka.no:id,'Kisti change: Age '+_oldN+' ta ('+money(_oldPer)+' kore) - Ekhon '+_newN+' ta ('+money(Math.ceil(ka.amount/_newN))+' kore) - By '+adminName());
-      save();toast('Kisti change hoyeche: '+_newN+' ta kisti, '+money(Math.ceil(ka.amount/_newN))+' kore. Admin Approve dile Churanto Copy te eita asbe.');render();break;
     case 'payin':
       var ln=findLoan(id),nx=nextUnpaid(ln);if(nx){nx.paidOn=t;nx.method=document.getElementById('m-'+id).value;var _tx=document.getElementById('txn-'+id);if(_tx)nx.txn=_tx.value.trim();save();toast(money(nx.amt)+' আদায় এন্ট্রি হয়েছে');}render();break;
     case 'del':
@@ -2045,10 +2000,7 @@ document.addEventListener('click',function(e){
   }
 });
 document.addEventListener('input',function(e){
-  var el=e.target;
-  if(el&&el.id&&el.id.indexOf('kisti-n-')===0){var _id=el.id.replace('kisti-n-','');var _app=findApp(_id);var _amtEl=document.getElementById('kisti-amt-'+_id);if(_app&&_amtEl){var _nn=parseInt(el.value,10);if(_nn>0)_amtEl.value=Math.ceil(_app.amount/_nn);}return;}
-  if(el&&el.id&&el.id.indexOf('kisti-amt-')===0){var _id2=el.id.replace('kisti-amt-','');var _app2=findApp(_id2);var _nEl2=document.getElementById('kisti-n-'+_id2);if(_app2&&_nEl2){var _aa=parseInt(el.value,10);if(_aa>0)_nEl2.value=Math.ceil(_app2.amount/_aa);}return;}
-  if(el&&el.id==='loan-q'){var pos=el.selectionStart;loanQ=el.value;loanOpen='';render();var n=document.getElementById('loan-q');if(n){n.focus();try{n.setSelectionRange(pos,pos);}catch(x){}}}
+  var el=e.target;if(el&&el.id==='loan-q'){var pos=el.selectionStart;loanQ=el.value;loanOpen='';render();var n=document.getElementById('loan-q');if(n){n.focus();try{n.setSelectionRange(pos,pos);}catch(x){}}}
 });
 document.addEventListener('keydown',function(e){var el=e.target;if(el&&el.classList&&el.classList.contains('lrow')&&(e.key==='Enter'||e.key===' ')){e.preventDefault();el.click();}});
 document.addEventListener('change',function(e){
@@ -2171,7 +2123,7 @@ document.addEventListener('submit',function(e){
   else if(f==='mem'){
     if(!canManageCommittee()){toast('Committee add sudhu Admin / Super Admin korte parbe।');return;}
     var nm=document.getElementById('m-name').value.trim(),rl=document.getElementById('m-role').value.trim();
-    if(nm&&rl){S.committee.push({id:'M'+Date.now(),name:nm,role:rl,phone:toEn(document.getElementById('m-phone').value),gender:(document.querySelector('input[name=m-gender]:checked')||{value:'m'}).value,photo:window._newMemPhoto||'',bio:((document.getElementById('m-bio')||{}).value||'').trim()});window._newMemPhoto='';save();toast('সদস্য যোগ হয়েছে');render();}
+    if(nm&&rl){S.committee.push({id:'M'+Date.now(),name:nm,role:rl,phone:toEn(document.getElementById('m-phone').value),gender:(document.querySelector('input[name=m-gender]:checked')||{value:'m'}).value,photo:window._newMemPhoto||''});window._newMemPhoto='';save();toast('সদস্য যোগ হয়েছে');render();}
   }
 });
 document.addEventListener('scroll',function(e){var c=e.target;if(c&&c.id==='slides')updSlideCount(c);},true);
@@ -2325,13 +2277,93 @@ function fbAuthChanged(u){
     }).catch(function(e){fbAdminErr='অ্যাডমিন যাচাই করা যায়নি ('+fbMsg(e)+')।';FB.auth.signOut();FB.ready=true;render();});
   }
 }
+
+/* ===== FCM Push - Token save + Foreground handle ===== */
+function fcmSaveToken(token){
+  if(!token) return;
+  try{ localStorage.setItem(FCM_TOKEN_KEY, token); }catch(e){}
+  if(!FB.db) return;
+  // Token টা Firestore এ সেভ হবে, Cloud Function এই token গুলোতে পুশ পাঠাবে
+  FB.db.collection('fcmTokens').doc(token).set({
+    token: token,
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+    platform: 'web',
+    ua: (navigator.userAgent||'').slice(0,200)
+  }, {merge:true}).catch(function(e){ console.log('FCM token save fail', e); });
+}
+function fcmShowForeground(title, body){
+  // অ্যাপ খোলা থাকলে ভিতরে toast + bell badge দেখাবে
+  try{ toast(title + (body ? ': ' + body : '')); }catch(e){}
+  try{ updNotif(); }catch(e){}
+}
+function fcmInit(){
+  if(!FB.cfg) return;
+  if(!('Notification' in window)) return;
+  if(!firebase.messaging || !firebase.messaging.isSupported || !firebase.messaging.isSupported()) return;
+  try{
+    FB.messaging = firebase.messaging();
+    // Foreground - অ্যাপ খোলা থাকলে
+    FB.messaging.onMessage(function(payload){
+      var n = (payload && payload.notification) || {};
+      var d = (payload && payload.data) || {};
+      var title = n.title || d.title || 'আল হাসানা ফাউন্ডেশন';
+      var body = n.body || d.body || '';
+      fcmShowForeground(title, body);
+      // নতুন notification এলে bell refresh - Firestore listener এমনিতেই আপডেট করবে
+    });
+    // আগে থেকে permission দেওয়া থাকলে চুপচাপ token নাও
+    if(Notification.permission === 'granted'){
+      fcmGetToken();
+    }
+  }catch(e){ console.log('FCM init fail', e); }
+}
+function fcmGetToken(){
+  if(!FB.messaging) return Promise.resolve(null);
+  if(!('serviceWorker' in navigator)) return Promise.resolve(null);
+  // তোমার আগের sw.js টাই ব্যবহার হবে, আলাদা SW দিয়ে overwrite হবে না
+  return navigator.serviceWorker.ready.then(function(reg){
+    return FB.messaging.getToken({ vapidKey: FCM_VAPID_KEY, serviceWorkerRegistration: reg });
+  }).then(function(token){
+    if(token) fcmSaveToken(token);
+    return token;
+  }).catch(function(e){
+    console.log('FCM getToken fail', e);
+    // SW ready না হলে আবার চেষ্টা - firebase-messaging-sw.js fallback
+    return FB.messaging.getToken({ vapidKey: FCM_VAPID_KEY }).then(function(token){
+      if(token) fcmSaveToken(token);
+      return token;
+    }).catch(function(e2){ console.log('FCM getToken 2nd fail', e2); return null; });
+  });
+}
+function fcmRequestPermission(){
+  if(!('Notification' in window)){ toast('এই ব্রাউজারে Notification সাপোর্ট করে না।'); return; }
+  if(!FB.cfg){ toast('Firebase কনফিগ নেই, তাই Notification চালু করা যাবে না।'); return; }
+  if(!FB.messaging){ toast('FCM রেডি হয়নি, ২ সেকেন্ড পরে আবার চেষ্টা করুন।'); return; }
+  Notification.requestPermission().then(function(perm){
+    if(perm === 'granted'){
+      return fcmGetToken().then(function(token){
+        if(token){ toast('Notification চালু হয়েছে। এখন থেকে ফোনে পুশ আসবে।'); render(); }
+        else toast('Token পাওয়া যায়নি, আবার চেষ্টা করুন।');
+      });
+    } else if(perm === 'denied'){
+      toast('তুমি Notification Block করে দিয়েছো। ব্রাউজার Settings > Site settings > Notifications থেকে Allow করতে হবে।');
+    } else {
+      toast('Notification অনুমতি দেওয়া হয়নি।');
+    }
+  });
+}
+function fcmIsEnabled(){
+  try{ return Notification.permission === 'granted' && !!localStorage.getItem(FCM_TOKEN_KEY); }catch(e){ return false; }
+}
+
 function fbLoadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
 function fbBoot(){
   var base='https://www.gstatic.com/firebasejs/'+FB_VER+'/firebase-';
-  fbLoadScript(base+'app-compat.js').then(function(){return Promise.all([fbLoadScript(base+'auth-compat.js'),fbLoadScript(base+'firestore-compat.js')]);}).then(function(){
+  fbLoadScript(base+'app-compat.js').then(function(){return Promise.all([fbLoadScript(base+'auth-compat.js'),fbLoadScript(base+'firestore-compat.js'),fbLoadScript(base+'messaging-compat.js')]);}).then(function(){
     firebase.initializeApp(FB.cfg);
     FB.auth=firebase.auth();FB.db=firebase.firestore();FB.on=true;dbRef=FB.db;
-    watchNotifs();fbWatchPublic();
+    watchNotifs();fbWatchPublic();fcmInit();
     FB.auth.onAuthStateChanged(fbAuthChanged);
   }).catch(function(){FB.ready=true;toast('Firebase-এর সাথে সংযোগ হয়নি। ইন্টারনেট দেখুন।');render();});
 }
@@ -2387,6 +2419,10 @@ function fbAdminSubmit(){
   FB.auth.signInWithEmailAndPassword(em,pw).catch(function(e){fbAdminErr=fbAuthMsg(e);render();});
 }
 
+document.addEventListener('click', function(e){
+  var b = e.target.closest && e.target.closest('[data-a="enable-push"]');
+  if(b){ e.preventDefault(); fcmRequestPermission(); }
+});
 readHash();render();
 if(FB.cfg)fbBoot();else initDb();
 
@@ -2400,37 +2436,13 @@ document.addEventListener('click',function(e){
   window.scrollTo(0,0);render();
 },true);
 document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;var m=document.getElementById('fabMenu'),b=document.getElementById('fabBtn');if(m&&!m.hidden&&b)b.click();});
-
-/* ---------- Committee member popup ---------- */
-function openMemModal(id){
-  var m=S.committee.find(function(x){return String(x.id)===String(id);});if(!m)return;
-  var el=document.getElementById('memModal');if(!el)return;
-  var ph=committeePhoto(m),g=memGender(m);
-  var top=ph?'<img class="mm-photo" src="'+ph+'" alt="'+esc(m.name)+'">':'<div class="mm-def '+g+'"><svg viewBox="0 0 24 24" width="96" height="96" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>';
-  var bio=(m.bio||'').trim();
-  el.innerHTML='<div class="mm-bg" data-mmclose="1"></div><div class="mm-box" role="dialog" aria-modal="true" aria-label="'+esc(m.name)+'"><button class="mm-x" type="button" data-mmclose="1" aria-label="বন্ধ করুন">✕</button>'+top+'<div class="mm-body"><h2>'+esc(m.name)+'</h2><div class="mm-role">'+esc(m.role)+'</div>'+(bio?'<p class="mm-bio">'+esc(bio)+'</p>':'<p class="muted small">পরিচয় এখনো যোগ করা হয়নি।</p>')+'</div></div>';
-  el.hidden=false;
-}
-function closeMemModal(){var el=document.getElementById('memModal');if(el){el.hidden=true;el.innerHTML='';}}
-document.addEventListener('click',function(e){
-  if(e.target.closest('[data-mmclose]')){closeMemModal();return;}
-  var c=e.target.closest('[data-mem]');if(c)openMemModal(c.getAttribute('data-mem'));
-});
-document.addEventListener('keydown',function(e){
-  if(e.key==='Escape')closeMemModal();
-  if((e.key==='Enter'||e.key===' ')&&e.target&&e.target.getAttribute&&e.target.getAttribute('data-mem')){e.preventDefault();openMemModal(e.target.getAttribute('data-mem'));}
-});
-
-
-function placeDots(){var m=document.getElementById('dotsMenu'),b=document.getElementById('dotsBtn');if(!m||!b||m.hidden)return;var r=b.getBoundingClientRect();m.style.top=(r.bottom+8)+'px';m.style.right=Math.max(12,window.innerWidth-r.right)+'px';}
-window.addEventListener('resize',placeDots);window.addEventListener('scroll',placeDots,{passive:true});
 })();
 </script>
 
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('sw.js?v5?v2').catch(function(e){ console.log('SW fail', e); });
+    navigator.serviceWorker.register('sw.js?v3?v2').catch(function(e){ console.log('SW fail', e); });
   });
 }
 </script>
