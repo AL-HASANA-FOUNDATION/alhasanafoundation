@@ -5,7 +5,7 @@
 importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js');
 
-// Config বসানো আছে - আর কিছু বসাতে হবে না
+// TODO: এখানে তোমার Firebase config বসাও - Firebase Console > Project settings > General > Your apps > Web
 firebase.initializeApp({
   apiKey: "AIzaSyDyywiqI_6WHN7JrfkXv0Y4v2zg-K8Wr3M",
   authDomain: "al-hasana-foundation.firebaseapp.com",
