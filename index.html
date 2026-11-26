@@ -896,9 +896,14 @@ if(!Array.isArray(S.nasihats)||!S.nasihats.length)S.nasihats=seedNasihats();
 if(!Array.isArray(S.admins)||!S.admins.length)S.admins=seedAdmins();
 if(!Array.isArray(S.history))S.history=[];
 var COMMITTEE_PHOTOS_OLD={M1:'https://randomuser.me/api/portraits/men/32.jpg',M2:'https://randomuser.me/api/portraits/women/44.jpg',M3:'https://randomuser.me/api/portraits/men/75.jpg',M4:'https://randomuser.me/api/portraits/men/11.jpg',M5:'https://randomuser.me/api/portraits/women/68.jpg'};
-function committeePhoto(m){var p=(m&&m.photo)||'';return /randomuser\.me/.test(p)?'':p;}
+function committeePhoto(m){var p=(m&&m.photo)||'';if(/randomuser\.me/.test(p))return '';return /^(data:image\/(jpeg|png|webp|gif);base64,[A-Za-z0-9+\/=]{100,}|https:\/\/)/.test(p)?p:'';}
 function memGender(m){return (m&&m.gender)||({M2:'f',M5:'f'})[m&&m.id]||'m';}
-function committeeAvatar(m){var p=committeePhoto(m);if(p)return '<img class="cphoto" src="'+p+'" alt="'+esc(m.name)+'">';var g=memGender(m);return '<div class="cphoto cdef '+g+'" role="img" aria-label="'+esc(m.name)+'">'+(g==='f'?'<svg viewBox="0 0 24 24" width="62%" height="62%" fill="currentColor" aria-hidden="true"><path opacity=".55" d="M6.8 9.5C6.8 5.9 9 3 12 3s5.2 2.9 5.2 6.5V17H6.8z"/><circle cx="12" cy="9" r="3.6"/><path d="M12 13.5c-3 0-7 1.3-7 4.3V20h14v-2.2c0-3-4-4.3-7-4.3z"/></svg>':'<svg viewBox="0 0 24 24" width="62%" height="62%" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>')+'</div>';}
+function committeeAvatar(m){
+  var p=committeePhoto(m),g=memGender(m);
+  function def(hide){return '<div class="cphoto cdef '+g+'" role="img" aria-label="'+esc(m.name)+'"'+(hide?' style="display:none"':'')+'>'+(g==='f'?'<svg viewBox="0 0 24 24" width="62%" height="62%" fill="currentColor" aria-hidden="true"><path opacity=".55" d="M6.8 9.5C6.8 5.9 9 3 12 3s5.2 2.9 5.2 6.5V17H6.8z"/><circle cx="12" cy="9" r="3.6"/><path d="M12 13.5c-3 0-7 1.3-7 4.3V20h14v-2.2c0-3-4-4.3-7-4.3z"/></svg>':'<svg viewBox="0 0 24 24" width="62%" height="62%" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>')+'</div>';}
+  if(p)return '<img class="cphoto" src="'+p+'" alt="" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'grid\'">'+def(true);
+  return def(false);
+}
 var user=null;try{var _u=sessionStorage.getItem('ahf-user');if(_u)user=JSON.parse(_u);}catch(e){}
 if(!LOGIN_ENABLED&&!user){user={name:'',phone:''};}
 var myLoanAuth=null;try{var _ml=sessionStorage.getItem('ahf-myloan');if(_ml)myLoanAuth=JSON.parse(_ml);}catch(e){}
