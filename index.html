@@ -1945,6 +1945,7 @@ function doAdminSendLink(){
   FB.auth.sendPasswordResetEmail(em).then(function(){adminAuthMsg='';toast('Email-e link geche। Gmail khule link-e click kore password banan।');adminAuthMode='login';render();}).catch(function(e){adminAuthMsg=fbAuthMsg(e);render();});
 }
 function render(){
+  if(window._picking){window._pendRender=true;return;}
   var gated=(LOGIN_ENABLED&&!user);
   var fbInline=!gated&&FB.cfg&&!FB.uid&&(route==='apply'||route==='myloan');
   document.body.classList.toggle('gate-inline',fbInline);
@@ -2053,6 +2054,8 @@ document.addEventListener('click',function(e){
       S=seed();save();pending=null;toast('ডেমো ডেটা ফিরে এসেছে');render();break;
   }
 });
+document.addEventListener('click',function(e){var t=e.target;if(t&&t.closest&&(t.closest('label.mem-upload-label')||t.type==='file')){window._picking=true;clearTimeout(window._pickT);window._pickT=setTimeout(function(){window._picking=false;},120000);}},true);
+window.addEventListener('focus',function(){if(window._picking){clearTimeout(window._pickT);window._pickT=setTimeout(function(){window._picking=false;if(window._pendRender){window._pendRender=false;render();}},4000);}});
 document.addEventListener('input',function(e){
   var el=e.target;if(el&&el.id==='loan-q'){var pos=el.selectionStart;loanQ=el.value;loanOpen='';render();var n=document.getElementById('loan-q');if(n){n.focus();try{n.setSelectionRange(pos,pos);}catch(x){}}}
 });
@@ -2060,6 +2063,7 @@ document.addEventListener('keydown',function(e){var el=e.target;if(el&&el.classL
 document.addEventListener('change',function(e){
   var el=e.target;
   if(el.dataset&&el.dataset.a==='consent'){var l=findLoan(el.dataset.id);l.consent=el.checked;save();toast(l.consent?'তালিকায় নাম দেখানো হবে':'তালিকায় নাম গোপন থাকবে');}
+  if(el.type==='file'){window._picking=false;clearTimeout(window._pickT);}
   if(el.id==='m-photo'&&el.files&&el.files[0]){
     if(!canManageCommittee()){toast('Photo add sudhu Admin / Super Admin korte parbe।');return;}
     readMemPhoto(el.files[0],function(url){
