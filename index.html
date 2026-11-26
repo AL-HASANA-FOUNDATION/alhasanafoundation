@@ -1399,6 +1399,31 @@ function appDetails(a){
     '<dt>পরিশোধের সময়</dt><dd>'+bn(a.months)+' মাস'+(a.months?' (মাসে প্রায় '+money(Math.ceil(a.amount/a.months))+')':'')+'</dd><dt>পরিশোধের পদ্ধতি</dt><dd>'+esc(method)+'</dd>'+
     '<dt>আগে ঋণ নিয়েছেন?</dt><dd>'+esc(a.prev||'')+'</dd>'+(a.gname?'<dt>জামানতদার</dt><dd>'+esc(a.gname)+' ('+esc(a.grel||'')+') · '+bn(esc(a.gphone||''))+' · NID ••••'+bn(esc(String(a.gnid||'').slice(-4)))+'</dd>':'')+'<dt>ব্যাংক চেক</dt><dd>'+esc(a.cheque||'হ্যাঁ')+' - সিকিউরিটি হিসেবে জমা দিতে হবে</dd>'+(a.sig?'<dt>স্বাক্ষর</dt><dd><img src="'+a.sig+'" alt="স্বাক্ষর" style="max-width:200px;height:auto;background:#fff;border:1px solid var(--line);border-radius:8px"> <div class="small muted">'+fmtDate(a.signedOn)+'</div></dd>':'')+'</dl>';
 }
+function propBox(a){
+  if(a.type==='শিক্ষা বৃত্তি')return '';
+  var t0=todayStr();
+  if(a.status==='submitted'||a.status==='under_review'){
+    var pAmt=a.proposal?a.proposal.amount:a.amount;
+    var pMon=a.proposal?a.proposal.months:a.months;
+    var pFirst=a.proposal&&a.proposal.firstDate?a.proposal.firstDate:addMonths(t0,1);
+    var per=pMon>0?Math.ceil(pAmt/pMon):0;
+    var origPer=a.months>0?Math.ceil(a.amount/a.months):0;
+    var propInfo=a.proposal?'<p class="small" style="margin:0"><b>সেভ করা প্রস্তাব:</b> '+money(a.proposal.amount)+' • '+bn(a.proposal.months)+' কিস্তি • ১ম কিস্তি '+fmtDate(a.proposal.firstDate)+' • '+esc(a.proposal.by||'')+'</p>':'<p class="small muted" style="margin:0">এখনো কোনো প্রস্তাব সেভ হয়নি — নিচে বদলায়ে সেভ করলে ওইটাই প্রস্তাব হবে।</p>';
+    return '<div class="card" style="background:var(--surface2);border-color:transparent"><b>যাচাইয়ে শর্ত বদলান</b>'+
+      '<p class="small muted" style="margin:6px 0 0">আবেদনকারী চাইছে: <b>'+money(a.amount)+'</b> • '+bn(a.months)+' কিস্তি • মাসে প্রায় '+money(origPer)+'। নিচে বদলাইলে অ্যাপ্রুভের সময় ওইটাই ফাইনাল হবে।</p>'+
+      '<div class="grid2" style="margin-top:10px"><div class="field"><label for="prop-amt-'+a.id+'">চূড়ান্ত টাকা</label><input id="prop-amt-'+a.id+'" inputmode="numeric" autocomplete="off" value="'+esc(String(pAmt))+'"></div>'+
+      '<div class="field"><label for="prop-months-'+a.id+'">কিস্তি সংখ্যা (১-৩৬)</label><input id="prop-months-'+a.id+'" inputmode="numeric" autocomplete="off" value="'+esc(String(pMon))+'"></div></div>'+
+      '<div class="field"><label for="prop-first-'+a.id+'">প্রথম কিস্তির তারিখ — কত তারিখ থেকে কিস্তি দিতে হবে</label><input id="prop-first-'+a.id+'" type="date" value="'+esc(pFirst)+'"></div>'+
+      '<div class="small" style="margin-top:6px">প্রতি কিস্তি হবে: <b id="prop-prev-'+a.id+'">'+money(per)+'</b> • ১ম কিস্তি: <span id="prop-prev-first-'+a.id+'">'+fmtDate(pFirst)+'</span></div>'+
+      propInfo+
+      '<div class="actions" style="margin-top:10px"><button class="btn sm primary" data-a="saveProposal" data-id="'+a.id+'">প্রস্তাব সেভ করুন</button>'+(a.proposal?'<button class="btn sm" data-a="clearProposal" data-id="'+a.id+'">আবেদনকারীরটা ফিরিয়ে আনুন</button>':'')+'</div>'+
+      '<p class="small muted" style="margin:6px 0 0">Moderator শুধু প্রস্তাব সেভ করতে পারবে। ফাইনাল অ্যাপ্রুভ করবে Admin / Super Admin। অ্যাপ্রুভে ক্লিক করলে এই শর্ত দিয়েই কিস্তির তালিকা তৈরি হবে।</p></div>';
+  }
+  if(a.status==='approved'&&a.proposal){
+    return '<div class="card" style="background:var(--surface2);border-color:transparent"><b>ফাইনাল অনুমোদিত শর্ত</b><p class="small" style="margin:6px 0 0">আবেদনকারী চাইছিলো: '+money(a.amount)+' • '+bn(a.months)+' কিস্তি<br>ফাইনাল: <b>'+money(a.proposal.amount)+' • '+bn(a.proposal.months)+' কিস্তি • ১ম কিস্তি '+fmtDate(a.proposal.firstDate)+'</b><br><span class="muted">প্রস্তাব দিয়েছিলো: '+esc(a.proposal.by||'')+'</span></p></div>';
+  }
+  return '';
+}
 function adminApps(){
   if(!S.apps.length)return '<p class="muted">এখনো কোনো আবেদন নেই।</p>';
   return '<div class="stack tight">'+S.apps.map(function(a){
@@ -1411,7 +1436,7 @@ function adminApps(){
       else act='<button class="btn sm primary" data-a="approve" data-id="'+a.id+'">অনুমোদন</button><button class="btn sm danger" data-a="reject" data-id="'+a.id+'">বাতিল</button>';
     }
     var note=(a.status==='submitted'||a.status==='under_review')?'<div class="field"><label for="note-'+a.id+'">মন্তব্য</label><textarea id="note-'+a.id+'" rows="2">'+esc(a.note||'')+'</textarea></div>':(a.note?'<p class="small"><b>মন্তব্য:</b> '+esc(a.note)+'</p>':'');
-    return '<details class="card"><summary><span><b>'+esc(a.name)+'</b><br><span class="small muted">'+money(a.amount)+' · '+fmtDate(a.createdAt)+'</span></span>'+pill(a.status)+'</summary><div class="stack">'+appDetails(a)+copyBtns(a)+note+(act?'<div class="actions">'+act+'</div>':'')+'</div></details>';
+    return '<details class="card"><summary><span><b>'+esc(a.name)+'</b><br><span class="small muted">'+money(a.amount)+' · '+fmtDate(a.createdAt)+'</span></span>'+pill(a.status)+'</summary><div class="stack">'+appDetails(a)+propBox(a)+copyBtns(a)+note+(act?'<div class="actions">'+act+'</div>':'')+'</div></details>';
   }).join('')+'</div>';
 }
 
@@ -2032,12 +2057,45 @@ document.addEventListener('click',function(e){
     case 'atab':var _nt=el.dataset.v;if(isModerator()&&(_nt==='mem'||_nt==='history'||_nt==='admins')){toast('Moderator ra ei tab dekhte parbe na।');break;}adminTab=_nt;render();break;
     case 'review':var ra=findApp(id);ra.status='under_review';addHistory('app_review',ra?ra.no:id,'Abedon jachai shuru');var n1=document.getElementById('note-'+id);if(n1)ra.note=n1.value;save();toast('যাচাই শুরু হয়েছে');render();break;
     case 'reject':if(!canApprove()){toast('Approve / Batil sudhu Admin / Super Admin korte parbe।');break;}var rj=findApp(id);var n2=document.getElementById('note-'+id);rj.note=n2?n2.value:'';rj.status='rejected';addHistory('app_reject',rj?rj.no:id,'Abedon batil');save();toast('আবেদন বাতিল হয়েছে');render();break;
+    case 'saveProposal':{
+      var _sa=findApp(id);if(!_sa)break;
+      if(_sa.type==='শিক্ষা বৃত্তি'){toast('বৃত্তিতে কিস্তি নেই।');break;}
+      var _pa=document.getElementById('prop-amt-'+id),_pm=document.getElementById('prop-months-'+id),_pf=document.getElementById('prop-first-'+id);
+      var _va=Number(toEn(_pa?_pa.value:'')),_vm=parseInt(toEn(_pm?_pm.value:''),10),_vf=_pf?_pf.value:'';
+      if(!(_va>=1000)){toast('কমপক্ষে ১,০০০ টাকা লিখুন।');break;}
+      if(!(_vm>=1&&_vm<=36)){toast('১ থেকে ৩৬ কিস্তির মধ্যে লিখুন।');break;}
+      if(!_vf){toast('প্রথম কিস্তির তারিখ দিন।');break;}
+      if(_vf<t){toast('প্রথম কিস্তির তারিখ আজকের আগের হতে পারবে না।');break;}
+      _sa.proposal={amount:_va,months:_vm,firstDate:_vf,by:curAdmin?curAdmin.name:'',byEmail:curAdmin?curAdmin.email:'',at:Date.now()};
+      if(_sa.status==='submitted')_sa.status='under_review';
+      var _nP=document.getElementById('note-'+id);if(_nP)_sa.note=_nP.value;
+      addHistory('app_proposal',_sa?_sa.no:id,'Jachai proposal: '+money(_va)+' / '+bn(_vm)+' kisti / 1st '+_vf+' (Abedon: '+money(_sa.amount)+' / '+bn(_sa.months)+' kisti)');
+      save();toast('প্রস্তাব সেভ হয়েছে। ফাইনাল অ্যাপ্রুভ করবে Admin / Super Admin।');render();break;}
+    case 'clearProposal':{
+      var _ca=findApp(id);if(!_ca)break;
+      _ca.proposal=null;
+      addHistory('app_proposal_clear',_ca?_ca.no:id,'Proposal batil - abedonkari-r ta firiye ana holo');
+      save();toast('আবেদনকারীর আগের শর্ত ফিরিয়ে আনা হয়েছে।');render();break;}
     case 'approve':
       if(!canApprove()){toast('Approve sudhu Admin / Super Admin korte parbe।');break;}
-      var ap=findApp(id);var n3=document.getElementById('note-'+id);ap.note=n3?n3.value:'';ap.status='approved';
-      S.loans.push({id:'L'+Date.now(),uid:ap.uid||'',appNo:ap.no,name:ap.name,phone:toWa(ap.wa||ap.phone),amount:ap.amount,n:ap.months,disbursed:t,ins:schedule(ap.amount,ap.months,addMonths(t,1)),consent:false});
-      addHistory('app_approve',ap?ap.no:id,'Abedon approve korlo');
-      save();toast('অনুমোদিত। কিস্তির সময়সূচি তৈরি হয়েছে।');render();break;
+      var ap=findApp(id);var n3=document.getElementById('note-'+id);ap.note=n3?n3.value:'';
+      var _finalAmt=ap.amount,_finalMonths=ap.months,_finalFirst=addMonths(t,1),_usedProposal=false;
+      if(ap.proposal){_finalAmt=ap.proposal.amount;_finalMonths=ap.proposal.months;_finalFirst=ap.proposal.firstDate||_finalFirst;_usedProposal=true;}
+      var _pAmtEl=document.getElementById('prop-amt-'+id),_pMonEl=document.getElementById('prop-months-'+id),_pFirstEl=document.getElementById('prop-first-'+id);
+      if(_pAmtEl&&_pMonEl&&_pFirstEl){
+        var _la=Number(toEn(_pAmtEl.value)),_lm=parseInt(toEn(_pMonEl.value),10),_lf=_pFirstEl.value;
+        if(_la>=1000&&_lm>=1&&_lm<=36&&_lf){
+          if(_la!==ap.amount||_lm!==ap.months||_lf!==_finalFirst){
+            _finalAmt=_la;_finalMonths=_lm;_finalFirst=_lf;_usedProposal=true;
+            ap.proposal={amount:_la,months:_lm,firstDate:_lf,by:curAdmin?curAdmin.name:'',byEmail:curAdmin?curAdmin.email:'',at:Date.now()};
+          }
+        }
+      }
+      if(!_finalFirst||_finalFirst<t){toast('প্রথম কিস্তির তারিখ আজকের আগের হতে পারবে না।');break;}
+      ap.status='approved';ap.finalAmount=_finalAmt;ap.finalMonths=_finalMonths;ap.finalFirst=_finalFirst;
+      S.loans.push({id:'L'+Date.now(),uid:ap.uid||'',appNo:ap.no,name:ap.name,phone:toWa(ap.wa||ap.phone),amount:_finalAmt,n:_finalMonths,disbursed:t,ins:schedule(_finalAmt,_finalMonths,_finalFirst),consent:false,origAmount:ap.amount,origMonths:ap.months});
+      addHistory('app_approve',ap?ap.no:id,_usedProposal?'Abedon approve - Final: '+money(_finalAmt)+' / '+bn(_finalMonths)+' kisti / 1st '+_finalFirst+' (Abedonkari cheyechilo: '+money(ap.amount)+' / '+bn(ap.months)+' kisti)':'Abedon approve korlo');
+      save();toast('অনুমোদিত। ফাইনাল শর্তে কিস্তির সময়সূচি তৈরি হয়েছে।');render();break;
     case 'payin':
       var ln=findLoan(id),nx=nextUnpaid(ln);if(nx){nx.paidOn=t;nx.method=document.getElementById('m-'+id).value;var _tx=document.getElementById('txn-'+id);if(_tx)nx.txn=_tx.value.trim();save();toast(money(nx.amt)+' আদায় এন্ট্রি হয়েছে');}render();break;
     case 'del':
@@ -2060,6 +2118,13 @@ document.addEventListener('click',function(e){var t=e.target;if(t&&t.closest&&(t
 window.addEventListener('focus',function(){if(window._picking){clearTimeout(window._pickT);window._pickT=setTimeout(function(){window._picking=false;if(window._pendRender){window._pendRender=false;render();}},4000);}});
 document.addEventListener('input',function(e){
   var el=e.target;if(el&&el.id==='loan-q'){var pos=el.selectionStart;loanQ=el.value;loanOpen='';render();var n=document.getElementById('loan-q');if(n){n.focus();try{n.setSelectionRange(pos,pos);}catch(x){}}}
+  if(el&&el.id&&el.id.indexOf('prop-')===0){
+    var _pid=el.id.replace('prop-amt-','').replace('prop-months-','').replace('prop-first-','');
+    var _aEl=document.getElementById('prop-amt-'+_pid),_mEl=document.getElementById('prop-months-'+_pid),_fEl=document.getElementById('prop-first-'+_pid);
+    var _pv=document.getElementById('prop-prev-'+_pid),_pfv=document.getElementById('prop-prev-first-'+_pid);
+    if(_aEl&&_mEl&&_pv){var _av=Number(toEn(_aEl.value)),_mv=parseInt(toEn(_mEl.value),10);if(_av>0&&_mv>0)_pv.textContent=money(Math.ceil(_av/_mv));}
+    if(_fEl&&_pfv&&_fEl.value)_pfv.textContent=fmtDate(_fEl.value);
+  }
 });
 document.addEventListener('keydown',function(e){var el=e.target;if(el&&el.classList&&el.classList.contains('lrow')&&(e.key==='Enter'||e.key===' ')){e.preventDefault();el.click();}});
 document.addEventListener('change',function(e){
