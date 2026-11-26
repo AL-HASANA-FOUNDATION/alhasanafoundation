@@ -1503,9 +1503,9 @@ function adminMem(){
   if(!canManageCommittee()) return '<p class="muted">Committee add / batil / photo add / batil sudhu Admin / Super Admin korte parbe। Moderator ra Committee manage korte parbe na।</p>';
   var _newPhoto = window._newMemPhoto || '';
   var _prev = _newPhoto ? '<img src="'+_newPhoto+'" alt="নতুন সদস্যের ছবি">' : '<div class="avatar">?</div>';
-  var form='<form data-form="mem" class="card stack"><h3>সদস্য যোগ করুন</h3><div class="grid2"><div class="field"><label for="m-name">নাম</label><input id="m-name" autocomplete="off"></div><div class="field"><label for="m-role">পদবি</label><input id="m-role" autocomplete="off"></div></div>'+
-    '<div class="field"><label for="m-phone">মোবাইল <span class="opt">(ঐচ্ছিক)</span></label><input id="m-phone" inputmode="numeric" autocomplete="off"></div>'+
-    '<fieldset class="choices"><legend>ডিফল্ট আইকন</legend><div class="chips"><label class="opt-chip"><input type="radio" name="m-gender" value="m" checked><span>পুরুষ</span></label><label class="opt-chip"><input type="radio" name="m-gender" value="f"><span>নারী</span></label></div></fieldset>'+
+  var form='<form data-form="mem" class="card stack"><h3>সদস্য যোগ করুন</h3><div class="grid2"><div class="field"><label for="m-name">নাম</label><input id="m-name" autocomplete="off" value="'+esc((window._memDraft||{})['m-name']||'')+'"></div><div class="field"><label for="m-role">পদবি</label><input id="m-role" autocomplete="off" value="'+esc((window._memDraft||{})['m-role']||'')+'"></div></div>'+
+    '<div class="field"><label for="m-phone">মোবাইল <span class="opt">(ঐচ্ছিক)</span></label><input id="m-phone" inputmode="numeric" autocomplete="off" value="'+esc((window._memDraft||{})['m-phone']||'')+'"></div>'+
+    '<fieldset class="choices"><legend>ডিফল্ট আইকন</legend><div class="chips"><label class="opt-chip"><input type="radio" name="m-gender" value="m"'+((window._memDraft||{})['g']==='f'?'':' checked')+'><span>পুরুষ</span></label><label class="opt-chip"><input type="radio" name="m-gender" value="f"'+((window._memDraft||{})['g']==='f'?' checked':'')+'><span>নারী</span></label></div></fieldset>'+
     '<div class="field"><label>প্রোফাইল ছবি <span class="opt">(ঐচ্ছিক)</span></label><div class="mem-photo-box"><div class="mem-photo-preview" id="m-photo-preview">'+_prev+'</div><div><label class="mem-upload-label" for="m-photo">📷 ছবি বাছাই করুন</label><input type="file" id="m-photo" accept="image/*" hidden><p class="small muted" style="margin-top:6px">গ্যালারি থেকে ছবি নিন। ছবি না দিলে পুরুষ/নারী আইকন দেখাবে।</p></div></div></div>'+
     '<button class="btn primary" type="submit" style="align-self:flex-start">যোগ করুন</button></form>';
   var list='<div class="stack tight">'+S.committee.map(function(m){
@@ -2054,6 +2054,8 @@ document.addEventListener('click',function(e){
       S=seed();save();pending=null;toast('ডেমো ডেটা ফিরে এসেছে');render();break;
   }
 });
+document.addEventListener('input',function(e){var t=e.target;if(t&&/^m-(name|role|phone)$/.test(t.id)){(window._memDraft=window._memDraft||{})[t.id]=t.value;}},true);
+document.addEventListener('change',function(e){var t=e.target;if(t&&t.name==='m-gender'){(window._memDraft=window._memDraft||{}).g=t.value;}},true);
 document.addEventListener('click',function(e){var t=e.target;if(t&&t.closest&&(t.closest('label.mem-upload-label')||t.type==='file')){window._picking=true;clearTimeout(window._pickT);window._pickT=setTimeout(function(){window._picking=false;},120000);}},true);
 window.addEventListener('focus',function(){if(window._picking){clearTimeout(window._pickT);window._pickT=setTimeout(function(){window._picking=false;if(window._pendRender){window._pendRender=false;render();}},4000);}});
 document.addEventListener('input',function(e){
@@ -2181,7 +2183,8 @@ document.addEventListener('submit',function(e){
   else if(f==='mem'){
     if(!canManageCommittee()){toast('Committee add sudhu Admin / Super Admin korte parbe।');return;}
     var nm=document.getElementById('m-name').value.trim(),rl=document.getElementById('m-role').value.trim();
-    if(nm&&rl){S.committee.push({id:'M'+Date.now(),name:nm,role:rl,phone:toEn(document.getElementById('m-phone').value),gender:(document.querySelector('input[name=m-gender]:checked')||{value:'m'}).value,photo:window._newMemPhoto||''});window._newMemPhoto='';save();toast('সদস্য যোগ হয়েছে');render();}
+    if(!nm||!rl){toast('নাম ও পদবি দুটোই লিখুন।',4000);return;}
+    if(nm&&rl){window._memDraft={};S.committee.push({id:'M'+Date.now(),name:nm,role:rl,phone:toEn(document.getElementById('m-phone').value),gender:(document.querySelector('input[name=m-gender]:checked')||{value:'m'}).value,photo:window._newMemPhoto||''});window._newMemPhoto='';save();toast('সদস্য যোগ হয়েছে');render();}
   }
 });
 document.addEventListener('scroll',function(e){var c=e.target;if(c&&c.id==='slides')updSlideCount(c);},true);
