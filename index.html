@@ -1513,16 +1513,19 @@ function readMemPhoto(file,cb){
   if(!file){cb('');return;}
   if(file.type && file.type.indexOf('image/')!==0){toast('ছবি ফাইল দিন।');cb('');return;}
   var rd=new FileReader();
+  rd.onerror=function(){toast('ছবি পড়া যায়নি। অন্য ছবি দিন।',5000);cb('');};
   rd.onload=function(){
     var img=new Image();
     img.onload=function(){
       try{
-        var max=400;var w=img.width,h=img.height;if(w>max||h>max){var sc=Math.min(max/w,max/h);w=Math.round(w*sc);h=Math.round(h*sc);}
-        var cv=document.createElement('canvas');cv.width=w;cv.height=h;var cx=cv.getContext('2d');cx.drawImage(img,0,0,w,h);
-        cb(cv.toDataURL('image/jpeg',0.85));
-      }catch(e){cb(rd.result);}
+        var max=360;var w=img.width,h=img.height;if(w>max||h>max){var sc=Math.min(max/w,max/h);w=Math.round(w*sc);h=Math.round(h*sc);}
+        var cv=document.createElement('canvas');cv.width=w;cv.height=h;var cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,w,h);cx.drawImage(img,0,0,w,h);
+        var q=0.82,out=cv.toDataURL('image/jpeg',q);
+        while(out.length>250000&&q>0.4){q-=0.1;out=cv.toDataURL('image/jpeg',q);}
+        cb(out);
+      }catch(e){toast('ছবি ছোট করা যায়নি। অন্য ছবি দিন।',5000);cb('');}
     };
-    img.onerror=function(){cb(rd.result);};
+    img.onerror=function(){toast('এই ছবির ফরম্যাট চলছে না (JPG বা PNG দিন)।',6000);cb('');};
     img.src=rd.result;
   };
   rd.readAsDataURL(file);
@@ -1958,7 +1961,7 @@ function render(){
   if(route==='apply'&&step===2&&!lastApp)updPreview();
 }
 function readHash(){var h=location.hash.slice(1);route=VIEWS[h]?h:'home';}
-function toast(m){var t=document.getElementById('toast');t.textContent=m;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(function(){t.hidden=true;},2400);}
+function toast(m,ms){var t=document.getElementById('toast');t.textContent=m;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(function(){t.hidden=true;},ms||2400);}
 function findApp(id){return S.apps.find(function(a){return a.id===id;});}
 function findLoan(id){return S.loans.find(function(l){return l.id===id;});}
 
@@ -2251,7 +2254,7 @@ function fbSave(){
     arr.forEach(function(it){
       seen[it.id]=1;
       var o=JSON.parse(JSON.stringify(it)),j=sj(o);
-      if(sent[it.id]!==j){sent[it.id]=j;FB.db.collection(col).doc(it.id).set(o).catch(function(e){delete sent[it.id];toast('সেভ হয়নি: '+fbMsg(e));});}
+      if(sent[it.id]!==j){sent[it.id]=j;FB.db.collection(col).doc(it.id).set(o).then(function(){if(col==='committee')toast('✔ কমিটির তথ্য সার্ভারে সেভ হয়েছে');}).catch(function(e){delete sent[it.id];toast('সেভ হয়নি ('+col+'): '+fbMsg(e),8000);});}
     });
     if(canDel)Object.keys(sent).forEach(function(id){if(!seen[id]){delete sent[id];FB.db.collection(col).doc(id).delete().catch(function(e){toast('মোছা যায়নি: '+fbMsg(e));});}});
   }
