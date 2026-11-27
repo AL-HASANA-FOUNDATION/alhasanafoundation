@@ -715,6 +715,8 @@ header.top .theme-switch[aria-checked="true"] .ts-icon.moon{opacity:1;border-col
 .donate-hero,.donate-cta,.donate-methods{width:100%;margin-left:auto;margin-right:auto}
 .pay-num{overflow-wrap:anywhere;word-break:break-all}
 .pay-row .btn{flex:none;white-space:nowrap}
+.pay-btns{display:flex;gap:8px;flex:none}
+a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
 .bank-kv td:last-child{overflow-wrap:anywhere;word-break:break-all}
 nav.tabs .tab{min-width:0;overflow:hidden;text-align:center;line-height:1.15;word-break:break-word}
 nav.tabs .tab svg{flex:none}
@@ -742,6 +744,7 @@ nav.tabs .tab svg{flex:none}
   .pay-top b{font-size:1rem}
   .pay-row{flex-direction:column;align-items:stretch;gap:10px;padding:12px}
   .pay-row .btn{width:100%;justify-content:center;padding:11px 12px}
+  .pay-btns{width:100%}.pay-btns .btn{flex:1}
   .pay-num{font-size:1.12rem;letter-spacing:.02em}
   .bank-kv,.bank-kv tbody,.bank-kv tr,.bank-kv td{display:block;width:100%}
   .bank-kv tr{padding:9px 0;border-bottom:1px solid var(--line)}
@@ -948,7 +951,20 @@ function saveSeen(){try{localStorage.setItem('ahf-seen',String(seenAt));}catch(e
 var gs=newGate(),gTimer=null;
 var route='home',adminTab='apps',authed=false,step=1,errs={},lastApp=null,lookupHtml='',pending=null;
 var donateOpen=false;
-var DONATE={bkash:'01XXXXXXXXX',nagad:'01XXXXXXXXX',rocket:'01XXXXXXXXX',bankName:'Al Hasana Foundation',bankAcc:'XXXXXXXXXX',bank:'XXXXX',branch:'XXXXX'};
+var DONATE={bkash:'',nagad:'',rocket:'',bankName:'',bankAcc:'',bank:'',branch:''};
+/* পেমেন্ট নম্বর এখন অ্যাডমিন প্যানেল (শুধু Super Admin) থেকে বদলানো যায়। Firebase-এ settings/payments ডকুমেন্টে জমা থাকে। */
+function applyPay(o){['bkash','nagad','rocket','bankName','bankAcc','bank','branch'].forEach(function(k){DONATE[k]=String((o&&o[k])||'').trim();});}
+try{var _pc=localStorage.getItem('ahf-pay-v1');if(_pc&&!FIREBASE_CONFIG)applyPay(JSON.parse(_pc));}catch(e){}
+function savePay(o){
+  var lab={bkash:'bKash',nagad:'Nagad',rocket:'Rocket',bankName:'ব্যাংক অ্যাকাউন্টের নাম',bankAcc:'ব্যাংক অ্যাকাউন্ট নম্বর',bank:'ব্যাংক',branch:'শাখা'},ch=[];
+  Object.keys(lab).forEach(function(k){if((DONATE[k]||'')!==(o[k]||''))ch.push(lab[k]+': '+(DONATE[k]||'ফাঁকা')+' → '+(o[k]||'ফাঁকা'));});
+  if(!ch.length){toast('কোনো পরিবর্তন নেই।');return;}
+  function done(){applyPay(o);addHistory('pay_update','পেমেন্ট নম্বর',ch.join('; '));save();toast('পেমেন্ট নম্বর সেভ হয়েছে।');render();}
+  if(FB.cfg){
+    if(!FB.on||!FB.db){toast('Firebase সংযোগ নেই।');return;}
+    FB.db.doc('settings/payments').set(o).then(done).catch(function(e){toast('সেভ হয়নি: '+fbMsg(e),6000);});
+  }else{try{localStorage.setItem('ahf-pay-v1',JSON.stringify(o));}catch(x){}done();}
+}
 var draft=blankDraft();
 function blankDraft(){return {name:'',father:'',mother:'',dob:'',nid:'',occupation:'',phone:'',income:'',pv:'',pp:'',pu:'',pd:'',same:false,tv:'',tp:'',tu:'',td:'',amount:'',type:PURPOSES[0],purpose:'',usage:'',months:'10',method:'মাসিক কিস্তি',methodOther:'',prev:'না',gname:'',gphone:'',grel:'',gnid:'',cheque:'হ্যাঁ',agree:false,sig:'',sSchool:'',sClass:'',sRoll:'',sResult:'',sNeed:'ভর্তি ফি'};}
 
@@ -1303,7 +1319,7 @@ function viewNasihat(){
     '<p class="small muted">— '+esc(n.by||'')+'</p></section>';
   }).join('');
   if(!secs) secs='<p class="muted">এই ক্যাটাগরিতে এখনো কোনো নসিহত নেই।</p>';
-  return '<h2>নসিহত</h2><p class="muted">কুরআন, হাদিস ও সদকার আলোকে কর্জে হাসানা সম্পর্কে কিছু নসিহত।</p>'+todayHtml+filterHtml+tocHtml+secs;
+  return '<h2>নসিহত</h2><p class="muted">কুরআন, হাদিস ও সদকার আলোকে কর্জে হাসানা সম্পর্কে কিছু নসিহত।</p>'+todayHtml+filterHtml+secs;
 }
 
 /* ---------- Admin ---------- */
@@ -1332,11 +1348,13 @@ function viewAdmin(){
     return adminLoginView();
   }
   if(isModerator() && (adminTab==='mem'||adminTab==='history'||adminTab==='admins')) adminTab='apps';
+  if(!isSuperAdmin() && adminTab==='pay') adminTab='apps';
   var T=totals(),t=todayStr();
   var pendApps=S.apps.filter(function(a){return a.status==='submitted'||a.status==='under_review';}).length;
   var remCount=S.loans.filter(function(l){return remState(l);}).length;
   var tabs=[['apps','আবেদন'+(pendApps?' ('+bn(pendApps)+')':'')],['loans','কিস্তি'],['rem','রিমাইন্ডার'+(remCount?' ('+bn(remCount)+')':'')],['notif','নোটিফিকেশন'],['fund','ফান্ড']];
   if(isAdminRole()) tabs.push(['mem','কমিটি']);
+  if(isSuperAdmin()) tabs.push(['pay','পেমেন্ট নম্বর']);
   tabs.push(['nasihat','নসিহত']);
   if(isAdminRole()) tabs.push(['history','History']);
   if(isAdminRole()) tabs.push(['admins', isSuperAdmin()?'Admin & Moderator':'Moderator']);
@@ -1350,6 +1368,7 @@ function viewAdmin(){
   else if(adminTab==='fund')body=adminFund(T);
   else if(adminTab==='notif')body=adminNotif();
   else if(adminTab==='nasihat')body=adminNasihat();
+  else if(adminTab==='pay')body=adminPay();
   else if(adminTab==='admins')body=adminAdmins();
   else if(adminTab==='history')body=adminHistory();
   else body=adminMem();
@@ -1539,6 +1558,14 @@ function adminRem(){
     return '<div class="card stack"><div class="row" style="justify-content:space-between"><b>'+esc(x.l.name)+'</b><span class="pill '+lab[1]+'">'+lab[0]+'</span></div>'+
       '<div class="msgbox">'+esc(remMsg(x.s,x.l,x.i))+'</div><a class="btn primary" target="_blank" rel="noopener" href="'+waLink(x.l.phone,remMsg(x.s,x.l,x.i))+'">হোয়াটসঅ্যাপে পাঠান</a></div>';
   }).join('')+'</div>';
+}
+function adminPay(){
+  if(!isSuperAdmin())return '<div class="demo">পেমেন্ট নম্বর শুধু Super Admin বদলাতে পারবেন।</div>';
+  function fld(id,label,val,ph,num){return '<div class="field"><label for="pay-'+id+'">'+label+'</label><input id="pay-'+id+'" autocomplete="off"'+(num?' inputmode="numeric"':'')+' placeholder="'+ph+'" value="'+esc(val)+'"></div>';}
+  return '<form data-form="pay" class="card stack"><h3>পেমেন্ট নম্বর</h3><p class="small muted">এই নম্বরগুলো ডোনেশন পাতায় সবাই দেখবে। কোনো ঘর ফাঁকা রেখে সেভ করলে ওই পেমেন্ট মাধ্যম লুকিয়ে যাবে। শুধু Super Admin বদলাতে পারবেন, আর প্রতিটি পরিবর্তন History-তে লেখা থাকবে।</p>'
+    +'<div class="grid2">'+fld('bkash','bKash নম্বর',DONATE.bkash,'01XXXXXXXXX',1)+fld('nagad','Nagad নম্বর',DONATE.nagad,'01XXXXXXXXX',1)+fld('rocket','Rocket নম্বর',DONATE.rocket,'01XXXXXXXXXX',1)+'</div>'
+    +'<h4 style="margin:6px 0 0">ব্যাংক অ্যাকাউন্ট</h4><div class="grid2">'+fld('bankName','অ্যাকাউন্টের নাম',DONATE.bankName,'',0)+fld('bankAcc','অ্যাকাউন্ট নম্বর',DONATE.bankAcc,'',1)+fld('bank','ব্যাংকের নাম',DONATE.bank,'',0)+fld('branch','শাখা',DONATE.branch,'',0)+'</div>'
+    +'<button class="btn primary" type="submit" style="align-self:flex-start">সেভ করুন</button></form>';
 }
 function adminFund(T){
   var s='<dl class="stats"><div class="stat"><dt>মোট অনুদান</dt><dd>'+money(T.don)+'</dd></div><div class="stat"><dt>বিতরণকৃত</dt><dd>'+money(T.disbursed)+'</dd></div>'+
@@ -1755,11 +1782,19 @@ function payLogo(cls){
   if(cls==='rocket') return '<svg width="112" height="30" viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rocket logo"><g transform="translate(14,16) rotate(45)"><path d="M0 -12C4 -12 6 -6 6 0C6 6 3 10 0 12C-3 10 -6 6 -6 0C-6 -6 -4 -12 0 -12Z" fill="#8C3494"/><circle cx="0" cy="-2" r="2.5" fill="#fff"/><path d="M-6 4L-10 10L-4 8Z" fill="#8C3494"/><path d="M6 4L10 10L4 8Z" fill="#8C3494"/><path d="M0 12L-2 17L0 15L2 17Z" fill="#F6921E"/></g><text x="30" y="19" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="800" fill="#8C3494">Rocket</text><text x="30" y="27" font-family="Arial,Helvetica,sans-serif" font-size="6" fill="#8C3494">Dutch-Bangla Bank</text></svg>';
   return '<svg width="104" height="30" viewBox="0 0 110 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bank logo"><path d="M14 4L26 10L2 10Z" fill="#0E5B46"/><rect x="4" y="12" width="3" height="10" fill="#0E5B46"/><rect x="10" y="12" width="3" height="10" fill="#0E5B46"/><rect x="16" y="12" width="3" height="10" fill="#0E5B46"/><rect x="22" y="12" width="3" height="10" fill="#0E5B46"/><rect x="2" y="24" width="24" height="3" rx="1" fill="#0E5B46"/><text x="30" y="21" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="800" fill="#0E5B46">Bank</text></svg>';
 }
+var PAY_APPS={bkash:'com.bKash.customerapp',nagad:'com.konasl.nagad',rocket:'com.dbbl.mbs.apps.main'};
+/* অ্যান্ড্রয়েড ফোনে অ্যাপ খোলার বোতাম। অ্যাপ না খুললে Play Store-এ যাবে, যেখানে ইনস্টল থাকলে "Open" দেখায়। */
+function payOpenBtn(key,label,num){
+  var pkg=PAY_APPS[key];
+  if(!pkg||!/Android/i.test(navigator.userAgent||''))return '';
+  var fb=encodeURIComponent('https://play.google.com/store/apps/details?id='+pkg);
+  return '<a class="btn sm" data-a="openPay" data-v="'+esc(num)+'" href="intent://#Intent;package='+pkg+';S.browser_fallback_url='+fb+';end">Open '+esc(label)+'</a>';
+}
 function payCard(key,label,sub,badgeCls,note){
   var num=DONATE[key];
   return '<section class="card pay-card pay-'+badgeCls+'"><div class="pay-top"><span class="pay-logo '+badgeCls+'">'+payLogo(badgeCls)+'</span><div><b>'+esc(label)+'</b><span>'+esc(sub)+'</span></div></div>'
     +'<div class="pay-row"><div><div class="small muted">Account Number</div><div class="pay-num">'+esc(num)+'</div><div class="small muted">'+esc(note)+'</div></div>'
-    +'<button class="btn sm primary" data-a="copyDonate" data-v="'+esc(num)+'">Copy Number</button></div></section>';
+    +'<div class="pay-btns">'+payOpenBtn(badgeCls,label,num)+'<button class="btn sm primary" data-a="copyDonate" data-v="'+esc(num)+'">Copy Number</button></div></div></section>';
 }
 function viewDonation(){
   var hero='<h2>ডোনেশন</h2>'
@@ -1770,19 +1805,20 @@ function viewDonation(){
     +'<button class="btn primary donate-big" data-a="donateShow">Donate Now</button>'
     +'<p class="small muted">পেমেন্ট অপশন দেখতে Donate Now চাপুন। শুরুতে কোনো পেমেন্ট নম্বর দেখানো হবে না।</p></section>';
   if(!donateOpen) return hero+cta;
+  var anyPay=!!(DONATE.bkash||DONATE.nagad||DONATE.rocket||DONATE.bankAcc);
   var methods='<section class="stack donate-methods" id="donate-methods"><div class="card stack" style="padding:18px"><h3>Choose Your Payment Method</h3><p class="muted">পেমেন্ট মাধ্যম বেছে নিন। Send Money করে পাঠান, রেফারেন্সে Payment লিখুন।</p></div>'
     +'<div class="pay-grid">'
-    +payCard('bkash','bKash','bKash - Send Money','bkash','bKash অ্যাপ থেকে Send Money করুন')
-    +payCard('nagad','Nagad','Nagad - Send Money','nagad','Nagad অ্যাপ থেকে Send Money করুন')
-    +payCard('rocket','Rocket','Dutch-Bangla Rocket - Send Money','rocket','Rocket অ্যাপ থেকে Send Money করুন')
+    +(DONATE.bkash?payCard('bkash','bKash','bKash - Send Money','bkash','bKash অ্যাপ থেকে Send Money করুন'):'')
+    +(DONATE.nagad?payCard('nagad','Nagad','Nagad - Send Money','nagad','Nagad অ্যাপ থেকে Send Money করুন'):'')
+    +(DONATE.rocket?payCard('rocket','Rocket','Dutch-Bangla Rocket - Send Money','rocket','Rocket অ্যাপ থেকে Send Money করুন'):'')
     +'</div>'
-    +'<section class="card pay-card pay-bank"><div class="pay-top"><span class="pay-logo bank">'+payLogo('bank')+'</span><div><b>Bank Transfer</b><span>ব্যাংক থেকে ট্রান্সফার</span></div></div>'
-    +'<table class="bank-kv"><tr><td>Account Name</td><td><b>'+esc(DONATE.bankName)+'</b></td></tr>'
+    +(!DONATE.bankAcc?'':'<section class="card pay-card pay-bank"><div class="pay-top"><span class="pay-logo bank">'+payLogo('bank')+'</span><div><b>Bank Transfer</b><span>ব্যাংক থেকে ট্রান্সফার</span></div></div>'
+    +'<table class="bank-kv">'+(DONATE.bankName?'<tr><td>Account Name</td><td><b>'+esc(DONATE.bankName)+'</b></td></tr>':'')
     +'<tr><td>Account Number</td><td><b class="pay-num" style="font-size:1.15rem">'+esc(DONATE.bankAcc)+'</b></td></tr>'
-    +'<tr><td>Bank</td><td><b>'+esc(DONATE.bank)+'</b></td></tr>'
-    +'<tr><td>Branch</td><td><b>'+esc(DONATE.branch)+'</b></td></tr></table>'
-    +'<div class="actions" style="margin-top:12px"><button class="btn sm primary" data-a="copyDonate" data-v="'+esc(DONATE.bankAcc)+'">Copy Account Number</button></div></section>'
-    +'<p class="small muted">বিঃদ্রঃ উপরের নম্বরগুলো এখনো placeholder। আসল নম্বর বসানোর পর এখানে দেখা যাবে।</p>'
+    +(DONATE.bank?'<tr><td>Bank</td><td><b>'+esc(DONATE.bank)+'</b></td></tr>':'')
+    +(DONATE.branch?'<tr><td>Branch</td><td><b>'+esc(DONATE.branch)+'</b></td></tr>':'')+'</table>'
+    +'<div class="actions" style="margin-top:12px"><button class="btn sm primary" data-a="copyDonate" data-v="'+esc(DONATE.bankAcc)+'">Copy Account Number</button></div></section>')
+    +(anyPay?'':'<div class="card"><p class="muted">পেমেন্টের নম্বর শিগগিরই যোগ করা হবে।</p></div>')
     +'<div class="actions"><button class="btn" data-a="donateHide">পেমেন্ট অপশন লুকান</button></div></section>';
   return hero+cta+methods;
 }
@@ -2067,6 +2103,7 @@ document.addEventListener('click',function(e){
     case 'memPhotoRemove':if(!canManageCommittee()){toast('ছবি বাতিল শুধু Admin / Super Admin করতে পারবেন।');break;}var _mr=S.committee.find(function(x){return x.id===id;});if(_mr){_mr.photo='';save();render();toast('ছবি বাদ দেওয়া হয়েছে।');}break;
     case 'donateShow':donateOpen=true;render();setTimeout(function(){var _dm=document.getElementById('donate-methods');if(_dm)_dm.scrollIntoView({behavior:'smooth',block:'start'});},80);break;
     case 'donateHide':donateOpen=false;render();window.scrollTo(0,0);break;
+    case 'openPay':(function(){var _v=el.dataset.v||'';try{if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(_v);}catch(x){}toast('নম্বর কপি হয়েছে: '+_v+'। অ্যাপ খোলা হচ্ছে…');})();break;
     case 'copyDonate':(function(){var _v=el.dataset.v||'';function _done(){toast('নম্বর কপি হয়েছে: '+_v);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(_v).then(_done).catch(function(){var _ta=document.createElement('textarea');_ta.value=_v;document.body.appendChild(_ta);_ta.select();try{document.execCommand('copy');_done();}catch(e){toast(_v);}document.body.removeChild(_ta);});}else{var _ta2=document.createElement('textarea');_ta2.value=_v;document.body.appendChild(_ta2);_ta2.select();try{document.execCommand('copy');_done();}catch(e){toast(_v);}document.body.removeChild(_ta2);}})();break;
     case 'dotsGo':if(el.dataset.v==='admin'){var _dm0=document.getElementById('dotsMenu');if(_dm0)_dm0.hidden=true;location.hash='#admin';break;}if(el.dataset.v==='donation'){var _dmD=document.getElementById('dotsMenu');if(_dmD)_dmD.hidden=true;var _dbD=document.getElementById('dotsBtn');if(_dbD)_dbD.setAttribute('aria-expanded','false');location.hash='#donation';break;}var _tgt='sec-'+el.dataset.v;var _dm2=document.getElementById('dotsMenu');if(_dm2)_dm2.hidden=true;var _db2=document.getElementById('dotsBtn');if(_db2)_db2.setAttribute('aria-expanded','false');if(route!=='home'){window._dotsTarget=_tgt;location.hash='#home';}else{var _el=document.getElementById(_tgt);if(_el)_el.scrollIntoView({behavior:'smooth',block:'start'});}break;
     case 'fabToggle':var _fm=document.getElementById('fabMenu');var _fb=document.getElementById('fabBtn');if(_fm&&_fb){var _open=_fm.hidden;_fm.hidden=!_open;_fb.setAttribute('aria-expanded',_open?'true':'false');_fb.innerHTML=_open?'✕':'<svg viewBox="0 0 24 24" width="24" height="24" fill="#fff" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>';}break;
@@ -2096,7 +2133,7 @@ document.addEventListener('click',function(e){
     case 'logout':fbSignOut();authed=false;curAdmin=null;pending=null;adminAuthMode='login';render();toast('অ্যাডমিন থেকে বের হয়ে গেছেন।');break;
     case 'loanopen':loanOpen=(loanOpen===id)?'':id;render();break;
     case 'loanf':loanF=el.dataset.v;loanOpen='';render();break;
-    case 'atab':var _nt=el.dataset.v;if(isModerator()&&(_nt==='mem'||_nt==='history'||_nt==='admins')){toast('Moderator-রা এই ট্যাব দেখতে পারবেন না।');break;}adminTab=_nt;render();break;
+    case 'atab':var _nt=el.dataset.v;if(isModerator()&&(_nt==='mem'||_nt==='history'||_nt==='admins')){toast('Moderator-রা এই ট্যাব দেখতে পারবেন না।');break;}if(_nt==='pay'&&!isSuperAdmin()){toast('এই ট্যাব শুধু Super Admin দেখতে পারবেন।');break;}adminTab=_nt;render();break;
     case 'review':var ra=findApp(id);ra.status='under_review';addHistory('app_review',ra?ra.no:id,'Abedon jachai shuru');var n1=document.getElementById('note-'+id);if(n1)ra.note=n1.value;save();toast('যাচাই শুরু হয়েছে');render();break;
     case 'reject':if(!canApprove()){toast('অনুমোদন / বাতিল শুধু Admin / Super Admin করতে পারবেন।');break;}var rj=findApp(id);var n2=document.getElementById('note-'+id);rj.note=n2?n2.value:'';rj.status='rejected';addHistory('app_reject',rj?rj.no:id,'আবেদন বাতিল');save();toast('আবেদন বাতিল হয়েছে');render();break;
     case 'saveProposal':{
@@ -2287,6 +2324,15 @@ document.addEventListener('submit',function(e){
     var amt=Number(toEn(document.getElementById('d-amt').value));
     if(amt>0){S.donations.unshift({id:'D'+Date.now(),amt:amt,on:todayStr(),note:document.getElementById('d-note').value.trim()});save();toast('অনুদান যোগ হয়েছে');render();}
   }
+  else if(f==='pay'){
+    if(!isSuperAdmin()){toast('পেমেন্ট নম্বর শুধু Super Admin বদলাতে পারবেন।');return;}
+    var po={},bad='';
+    ['bkash','nagad','rocket','bankName','bankAcc','bank','branch'].forEach(function(k){var v=(document.getElementById('pay-'+k)||{value:''}).value;po[k]=(k==='bkash'||k==='nagad'||k==='rocket'||k==='bankAcc')?toEn(v).replace(/[\s-]/g,''):v.trim();});
+    ['bkash','nagad','rocket'].forEach(function(k){if(po[k]&&!/^\d{11,12}$/.test(po[k]))bad=k;});
+    if(bad){toast('মোবাইল নম্বর ঠিক নেই। ১১ বা ১২ সংখ্যার নম্বর দিন।',4500);return;}
+    if(po.bankAcc&&!/^\d{6,25}$/.test(po.bankAcc)){toast('ব্যাংক অ্যাকাউন্ট নম্বর ঠিক নেই।',4500);return;}
+    savePay(po);
+  }
   else if(f==='mem'){
     if(!canManageCommittee()){toast('কমিটি যোগ শুধু Admin / Super Admin করতে পারবেন।');return;}
     var nm=document.getElementById('m-name').value.trim(),rl=document.getElementById('m-role').value.trim();
@@ -2350,6 +2396,7 @@ function watchNotifs(){
 }
 function fbWatchPublic(){
   fbWatch(FB.pub,'committee',FB.db.collection('committee'),function(a){S.committee=a.sort(function(x,y){return numId(x)-numId(y);});});
+  FB.pub.push(FB.db.doc('settings/payments').onSnapshot(function(d){applyPay(d.exists?d.data():{});fbRender();},function(e){}));
   fbWatch(FB.pub,'beneficiaries',FB.db.collection('beneficiaries'),function(a){S.pubBen=a.sort(function(x,y){return x.disbursed<y.disbursed?1:-1;});});
 }
 function fbWatchMine(){
