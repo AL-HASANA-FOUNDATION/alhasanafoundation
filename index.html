@@ -1279,21 +1279,21 @@ function adminLoginView(){
   /* Upay 2: Firebase thakle email-e link jabe. Demo mode-e ekhanei password set kora jabe. PIN 1234 ar nei. */
   var isFb = !!FB.cfg;
   if(adminAuthMode==='setpw'){
-    return '<section class="card stack pinbox"><h2>পাসওয়ার্ড সেট করুন</h2><p class="muted">Upay 2 — '+ (isFb ? 'Firebase tor email-e ekta link pathabe, oi link-e click kore nije password banabi।' : 'Demo mode — Firebase connect na thakay ekhanei notun password set koro। Firebase connect korle email-e link jabe।') +'</p>'+
+    return '<section class="card stack pinbox"><h2>পাসওয়ার্ড সেট করুন</h2><p class="muted">উপায় ২ — '+ (isFb ? 'আপনার ইমেইলে একটি লিংক পাঠানো হবে। ওই লিংকে ক্লিক করে নিজেই পাসওয়ার্ড বানিয়ে নিন।' : 'ডেমো মোড — Firebase সংযুক্ত না থাকায় এখানেই নতুন পাসওয়ার্ড সেট করুন। Firebase সংযুক্ত হলে ইমেইলে লিংক যাবে।') +'</p>'+
       '<form data-form="adminSetPw" class="stack tight"><div class="field"><label for="sp-em">ইমেইল</label><input id="sp-em" type="email" autocomplete="username" value="'+esc(adminAuthEmail)+'"></div>'+
-      (isFb ? '<p class="small muted">Firebase mode-e "Email-e Link Pathao" chaple tor email-e link jabe।</p><div class="actions"><button class="btn primary" type="button" data-a="adminSendLink">Email-e Link Pathao</button><button class="btn" type="button" data-a="adminBackLogin">← লগইনে ফিরুন</button></div>' :
+      (isFb ? '<p class="small muted">Firebase মোডে "ইমেইলে লিংক পাঠান" চাপলে আপনার ইমেইলে লিংক যাবে।</p><div class="actions"><button class="btn primary" type="button" data-a="adminSendLink">ইমেইলে লিংক পাঠান</button><button class="btn" type="button" data-a="adminBackLogin">← লগইনে ফিরুন</button></div>' :
       '<div class="field"><label for="sp-pw">নতুন পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)</label><input id="sp-pw" type="password" autocomplete="new-password"></div><div class="field"><label for="sp-pw2">আবার লিখুন</label><input id="sp-pw2" type="password" autocomplete="new-password"></div>'+
       (adminAuthMsg?'<p class="err">'+esc(adminAuthMsg)+'</p>':'')+'<div class="actions"><button class="btn primary" type="submit">পাসওয়ার্ড সেট করুন</button><button class="btn" type="button" data-a="adminBackLogin">← লগইনে ফিরুন</button></div>')+
       '</form></section>';
   }
-  return '<section class="card stack pinbox"><h2>কমিটি লগইন</h2><p class="muted">Admin / Moderator / Super Admin der jonno। Super Admin: '+esc(SUPER_ADMIN_EMAIL)+'</p>'+
+  return '<section class="card stack pinbox"><h2>কমিটি লগইন</h2><p class="muted">Admin / Moderator / Super Admin-এর জন্য। Super Admin: '+esc(SUPER_ADMIN_EMAIL)+'</p>'+
     '<form data-form="adminLogin" class="stack tight"><div class="field"><label for="al-em">ইমেইল</label><input id="al-em" type="email" autocomplete="username" value="'+esc(adminAuthEmail)+'"></div>'+
     '<div class="field"><label for="al-pw">পাসওয়ার্ড</label><input id="al-pw" type="password" autocomplete="current-password"></div>'+
     (adminAuthMsg?'<p class="err">'+esc(adminAuthMsg)+'</p>':'')+
     '<button class="btn primary" type="submit">প্রবেশ করুন</button></form>'+
     '<div class="actions"><button class="btn sm" data-a="adminGoSetPw">পাসওয়ার্ড সেট / ভুলে গেছি</button></div>'+
-    '<p class="small muted">'+ (isFb ? 'Password vule gele "পাসওয়ার্ড সেট" e giye Email-e Link Pathao chaple Gmail-e link jabe।' : 'Demo mode: Prothom bar "পাসওয়ার্ড সেট" e giye password banate hobe। Firebase connect korle email-e link jabe।') +'</p>'+
-    '<p class="small muted">PIN 1234 ar kaj kore na।</p></section>';
+    '<p class="small muted">'+ (isFb ? 'পাসওয়ার্ড ভুলে গেলে "পাসওয়ার্ড সেট"-এ গিয়ে "ইমেইলে লিংক পাঠান" চাপুন, Gmail-এ লিংক যাবে।' : 'ডেমো মোড: প্রথমবার "পাসওয়ার্ড সেট"-এ গিয়ে পাসওয়ার্ড বানাতে হবে। Firebase সংযুক্ত হলে ইমেইলে লিংক যাবে।') +'</p>'+
+    '<p class="small muted">PIN ১২৩৪ আর কাজ করে না।</p></section>';
 }
 function viewAdmin(){
   if(!authed || !curAdmin){
@@ -1310,7 +1310,7 @@ function viewAdmin(){
   if(isAdminRole()) tabs.push(['admins', isSuperAdmin()?'Admin & Moderator':'Moderator']);
   var head='<div class="row" style="justify-content:space-between"><div><h2 style="margin:0">অ্যাডমিন প্যানেল</h2><div class="small muted">লগইন: '+esc(curAdmin.name)+' • '+esc(curAdmin.email)+' • '+roleLabel(curRole())+'</div></div><button class="btn sm danger" data-a="logout">বের হন</button></div>'+
     '<div class="subtabs">'+tabs.map(function(x){return '<button class="chip" data-a="atab" data-v="'+x[0]+'" aria-pressed="'+(adminTab===x[0])+'">'+x[1]+'</button>';}).join('')+'</div>';
-  if(isModerator()) head+='<div class="demo">তুমি Moderator হিসেবে লগইন করেছো। তুমি আবেদন যাচাই, কিস্তি এন্ট্রি, নোটিফিকেশন আর নসিহত লিখতে পারবে। Approve, কাউকে add/batil, History আর Fund edit করতে পারবে না।</div>';
+  if(isModerator()) head+='<div class="demo">তুমি Moderator হিসেবে লগইন করেছো। তুমি আবেদন যাচাই, কিস্তি এন্ট্রি, নোটিফিকেশন আর নসিহত লিখতে পারবে। Approve, কাউকে যোগ/বাতিল, History আর Fund edit করতে পারবে না।</div>';
   var body='';
   if(adminTab==='apps')body=adminApps();
   else if(adminTab==='loans')body=adminLoans();
@@ -1321,7 +1321,7 @@ function viewAdmin(){
   else if(adminTab==='admins')body=adminAdmins();
   else if(adminTab==='history')body=adminHistory();
   else body=adminMem();
-  var foot=FB.cfg?'<div class="demo">লাইভ ডাটাবেস সংযুক্ত। এখানে যা করবেন সব সদস্যের ফোনে সঙ্গে সঙ্গে পৌঁছাবে।<br><span class="small">Firestore Rules: sudhu Admin ra likhte parbe, sobai porte parbe। Rules নিচে History tab-e deya ache।</span></div>':'<div class="demo stack tight"><span>ডেমো ডেটা এই ব্রাউজারেই সংরক্ষিত থাকে। Firebase connect korle sobar phone-e jabe। Super Admin email: '+esc(SUPER_ADMIN_EMAIL)+'</span>'+
+  var foot=FB.cfg?'<div class="demo">লাইভ ডাটাবেস সংযুক্ত। এখানে যা করবেন সব সদস্যের ফোনে সঙ্গে সঙ্গে পৌঁছাবে।<br><span class="small">Firestore Rules: শুধু Admin-রা লিখতে পারবে, সবাই পড়তে পারবে। Rules নিচে History ট্যাবে দেওয়া আছে।</span></div>':'<div class="demo stack tight"><span>ডেমো ডেটা এই ব্রাউজারেই সংরক্ষিত থাকে। Firebase সংযুক্ত করলে সবার ফোনে যাবে। Super Admin email: '+esc(SUPER_ADMIN_EMAIL)+'</span>'+
     '<button class="btn sm '+(pending==='reset'?'danger':'')+'" data-a="reset" style="align-self:flex-start">'+(pending==='reset'?'নিশ্চিত করুন: সব ডেমো ডেটা ফিরিয়ে আনুন':'ডেমো ডেটা রিসেট')+'</button></div>';
   return head+body+foot;
 }
@@ -1336,9 +1336,9 @@ function adminNasihat(){
     '<div class="field"><label for="ns-source">সূত্র (যেমন: সূরা বাকারা, আয়াত 245)</label><input id="ns-source" autocomplete="off" value="'+esc(editing?editing.source:'')+'"></div>'+
     '<div class="field"><label for="ns-body">বিস্তারিত লেখা (প্রতি প্যারা নতুন লাইনে)</label><textarea id="ns-body" rows="6">'+esc(editing?editing.body:'')+'</textarea></div>'+
     '<div class="actions"><button class="btn primary" type="submit">'+(editing?'আপডেট করুন':'যোগ করুন')+'</button>'+(editing?'<button class="btn" type="button" data-a="nasihatCancel">বাতিল</button>':'')+'</div>'+
-    '<p class="small muted">Save dilei Firebase/Demo-te save hobe, sobar phone-e sathe sathe chole jabe।'+(isModerator()?' Moderator hisabe tumi likhte / edit korte parbe, kintu delete korte parbe na।':'')+'</p></form>';
+    '<p class="small muted">সেভ দিলেই Firebase/ডেমোতে সেভ হবে, সবার ফোনে সঙ্গে সঙ্গে চলে যাবে।'+(isModerator()?' Moderator হিসেবে আপনি লিখতে / এডিট করতে পারবেন, কিন্তু মুছতে পারবেন না।':'')+'</p></form>';
   var list='<div class="stack tight">'+(S.nasihats||[]).map(function(n){
-    var delBtn = canDeleteNasihat() ? '<button class="btn sm '+(pending==='nasihat'+n.id?'danger':'')+'" data-a="nasihatDel" data-id="'+n.id+'">'+(pending==='nasihat'+n.id?'নিশ্চিত করুন':'মুছুন')+'</button>' : '<span class="small muted">Delete sudhu Admin korbe</span>';
+    var delBtn = canDeleteNasihat() ? '<button class="btn sm '+(pending==='nasihat'+n.id?'danger':'')+'" data-a="nasihatDel" data-id="'+n.id+'">'+(pending==='nasihat'+n.id?'নিশ্চিত করুন':'মুছুন')+'</button>' : '<span class="small muted">মোছা শুধু Admin করতে পারবেন</span>';
     return '<div class="card"><div class="row" style="justify-content:space-between;align-items:flex-start"><div class="grow"><b>'+esc(n.title)+'</b><div class="small muted">'+esc(n.cat)+' • '+esc(n.source||'')+' • '+esc(n.by||'')+'</div><p class="small" style="margin-top:6px;white-space:pre-wrap">'+esc(String(n.quote||'').slice(0,160))+'</p></div><div class="actions" style="flex:none"><button class="btn sm" data-a="nasihatEdit" data-id="'+n.id+'">এডিট</button>'+delBtn+'</div></div></div>';
   }).join('')+'</div>';
   if(!(S.nasihats||[]).length) list='<p class="muted">এখনো কোনো নসিহত নেই।</p>';
@@ -1346,38 +1346,38 @@ function adminNasihat(){
 }
 
 function adminAdmins(){
-  if(isModerator()) return '<p class="muted">Moderator ra Team dekhte parbe na। Sudhu Admin / Super Admin Moderator manage korte parbe।</p>';
+  if(isModerator()) return '<p class="muted">Moderator-রা Team দেখতে পারবেন না। শুধু Admin / Super Admin Moderator ম্যানেজ করতে পারবেন।</p>';
   var out='';
   if(isSuperAdmin()){
-    out+='<form data-form="adminAdd" class="card stack"><h3>নতুন Admin যোগ করুন (শুধু Super Admin)</h3><p class="small muted">Email diye add korben। Notun admin-ke bolben "কমিটি লগইন → পাসওয়ার্ড সেট" e giye password banate। Firebase thakle email-e link jabe।</p>'+
+    out+='<form data-form="adminAdd" class="card stack"><h3>নতুন Admin যোগ করুন (শুধু Super Admin)</h3><p class="small muted">ইমেইল দিয়ে যোগ করুন। নতুন Admin-কে বলুন "কমিটি লগইন → পাসওয়ার্ড সেট"-এ গিয়ে পাসওয়ার্ড বানাতে। Firebase থাকলে ইমেইলে লিংক যাবে।</p>'+
       '<div class="grid2"><div class="field"><label for="aa-name">নাম</label><input id="aa-name" autocomplete="off"></div><div class="field"><label for="aa-email">ইমেইল</label><input id="aa-email" type="email" autocomplete="off"></div></div>'+
       '<button class="btn primary" type="submit" style="align-self:flex-start">Admin যোগ করুন</button></form>';
     var adminList=(S.admins||[]).filter(function(a){return normRole(a.role)!=='moderator';});
     out+='<h3>সব Admin</h3><div class="stack tight">'+adminList.map(function(a){
       var canDel = a.email!==SUPER_ADMIN_EMAIL && a.email!==curAdmin.email;
-      return '<div class="card"><div class="row" style="justify-content:space-between"><div class="grow"><b>'+esc(a.name)+'</b><div class="small muted">'+esc(a.email)+' • '+roleLabel(normRole(a.role))+' • '+(a.status==='pending'?'Password set hoyni':'Active')+'</div></div>'+(canDel?'<button class="btn sm '+(pending==='admin'+a.id?'danger':'')+'" data-a="adminDel" data-id="'+a.id+'">'+(pending==='admin'+a.id?'নিশ্চিত করুন':'সরান')+'</button>':'<span class="small muted">সরানো যাবে না</span>')+'</div></div>';
+      return '<div class="card"><div class="row" style="justify-content:space-between"><div class="grow"><b>'+esc(a.name)+'</b><div class="small muted">'+esc(a.email)+' • '+roleLabel(normRole(a.role))+' • '+(a.status==='pending'?'পাসওয়ার্ড সেট হয়নি':'Active')+'</div></div>'+(canDel?'<button class="btn sm '+(pending==='admin'+a.id?'danger':'')+'" data-a="adminDel" data-id="'+a.id+'">'+(pending==='admin'+a.id?'নিশ্চিত করুন':'সরান')+'</button>':'<span class="small muted">সরানো যাবে না</span>')+'</div></div>';
     }).join('')+'</div>';
   }
-  out+='<form data-form="moderatorAdd" class="card stack"><h3>নতুন Moderator যোগ করুন ('+(isSuperAdmin()?'Super Admin / Admin':'Admin')+')</h3><p class="small muted">Moderator ra abedon jachai, kisti entry, notification ar nasihat likhte parbe। Kintu kew ke add/batil, approve, history ar fund edit korte parbe na। Email diye add korben, notun moderator-ke bolben "কমিটি লগইন → পাসওয়ার্ড সেট" e giye password banate।</p>'+
+  out+='<form data-form="moderatorAdd" class="card stack"><h3>নতুন Moderator যোগ করুন ('+(isSuperAdmin()?'Super Admin / Admin':'Admin')+')</h3><p class="small muted">Moderator-রা আবেদন যাচাই, কিস্তি এন্ট্রি, নোটিফিকেশন ও নসিহত লিখতে পারবেন। কিন্তু কাউকে যোগ/বাতিল, অনুমোদন, History ও ফান্ড এডিট করতে পারবেন না। ইমেইল দিয়ে যোগ করুন, নতুন Moderator-কে বলুন "কমিটি লগইন → পাসওয়ার্ড সেট"-এ গিয়ে পাসওয়ার্ড বানাতে।</p>'+
     '<div class="grid2"><div class="field"><label for="mo-name">নাম</label><input id="mo-name" autocomplete="off"></div><div class="field"><label for="mo-email">ইমেইল</label><input id="mo-email" type="email" autocomplete="off"></div></div>'+
     '<button class="btn primary" type="submit" style="align-self:flex-start">Moderator যোগ করুন</button></form>';
   var modList=(S.admins||[]).filter(function(a){return normRole(a.role)==='moderator';});
   var modHtml = modList.length ? '<div class="stack tight">'+modList.map(function(a){
-    return '<div class="card"><div class="row" style="justify-content:space-between"><div class="grow"><b>'+esc(a.name)+'</b><div class="small muted">'+esc(a.email)+' • Moderator • '+(a.status==='pending'?'Password set hoyni':'Active')+'</div></div><button class="btn sm '+(pending==='admin'+a.id?'danger':'')+'" data-a="adminDel" data-id="'+a.id+'">'+(pending==='admin'+a.id?'নিশ্চিত করুন':'সরান')+'</button></div></div>';
+    return '<div class="card"><div class="row" style="justify-content:space-between"><div class="grow"><b>'+esc(a.name)+'</b><div class="small muted">'+esc(a.email)+' • Moderator • '+(a.status==='pending'?'পাসওয়ার্ড সেট হয়নি':'Active')+'</div></div><button class="btn sm '+(pending==='admin'+a.id?'danger':'')+'" data-a="adminDel" data-id="'+a.id+'">'+(pending==='admin'+a.id?'নিশ্চিত করুন':'সরান')+'</button></div></div>';
   }).join('')+'</div>' : '<p class="muted">এখনো কোনো Moderator নেই।</p>';
   out+='<h3>সব Moderator ('+bn(modList.length)+')</h3>'+modHtml;
-  out+='<p class="small muted">Niyom: Super Admin sob parbe। Admin Moderator er sob kaj + Moderator manage korte parbe, kintu Admin manage korte parbe na। Moderator kew ke add/batil korte parbe na, History dekhte parbe na, Approve korte parbe na। Kauke bad dile tar login sathe sathe bondho hoye jabe।</p>';
+  out+='<p class="small muted">নিয়ম: Super Admin সব পারবেন। Admin, Moderator-এর সব কাজ করতে পারবেন এবং Moderator ম্যানেজ করতে পারবেন, কিন্তু Admin ম্যানেজ করতে পারবেন না। Moderator কাউকে যোগ/বাতিল করতে পারবেন না, History দেখতে পারবেন না, অনুমোদন করতে পারবেন না। কাউকে বাদ দিলে তাঁর লগইন সঙ্গে সঙ্গে বন্ধ হয়ে যাবে।</p>';
   return out;
 }
 
 function adminHistory(){
-  if(!canViewHistory()) return '<p class="muted">History sudhu Admin / Super Admin dekhte parbe। Moderator ra History dekhte parbe na।</p>';
+  if(!canViewHistory()) return '<p class="muted">History শুধু Admin / Super Admin দেখতে পারবেন। Moderator-রা History দেখতে পারবেন না।</p>';
   var list=(S.history||[]).map(function(h){
     return '<div class="card"><div class="row" style="justify-content:space-between;align-items:flex-start"><div class="grow"><b>'+esc(h.action)+' — '+esc(h.target||'')+'</b><div class="small muted">'+esc(h.by||'')+' ('+esc(h.byEmail||'')+') • '+fmtTimeFull(h.at)+'</div>'+(h.detail?'<p class="small" style="margin-top:4px">'+esc(h.detail)+'</p>':'')+'</div></div></div>';
   }).join('');
-  var rules='<section class="card stack"><h3>Firestore Rules (Firebase Console-e bosate hobe)</h3><p class="small muted">Firebase Console → Firestore → Rules e nicher ta paste korun। Tahole Admin chara keu likhte parbe na, sobai porte parbe।</p><pre style="white-space:pre-wrap;font-size:.8rem;background:var(--surface2);padding:10px;border-radius:8px">rules_version = \'2\';\nservice cloud.firestore {\n  match /databases/{database}/documents {\n    function isAdmin(){ return request.auth != null && exists(/databases/$(database)/documents/admins/$(request.auth.uid)); }\n    match /nasihats/{id} { allow read: if true; allow write: if isAdmin(); }\n    match /admins/{id} { allow read: if isAdmin(); allow write: if isAdmin(); }\n    match /history/{id} { allow read: if isAdmin(); allow create: if isAdmin(); }\n    match /apps/{id} { allow read: if true; allow write: if isAdmin(); }\n    match /loans/{id} { allow read: if true; allow write: if isAdmin(); }\n    match /committee/{id} { allow read: if true; allow write: if isAdmin(); }\n    match /donations/{id} { allow read: if isAdmin(); allow write: if isAdmin(); }\n  }\n}</pre><p class="small muted">Demo mode-e Rules lagbe na, karon data ei phone-e thake।</p></section>';
+  var rules='<section class="card stack"><h3>Firestore Rules (Firebase Console-এ বসাতে হবে)</h3><p class="small muted">Firebase Console → Firestore → Rules-এ নিচের কোডটা পেস্ট করুন। তাহলে Admin ছাড়া কেউ লিখতে পারবে না, সবাই পড়তে পারবে।</p><pre style="white-space:pre-wrap;font-size:.8rem;background:var(--surface2);padding:10px;border-radius:8px">rules_version = \'2\';\nservice cloud.firestore {\n  match /databases/{database}/documents {\n    function isAdmin(){ return request.auth != null && exists(/databases/$(database)/documents/admins/$(request.auth.uid)); }\n    match /nasihats/{id} { allow read: if true; allow write: if isAdmin(); }\n    match /admins/{id} { allow read: if isAdmin(); allow write: if isAdmin(); }\n    match /history/{id} { allow read: if isAdmin(); allow create: if isAdmin(); }\n    match /apps/{id} { allow read: if true; allow write: if isAdmin(); }\n    match /loans/{id} { allow read: if true; allow write: if isAdmin(); }\n    match /committee/{id} { allow read: if true; allow write: if isAdmin(); }\n    match /donations/{id} { allow read: if isAdmin(); allow write: if isAdmin(); }\n  }\n}</pre><p class="small muted">ডেমো মোডে Rules লাগবে না, কারণ ডেটা এই ফোনেই থাকে।</p></section>';
   if(!list) list='<p class="muted">এখনো কোনো History নেই।</p>';
-  return '<h3>History — কে কী করলো</h3><p class="small muted">Prottek kaj ekhane lekha thakbe — Ke, Kokhon, Ki korlo।</p><div class="stack tight">'+list+'</div>'+rules;
+  return '<h3>History — কে কী করলো</h3><p class="small muted">প্রতিটি কাজ এখানে লেখা থাকবে — কে, কখন, কী করলো।</p><div class="stack tight">'+list+'</div>'+rules;
 }
 
 function addrTxt(o,fb){if(!o)return fb||'';return [o.v&&'গ্রাম: '+o.v,o.p&&'ডাকঘর: '+o.p,o.u&&'উপজেলা: '+o.u,o.d&&'জেলা: '+o.d].filter(Boolean).join(', ');}
@@ -1429,10 +1429,10 @@ function adminApps(){
   return '<div class="stack tight">'+S.apps.map(function(a){
     var act='';
     if(a.status==='submitted'){
-      if(isModerator()) act='<button class="btn sm primary" data-a="review" data-id="'+a.id+'">যাচাই শুরু</button><span class="small muted">Approve sudhu Admin korbe</span>';
+      if(isModerator()) act='<button class="btn sm primary" data-a="review" data-id="'+a.id+'">যাচাই শুরু</button><span class="small muted">অনুমোদন শুধু Admin করতে পারবেন</span>';
       else act='<button class="btn sm primary" data-a="review" data-id="'+a.id+'">যাচাই শুরু</button><button class="btn sm danger" data-a="reject" data-id="'+a.id+'">বাতিল</button>';
     } else if(a.status==='under_review'){
-      if(isModerator()) act='<span class="small muted">Admin er approval er jonno opekkha kortese। Moderator approve korte parbe na।</span>';
+      if(isModerator()) act='<span class="small muted">Admin-এর অনুমোদনের জন্য অপেক্ষা করা হচ্ছে। Moderator অনুমোদন করতে পারবেন না।</span>';
       else act='<button class="btn sm primary" data-a="approve" data-id="'+a.id+'">অনুমোদন</button><button class="btn sm danger" data-a="reject" data-id="'+a.id+'">বাতিল</button>';
     }
     var note=(a.status==='submitted'||a.status==='under_review')?'<div class="field"><label for="note-'+a.id+'">মন্তব্য</label><textarea id="note-'+a.id+'" rows="2">'+esc(a.note||'')+'</textarea></div>':(a.note?'<p class="small"><b>মন্তব্য:</b> '+esc(a.note)+'</p>':'');
@@ -1515,7 +1515,7 @@ function adminFund(T){
     var listView='<div class="card"><h3 style="margin-bottom:8px">অনুদানের তালিকা (শুধু দেখা যাবে)</h3><div class="tbl"><table><tbody>'+S.donations.map(function(d){
       return '<tr><td>'+fmtDate(d.on)+'</td><td>'+esc(d.note||'অনুদান')+'</td><td class="r">'+money(d.amt)+'</td></tr>';
     }).join('')+'</tbody></table></div></div>';
-    return s+'<div class="demo">Moderator hisabe tumi Fund sudhu dekhte parbe। Add / Delete sudhu Admin / Super Admin korte parbe।</div>'+listView;
+    return s+'<div class="demo">Moderator হিসেবে আপনি Fund শুধু দেখতে পারবেন। যোগ / মোছা শুধু Admin / Super Admin করতে পারবেন।</div>'+listView;
   }
   var form='<form data-form="don" class="card stack"><h3>অনুদান যোগ করুন</h3><div class="grid2"><div class="field"><label for="d-amt">টাকা</label><input id="d-amt" inputmode="numeric" autocomplete="off"></div><div class="field"><label for="d-note">বিবরণ</label><input id="d-note" autocomplete="off"></div></div><button class="btn primary" type="submit" style="align-self:flex-start">যোগ করুন</button></form>';
   var list='<div class="card"><h3 style="margin-bottom:8px">অনুদানের তালিকা</h3><div class="tbl"><table><tbody>'+S.donations.map(function(d){
@@ -1525,7 +1525,7 @@ function adminFund(T){
 }
 
 function adminMem(){
-  if(!canManageCommittee()) return '<p class="muted">Committee add / batil / photo add / batil sudhu Admin / Super Admin korte parbe। Moderator ra Committee manage korte parbe na।</p>';
+  if(!canManageCommittee()) return '<p class="muted">কমিটি যোগ / বাতিল / ছবি যোগ / বাতিল শুধু Admin / Super Admin করতে পারবেন। Moderator-রা কমিটি ম্যানেজ করতে পারবেন না।</p>';
   var _newPhoto = window._newMemPhoto || '';
   var _prev = _newPhoto ? '<img src="'+_newPhoto+'" alt="নতুন সদস্যের ছবি">' : '<div class="avatar">?</div>';
   var form='<form data-form="mem" class="card stack"><h3>সদস্য যোগ করুন</h3><div class="grid2"><div class="field"><label for="m-name">নাম</label><input id="m-name" autocomplete="off" value="'+esc((window._memDraft||{})['m-name']||'')+'"></div><div class="field"><label for="m-role">পদবি</label><input id="m-role" autocomplete="off" value="'+esc((window._memDraft||{})['m-role']||'')+'"></div></div>'+
@@ -1930,7 +1930,7 @@ function copyBtns(a){
   if(a.status==='approved'&&appLoan(a))b+='<button class="btn sm primary" data-a="appcopy" data-id="'+a.id+'" data-v="final">চূড়ান্ত কপি (কিস্তিসহ)</button>';
   return '<div class="actions">'+b+'</div>';
 }
-function doPin(){adminAuthMsg='PIN 1234 ar kaj kore na। Email + Password diye login korun।';adminAuthMode='login';render();}
+function doPin(){adminAuthMsg='PIN ১২৩৪ আর কাজ করে না। ইমেইল ও পাসওয়ার্ড দিয়ে লগইন করুন।';adminAuthMode='login';render();}
 function doAdminLogin(){
   var emEl=document.getElementById('al-em'), pwEl=document.getElementById('al-pw');
   var em=(emEl?emEl.value.trim().toLowerCase():''); var pw=(pwEl?pwEl.value:'');
@@ -1941,18 +1941,18 @@ function doAdminLogin(){
     return;
   }
   var adm=(S.admins||[]).filter(function(x){return x.email.toLowerCase()===em;})[0];
-  if(!adm){adminAuthMsg='এই ইমেইলে কোনো Admin নেই। Super Admin-ke bolun add korte।';render();return;}
-  if(!adm.pwHash){adminAuthMsg='এই Admin-er password set hoyni। "পাসওয়ার্ড সেট" e giye password banan।';adminAuthMode='setpw';render();return;}
+  if(!adm){adminAuthMsg='এই ইমেইলে কোনো Admin নেই। Super Admin-কে বলুন যোগ করতে।';render();return;}
+  if(!adm.pwHash){adminAuthMsg='এই Admin-এর পাসওয়ার্ড সেট হয়নি। "পাসওয়ার্ড সেট"-এ গিয়ে পাসওয়ার্ড বানান।';adminAuthMode='setpw';render();return;}
   if(adm.pwHash!==hashPw(pw)){adminAuthMsg='পাসওয়ার্ড ঠিক নয়।';render();return;}
   curAdmin={name:adm.name,email:adm.email,role:(adm.email.toLowerCase()===SUPER_ADMIN_EMAIL?'super':normRole(adm.role))};authed=true;adminAuthMsg='';adminAuthMode='login';
-  addHistory('login','Admin Panel','Login korlo');
+  addHistory('login','Admin Panel','লগইন করলেন');
   save();render();window.scrollTo(0,0);toast('স্বাগতম, '+adm.name);
 }
 function doAdminSetPw(){
   var emEl=document.getElementById('sp-em'), pwEl=document.getElementById('sp-pw'), pw2El=document.getElementById('sp-pw2');
   var em=(emEl?emEl.value.trim().toLowerCase():'');
   adminAuthEmail=em;
-  if(FB.cfg && FB.on){adminAuthMsg='Firebase mode-e "Email-e Link Pathao" chaple email-e link jabe।';render();return;}
+  if(FB.cfg && FB.on){adminAuthMsg='Firebase মোডে "ইমেইলে লিংক পাঠান" চাপলে ইমেইলে লিংক যাবে।';render();return;}
   var pw=(pwEl?pwEl.value:''); var pw2=(pw2El?pw2El.value:'');
   if(!em){adminAuthMsg='ইমেইল দিন।';render();return;}
   var adm=(S.admins||[]).filter(function(x){return x.email.toLowerCase()===em;})[0];
@@ -1960,14 +1960,14 @@ function doAdminSetPw(){
   if(pw.length<6){adminAuthMsg='পাসওয়ার্ড কমপক্ষে ৬ অক্ষর দিন।';render();return;}
   if(pw!==pw2){adminAuthMsg='দুইবার একই পাসওয়ার্ড দিন।';render();return;}
   adm.pwHash=hashPw(pw);adm.status='active';
-  addHistory('password_set','Admin','Password set korlo');
+  addHistory('password_set','Admin','পাসওয়ার্ড সেট করলেন');
   save();adminAuthMsg='';adminAuthMode='login';render();toast('পাসওয়ার্ড সেট হয়েছে। এখন লগইন করুন।');
 }
 function doAdminSendLink(){
   var em=(document.getElementById('sp-em')?document.getElementById('sp-em').value.trim().toLowerCase():'')||adminAuthEmail;
   if(!em){adminAuthMsg='ইমেইল দিন।';render();return;}
-  if(!FB.on){adminAuthMsg='Firebase connect nei।';render();return;}
-  FB.auth.sendPasswordResetEmail(em).then(function(){adminAuthMsg='';toast('Email-e link geche। Gmail khule link-e click kore password banan।');adminAuthMode='login';render();}).catch(function(e){adminAuthMsg=fbAuthMsg(e);render();});
+  if(!FB.on){adminAuthMsg='Firebase সংযোগ নেই।';render();return;}
+  FB.auth.sendPasswordResetEmail(em).then(function(){adminAuthMsg='';toast('ইমেইলে লিংক গেছে। Gmail খুলে লিংকে ক্লিক করে পাসওয়ার্ড বানান।');adminAuthMode='login';render();}).catch(function(e){adminAuthMsg=fbAuthMsg(e);render();});
 }
 function render(){
   if(window._picking){window._pendRender=true;return;}
@@ -2021,8 +2021,8 @@ document.addEventListener('click',function(e){
     case 'applyGeneral':lastApp=null;step=1;location.hash='#apply';break;
     case 'nasihatGoto':var _ng=document.getElementById(el.dataset.v);if(_ng)_ng.scrollIntoView({behavior:'smooth',block:'start'});break;
     case 'dotsMenu':var _dm=document.getElementById('dotsMenu');var _db=document.getElementById('dotsBtn');if(_dm){var _o=_dm.hidden;_dm.hidden=!_o;if(_db)_db.setAttribute('aria-expanded',_o?'true':'false');}break;
-    case 'memGender':if(!canManageCommittee()){toast('Committee manage sudhu Admin / Super Admin korte parbe।');break;}var _mg=S.committee.find(function(x){return x.id===id;});if(_mg){_mg.gender=memGender(_mg)==='f'?'m':'f';save();render();}break;
-    case 'memPhotoRemove':if(!canManageCommittee()){toast('Photo batil sudhu Admin / Super Admin korte parbe।');break;}var _mr=S.committee.find(function(x){return x.id===id;});if(_mr){_mr.photo='';save();render();toast('ছবি বাদ দেওয়া হয়েছে।');}break;
+    case 'memGender':if(!canManageCommittee()){toast('কমিটি ম্যানেজ শুধু Admin / Super Admin করতে পারবেন।');break;}var _mg=S.committee.find(function(x){return x.id===id;});if(_mg){_mg.gender=memGender(_mg)==='f'?'m':'f';save();render();}break;
+    case 'memPhotoRemove':if(!canManageCommittee()){toast('ছবি বাতিল শুধু Admin / Super Admin করতে পারবেন।');break;}var _mr=S.committee.find(function(x){return x.id===id;});if(_mr){_mr.photo='';save();render();toast('ছবি বাদ দেওয়া হয়েছে।');}break;
     case 'donateShow':donateOpen=true;render();setTimeout(function(){var _dm=document.getElementById('donate-methods');if(_dm)_dm.scrollIntoView({behavior:'smooth',block:'start'});},80);break;
     case 'donateHide':donateOpen=false;render();window.scrollTo(0,0);break;
     case 'copyDonate':(function(){var _v=el.dataset.v||'';function _done(){toast('নম্বর কপি হয়েছে: '+_v);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(_v).then(_done).catch(function(){var _ta=document.createElement('textarea');_ta.value=_v;document.body.appendChild(_ta);_ta.select();try{document.execCommand('copy');_done();}catch(e){toast(_v);}document.body.removeChild(_ta);});}else{var _ta2=document.createElement('textarea');_ta2.value=_v;document.body.appendChild(_ta2);_ta2.select();try{document.execCommand('copy');_done();}catch(e){toast(_v);}document.body.removeChild(_ta2);}})();break;
@@ -2033,11 +2033,11 @@ document.addEventListener('click',function(e){
     case 'nasihatFilter':nasihatFilter=el.dataset.v;render();break;
     case 'nasihatEdit':nasihatEditId=id;adminTab='nasihat';render();window.scrollTo(0,0);break;
     case 'nasihatCancel':nasihatEditId='';render();break;
-    case 'nasihatDel':if(!canDeleteNasihat()){toast('Nasihat delete sudhu Admin / Super Admin korte parbe।');break;}if(pending==='nasihat'+id){var _nd=nasihatById(id);S.nasihats=S.nasihats.filter(function(x){return x.id!==id;});addHistory('nasihat_delete',_nd?_nd.title:id,'Nasihat delete korlo');save();pending=null;toast('নসিহত মুছে ফেলা হয়েছে');}else{pending='nasihat'+id;}render();break;
+    case 'nasihatDel':if(!canDeleteNasihat()){toast('নসিহত মোছা শুধু Admin / Super Admin করতে পারবেন।');break;}if(pending==='nasihat'+id){var _nd=nasihatById(id);S.nasihats=S.nasihats.filter(function(x){return x.id!==id;});addHistory('nasihat_delete',_nd?_nd.title:id,'নসিহত মুছলেন');save();pending=null;toast('নসিহত মুছে ফেলা হয়েছে');}else{pending='nasihat'+id;}render();break;
     case 'adminGoSetPw':adminAuthMode='setpw';adminAuthMsg='';render();break;
     case 'adminBackLogin':adminAuthMode='login';adminAuthMsg='';render();break;
     case 'adminSendLink':doAdminSendLink();break;
-    case 'adminDel':var _tad=(S.admins||[]).filter(function(x){return x.id===id;})[0];if(!_tad)break;var _tr=normRole(_tad.role);if(_tr==='super'){toast('Super Admin ke sorano jabe na।');break;}if(_tr==='admin'&&!canManageAdmins()){toast('Sudhu Super Admin Admin sorate parbe।');break;}if(_tr==='moderator'&&!canManageModerators()){toast('Sudhu Admin / Super Admin Moderator sorate parbe।');break;}if(_tad.email===curAdmin.email){toast('Nijer account sorano jabe na।');break;}if(pending==='admin'+id){S.admins=S.admins.filter(function(x){return x.id!==id;});addHistory(_tr==='moderator'?'moderator_remove':'admin_remove',_tad?_tad.email:id,(_tr==='moderator'?'Moderator':'Admin')+' sorano holo');save();pending=null;toast((_tr==='moderator'?'Moderator':'Admin')+' সরানো হয়েছে');}else{pending='admin'+id;}render();break;
+    case 'adminDel':var _tad=(S.admins||[]).filter(function(x){return x.id===id;})[0];if(!_tad)break;var _tr=normRole(_tad.role);if(_tr==='super'){toast('Super Admin-কে সরানো যাবে না।');break;}if(_tr==='admin'&&!canManageAdmins()){toast('শুধু Super Admin, Admin সরাতে পারবেন।');break;}if(_tr==='moderator'&&!canManageModerators()){toast('শুধু Admin / Super Admin, Moderator সরাতে পারবেন।');break;}if(_tad.email===curAdmin.email){toast('নিজের অ্যাকাউন্ট সরানো যাবে না।');break;}if(pending==='admin'+id){S.admins=S.admins.filter(function(x){return x.id!==id;});addHistory(_tr==='moderator'?'moderator_remove':'admin_remove',_tad?_tad.email:id,(_tr==='moderator'?'Moderator':'Admin')+' সরানো হলো');save();pending=null;toast((_tr==='moderator'?'Moderator':'Admin')+' সরানো হয়েছে');}else{pending='admin'+id;}render();break;
     case 'pinlogin':doAdminLogin();break;
     case 'hardreset':try{localStorage.removeItem(KEY);sessionStorage.clear();}catch(x){}location.reload();break;
     case 'imgcopy':saveCopyImage(id,el.dataset.v);break;
@@ -2054,9 +2054,9 @@ document.addEventListener('click',function(e){
     case 'logout':fbSignOut();authed=false;curAdmin=null;pending=null;adminAuthMode='login';render();toast('অ্যাডমিন থেকে বের হয়ে গেছেন।');break;
     case 'loanopen':loanOpen=(loanOpen===id)?'':id;render();break;
     case 'loanf':loanF=el.dataset.v;loanOpen='';render();break;
-    case 'atab':var _nt=el.dataset.v;if(isModerator()&&(_nt==='mem'||_nt==='history'||_nt==='admins')){toast('Moderator ra ei tab dekhte parbe na।');break;}adminTab=_nt;render();break;
+    case 'atab':var _nt=el.dataset.v;if(isModerator()&&(_nt==='mem'||_nt==='history'||_nt==='admins')){toast('Moderator-রা এই ট্যাব দেখতে পারবেন না।');break;}adminTab=_nt;render();break;
     case 'review':var ra=findApp(id);ra.status='under_review';addHistory('app_review',ra?ra.no:id,'Abedon jachai shuru');var n1=document.getElementById('note-'+id);if(n1)ra.note=n1.value;save();toast('যাচাই শুরু হয়েছে');render();break;
-    case 'reject':if(!canApprove()){toast('Approve / Batil sudhu Admin / Super Admin korte parbe।');break;}var rj=findApp(id);var n2=document.getElementById('note-'+id);rj.note=n2?n2.value:'';rj.status='rejected';addHistory('app_reject',rj?rj.no:id,'Abedon batil');save();toast('আবেদন বাতিল হয়েছে');render();break;
+    case 'reject':if(!canApprove()){toast('অনুমোদন / বাতিল শুধু Admin / Super Admin করতে পারবেন।');break;}var rj=findApp(id);var n2=document.getElementById('note-'+id);rj.note=n2?n2.value:'';rj.status='rejected';addHistory('app_reject',rj?rj.no:id,'আবেদন বাতিল');save();toast('আবেদন বাতিল হয়েছে');render();break;
     case 'saveProposal':{
       var _sa=findApp(id);if(!_sa)break;
       if(_sa.type==='শিক্ষা বৃত্তি'){toast('বৃত্তিতে কিস্তি নেই।');break;}
@@ -2069,15 +2069,15 @@ document.addEventListener('click',function(e){
       _sa.proposal={amount:_va,months:_vm,firstDate:_vf,by:curAdmin?curAdmin.name:'',byEmail:curAdmin?curAdmin.email:'',at:Date.now()};
       if(_sa.status==='submitted')_sa.status='under_review';
       var _nP=document.getElementById('note-'+id);if(_nP)_sa.note=_nP.value;
-      addHistory('app_proposal',_sa?_sa.no:id,'Jachai proposal: '+money(_va)+' / '+bn(_vm)+' kisti / 1st '+_vf+' (Abedon: '+money(_sa.amount)+' / '+bn(_sa.months)+' kisti)');
+      addHistory('app_proposal',_sa?_sa.no:id,'Jachai proposal: '+money(_va)+' / '+bn(_vm)+' কিস্তি / প্রথম '+_vf+' (Abedon: '+money(_sa.amount)+' / '+bn(_sa.months)+' কিস্তি)');
       save();toast('প্রস্তাব সেভ হয়েছে। ফাইনাল অ্যাপ্রুভ করবে Admin / Super Admin।');render();break;}
     case 'clearProposal':{
       var _ca=findApp(id);if(!_ca)break;
       _ca.proposal=null;
-      addHistory('app_proposal_clear',_ca?_ca.no:id,'Proposal batil - abedonkari-r ta firiye ana holo');
+      addHistory('app_proposal_clear',_ca?_ca.no:id,'প্রস্তাব বাতিল - আবেদনকারীর চাওয়া মান ফিরিয়ে আনা হলো');
       save();toast('আবেদনকারীর আগের শর্ত ফিরিয়ে আনা হয়েছে।');render();break;}
     case 'approve':
-      if(!canApprove()){toast('Approve sudhu Admin / Super Admin korte parbe।');break;}
+      if(!canApprove()){toast('অনুমোদন শুধু Admin / Super Admin করতে পারবেন।');break;}
       var ap=findApp(id);var n3=document.getElementById('note-'+id);ap.note=n3?n3.value:'';
       var _finalAmt=ap.amount,_finalMonths=ap.months,_finalFirst=addMonths(t,1),_usedProposal=false;
       if(ap.proposal){_finalAmt=ap.proposal.amount;_finalMonths=ap.proposal.months;_finalFirst=ap.proposal.firstDate||_finalFirst;_usedProposal=true;}
@@ -2094,12 +2094,12 @@ document.addEventListener('click',function(e){
       if(!_finalFirst||_finalFirst<t){toast('প্রথম কিস্তির তারিখ আজকের আগের হতে পারবে না।');break;}
       ap.status='approved';ap.finalAmount=_finalAmt;ap.finalMonths=_finalMonths;ap.finalFirst=_finalFirst;
       S.loans.push({id:'L'+Date.now(),uid:ap.uid||'',appNo:ap.no,name:ap.name,phone:toWa(ap.wa||ap.phone),amount:_finalAmt,n:_finalMonths,disbursed:t,ins:schedule(_finalAmt,_finalMonths,_finalFirst),consent:false,origAmount:ap.amount,origMonths:ap.months});
-      addHistory('app_approve',ap?ap.no:id,_usedProposal?'Abedon approve - Final: '+money(_finalAmt)+' / '+bn(_finalMonths)+' kisti / 1st '+_finalFirst+' (Abedonkari cheyechilo: '+money(ap.amount)+' / '+bn(ap.months)+' kisti)':'Abedon approve korlo');
+      addHistory('app_approve',ap?ap.no:id,_usedProposal?'আবেদন অনুমোদন - চূড়ান্ত: '+money(_finalAmt)+' / '+bn(_finalMonths)+' কিস্তি / প্রথম '+_finalFirst+' (আবেদনকারী চেয়েছিলেন: '+money(ap.amount)+' / '+bn(ap.months)+' কিস্তি)':'আবেদন অনুমোদন করলেন');
       save();toast('অনুমোদিত। ফাইনাল শর্তে কিস্তির সময়সূচি তৈরি হয়েছে।');render();break;
     case 'payin':
       var ln=findLoan(id),nx=nextUnpaid(ln);if(nx){nx.paidOn=t;nx.method=document.getElementById('m-'+id).value;var _tx=document.getElementById('txn-'+id);if(_tx)nx.txn=_tx.value.trim();save();toast(money(nx.amt)+' আদায় এন্ট্রি হয়েছে');}render();break;
     case 'del':
-      if(isModerator()&&(el.dataset.k==='don'||el.dataset.k==='noti'||el.dataset.k==='mem')){toast('Moderator ra delete korte parbe na। Sudhu Admin / Super Admin delete korte parbe।');break;}
+      if(isModerator()&&(el.dataset.k==='don'||el.dataset.k==='noti'||el.dataset.k==='mem')){toast('Moderator-রা মুছতে পারবেন না। শুধু Admin / Super Admin মুছতে পারবেন।');break;}
       var key=el.dataset.k+id;
       if(pending!==key){pending=key;render();return;}
       if(el.dataset.k==='don')S.donations=S.donations.filter(function(d){return d.id!==id;});
@@ -2132,7 +2132,7 @@ document.addEventListener('change',function(e){
   if(el.dataset&&el.dataset.a==='consent'){var l=findLoan(el.dataset.id);l.consent=el.checked;save();toast(l.consent?'তালিকায় নাম দেখানো হবে':'তালিকায় নাম গোপন থাকবে');}
   if(el.type==='file'){window._picking=false;clearTimeout(window._pickT);}
   if(el.id==='m-photo'&&el.files&&el.files[0]){
-    if(!canManageCommittee()){toast('Photo add sudhu Admin / Super Admin korte parbe।');return;}
+    if(!canManageCommittee()){toast('ছবি যোগ শুধু Admin / Super Admin করতে পারবেন।');return;}
     readMemPhoto(el.files[0],function(url){
       if(!url)return;
       window._newMemPhoto=url;
@@ -2142,7 +2142,7 @@ document.addEventListener('change',function(e){
     return;
   }
   if(el.dataset&&el.dataset.a==='memPhoto'&&el.files&&el.files[0]){
-    if(!canManageCommittee()){toast('Photo bodlano sudhu Admin / Super Admin korte parbe।');return;}
+    if(!canManageCommittee()){toast('ছবি বদলানো শুধু Admin / Super Admin করতে পারবেন।');return;}
     (function(_id,_file){
       readMemPhoto(_file,function(url){
         if(!url)return;
@@ -2169,32 +2169,32 @@ document.addEventListener('submit',function(e){
     if(!_t||!_q){toast('শিরোনাম ও উক্তি লিখুন।');return;}
     if(nasihatEditId){
       var _e=nasihatById(nasihatEditId);
-      if(_e){_e.title=_t;_e.cat=_c;_e.quote=_q;_e.source=_s;_e.body=_b;_e.updatedAt=todayStr();addHistory('nasihat_edit',_t,'Nasihat edit korlo');}
+      if(_e){_e.title=_t;_e.cat=_c;_e.quote=_q;_e.source=_s;_e.body=_b;_e.updatedAt=todayStr();addHistory('nasihat_edit',_t,'নসিহত এডিট করলেন');}
       nasihatEditId='';
     }else{
       var _nn={id:'NS'+Date.now(),title:_t,cat:_c,quote:_q,source:_s,body:_b,by:curAdmin?curAdmin.name:'',byEmail:curAdmin?curAdmin.email:'',createdAt:todayStr()};
-      if(!Array.isArray(S.nasihats))S.nasihats=[];S.nasihats.unshift(_nn);addHistory('nasihat_add',_t,'Notun Nasihat add korlo');
+      if(!Array.isArray(S.nasihats))S.nasihats=[];S.nasihats.unshift(_nn);addHistory('nasihat_add',_t,'নতুন নসিহত যোগ করলেন');
     }
     save();render();toast('নসিহত সেভ হয়েছে। সবার ফোনে চলে যাবে।');return;
   }
   if(f==='adminAdd'){
-    if(!canManageAdmins()){toast('শুধু Super Admin Admin add korte parbe।');return;}
+    if(!canManageAdmins()){toast('শুধু Super Admin, Admin যোগ করতে পারবেন।');return;}
     var _an=document.getElementById('aa-name').value.trim(),_ae=document.getElementById('aa-email').value.trim().toLowerCase();
     if(_an.length<2||!_ae||_ae.indexOf('@')<0){toast('সঠিক নাম ও ইমেইল দিন।');return;}
     if((S.admins||[]).some(function(x){return x.email.toLowerCase()===_ae;})){toast('এই ইমেইলে আগেই Admin আছে।');return;}
     if(!Array.isArray(S.admins))S.admins=[];
     S.admins.push({id:'AD'+Date.now(),name:_an,email:_ae,role:'admin',pwHash:'',status:'pending',createdAt:todayStr()});
-    addHistory('admin_add',_ae,'Notun Admin add korlo ('+_an+')');
+    addHistory('admin_add',_ae,'নতুন Admin যোগ করলেন ('+_an+')');
     save();render();toast('Admin যোগ হয়েছে। তাকে বলুন "পাসওয়ার্ড সেট" করতে।');return;
   }
   if(f==='moderatorAdd'){
-    if(!canManageModerators()){toast('Sudhu Admin / Super Admin Moderator add korte parbe।');return;}
+    if(!canManageModerators()){toast('শুধু Admin / Super Admin, Moderator যোগ করতে পারবেন।');return;}
     var _mn=document.getElementById('mo-name').value.trim(),_me=document.getElementById('mo-email').value.trim().toLowerCase();
     if(_mn.length<2||!_me||_me.indexOf('@')<0){toast('সঠিক নাম ও ইমেইল দিন।');return;}
     if((S.admins||[]).some(function(x){return x.email.toLowerCase()===_me;})){toast('এই ইমেইলে আগেই Admin / Moderator আছে।');return;}
     if(!Array.isArray(S.admins))S.admins=[];
     S.admins.push({id:'MO'+Date.now(),name:_mn,email:_me,role:'moderator',pwHash:'',status:'pending',createdAt:todayStr()});
-    addHistory('moderator_add',_me,'Notun Moderator add korlo ('+_mn+')');
+    addHistory('moderator_add',_me,'নতুন Moderator যোগ করলেন ('+_mn+')');
     save();render();toast('Moderator যোগ হয়েছে। তাকে বলুন "পাসওয়ার্ড সেট" করতে।');return;
   }
   if(f==='g1'){
@@ -2241,12 +2241,12 @@ document.addEventListener('submit',function(e){
     render();
   }
   else if(f==='don'){
-    if(!canEditFund()){toast('Moderator ra Fund add korte parbe na।');return;}
+    if(!canEditFund()){toast('Moderator-রা Fund যোগ করতে পারবেন না।');return;}
     var amt=Number(toEn(document.getElementById('d-amt').value));
     if(amt>0){S.donations.unshift({id:'D'+Date.now(),amt:amt,on:todayStr(),note:document.getElementById('d-note').value.trim()});save();toast('অনুদান যোগ হয়েছে');render();}
   }
   else if(f==='mem'){
-    if(!canManageCommittee()){toast('Committee add sudhu Admin / Super Admin korte parbe।');return;}
+    if(!canManageCommittee()){toast('কমিটি যোগ শুধু Admin / Super Admin করতে পারবেন।');return;}
     var nm=document.getElementById('m-name').value.trim(),rl=document.getElementById('m-role').value.trim();
     if(!nm||!rl){toast('নাম ও পদবি দুটোই লিখুন।',4000);return;}
     if(nm&&rl){window._memDraft={};S.committee.push({id:'M'+Date.now(),name:nm,role:rl,phone:toEn(document.getElementById('m-phone').value),gender:(document.querySelector('input[name=m-gender]:checked')||{value:'m'}).value,photo:window._newMemPhoto||''});window._newMemPhoto='';save();toast('সদস্য যোগ হয়েছে');render();}
