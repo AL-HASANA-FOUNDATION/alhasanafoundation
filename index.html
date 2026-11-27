@@ -548,6 +548,22 @@ body.gating::before{display:none}
   .committee-grid .cmember:hover{background:var(--accent-soft);border-color:var(--accent)!important;box-shadow:none;transform:translateX(3px)}
 }
 
+/* ---------- Committee member popup ---------- */
+.cmember[data-a="memOpen"],.card[data-a="memOpen"]{cursor:pointer}
+.mp-back{position:fixed;inset:0;z-index:70;background:rgba(10,26,20,.7);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+.mp{position:relative;width:100%;max-width:420px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.45);margin:auto;animation:mpIn .2s ease}
+.mp-photo{background:var(--surface2);display:flex;justify-content:center}
+.mp-photo img{display:block;width:100%;max-height:min(70vh,480px);object-fit:contain}
+.mp-photo .cphoto{width:100%;height:auto;aspect-ratio:1/1;max-height:min(60vh,380px);border-radius:0;border:0}
+.mp-photo .cphoto svg{width:45%;height:45%}
+.mp-body{padding:16px 20px 20px}
+.mp-name{font-size:1.25rem;font-weight:800;margin:0}
+.mp-role{color:var(--accent);font-weight:700;margin-top:4px}
+.mp-bio{margin:12px 0 0;line-height:1.55;white-space:pre-line}
+.mp-x{position:absolute;top:12px;right:12px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#fff;font-size:1.5rem;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0}
+@keyframes mpIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.mp{animation:none}}
+
 /* ---------- Header balance: logo / title / toggle / dots ---------- */
 header.top .wrap{gap:12px;padding-block:10px}
 header.top .logo{width:46px;height:46px;padding:5px}
@@ -908,6 +924,22 @@ var user=null;try{var _u=sessionStorage.getItem('ahf-user');if(_u)user=JSON.pars
 if(!LOGIN_ENABLED&&!user){user={name:'',phone:''};}
 var myLoanAuth=null;try{var _ml=sessionStorage.getItem('ahf-myloan');if(_ml)myLoanAuth=JSON.parse(_ml);}catch(e){}
 var myLoanErr='';var myLoanPhone='';var myLoanNo='';
+function closeMemPopup(){var o=document.getElementById('memPop');if(o)o.remove();document.removeEventListener('keydown',memPopKey,true);document.body.style.overflow='';}
+function memPopKey(e){if(e.key==='Escape')closeMemPopup();}
+function openMemPopup(id){
+  var m=S.committee.find(function(x){return x.id===id;});if(!m)return;
+  closeMemPopup();
+  var p=committeePhoto(m);
+  var ph=p?'<img src="'+esc(p)+'" alt="'+esc(m.name)+'">':committeeAvatar(m);
+  var o=document.createElement('div');o.id='memPop';o.className='mp-back';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label',m.name);
+  o.innerHTML='<div class="mp"><button type="button" class="mp-x" aria-label="বন্ধ করুন" data-mp-close>×</button><div class="mp-photo">'+ph+'</div><div class="mp-body"><h3 class="mp-name">'+esc(m.name)+'</h3><div class="mp-role">'+esc(m.role)+'</div>'+(m.bio?'<p class="mp-bio">'+esc(m.bio)+'</p>':'')+'</div></div>';
+  o.addEventListener('click',function(e){if(e.target===o||(e.target.closest&&e.target.closest('[data-mp-close]')))closeMemPopup();});
+  document.body.appendChild(o);document.body.style.overflow='hidden';
+  document.addEventListener('keydown',memPopKey,true);
+  var x=o.querySelector('.mp-x');if(x)x.focus();
+}
+window.addEventListener('hashchange',closeMemPopup);
+document.addEventListener('keydown',function(e){var t=e.target;if((e.key==='Enter'||e.key===' ')&&t&&t.getAttribute&&t.getAttribute('data-a')==='memOpen'){e.preventDefault();t.click();}});
 function newGate(){return {step:1,name:'',phone:'',code:'',sentAt:0,err:{},mode:'login',pass:'',pass2:'',busy:false,open:false};}
 function newCode(){return String(1000+Math.floor(Math.random()*9000));}
 var notifs=[],seenAt=0,openSeen=0,dbRef=null,dbState='loading',canPost=false,panelOpen=false,firstSnap=true;
@@ -1004,7 +1036,7 @@ function renderSheet(){
 }
 function committeeHome(){
   return '<section id="sec-committee" class="card stack"><h2>কার্যকর কমিটি</h2><p class="muted">ফাউন্ডেশন পরিচালনায় যারা আছেন।</p><div class="committee-grid">'+S.committee.map(function(m){
-    return '<div class="cmember">'+committeeAvatar(m)+'<div class="grow"><b>'+esc(m.name)+'</b><div class="small muted">'+esc(m.role)+(m.phone?' · '+bn(esc(m.phone)):'')+'</div></div></div>';
+    return '<div class="cmember" data-a="memOpen" data-id="'+m.id+'" role="button" tabindex="0">'+committeeAvatar(m)+'<div class="grow"><b>'+esc(m.name)+'</b><div class="small muted">'+esc(m.role)+(m.phone?' · '+bn(esc(m.phone)):'')+'</div></div></div>';
   }).join('')+'</div></section>';
 }
 function viewHome(){
@@ -1221,7 +1253,7 @@ function viewBen(){
 /* ---------- Committee ---------- */
 function viewCommittee(){
   return '<h2>কার্যকর কমিটি</h2><div class="stack tight">'+S.committee.map(function(m){
-    return '<div class="card row"><div>'+committeeAvatar(m)+'</div><div class="grow"><b>'+esc(m.name)+'</b><div class="small muted">'+esc(m.role)+(m.phone?' · '+bn(esc(m.phone)):'')+'</div></div></div>';
+    return '<div class="card row" data-a="memOpen" data-id="'+m.id+'" role="button" tabindex="0"><div>'+committeeAvatar(m)+'</div><div class="grow"><b>'+esc(m.name)+'</b><div class="small muted">'+esc(m.role)+(m.phone?' · '+bn(esc(m.phone)):'')+'</div></div></div>';
   }).join('')+'</div>';
 }
 
@@ -1529,13 +1561,14 @@ function adminMem(){
   var _newPhoto = window._newMemPhoto || '';
   var _prev = _newPhoto ? '<img src="'+_newPhoto+'" alt="নতুন সদস্যের ছবি">' : '<div class="avatar">?</div>';
   var form='<form data-form="mem" class="card stack"><h3>সদস্য যোগ করুন</h3><div class="grid2"><div class="field"><label for="m-name">নাম</label><input id="m-name" autocomplete="off" value="'+esc((window._memDraft||{})['m-name']||'')+'"></div><div class="field"><label for="m-role">পদবি</label><input id="m-role" autocomplete="off" value="'+esc((window._memDraft||{})['m-role']||'')+'"></div></div>'+
+    '<div class="field"><label for="m-bio">পরিচিতি <span class="opt">(ঐচ্ছিক)</span></label><input id="m-bio" autocomplete="off" placeholder="যেমন: BBA, ঢাকা বিশ্ববিদ্যালয়" value="'+esc((window._memDraft||{})['m-bio']||'')+'"></div>'+
     '<div class="field"><label for="m-phone">মোবাইল <span class="opt">(ঐচ্ছিক)</span></label><input id="m-phone" inputmode="numeric" autocomplete="off" value="'+esc((window._memDraft||{})['m-phone']||'')+'"></div>'+
     '<fieldset class="choices"><legend>ডিফল্ট আইকন</legend><div class="chips"><label class="opt-chip"><input type="radio" name="m-gender" value="m"'+((window._memDraft||{})['g']==='f'?'':' checked')+'><span>পুরুষ</span></label><label class="opt-chip"><input type="radio" name="m-gender" value="f"'+((window._memDraft||{})['g']==='f'?' checked':'')+'><span>নারী</span></label></div></fieldset>'+
     '<div class="field"><label>প্রোফাইল ছবি <span class="opt">(ঐচ্ছিক)</span></label><div class="mem-photo-box"><div class="mem-photo-preview" id="m-photo-preview">'+_prev+'</div><div><label class="mem-upload-label" for="m-photo">📷 ছবি বাছাই করুন</label><input type="file" id="m-photo" accept="image/*" hidden><p class="small muted" style="margin-top:6px">গ্যালারি থেকে ছবি নিন। ছবি না দিলে পুরুষ/নারী আইকন দেখাবে।</p></div></div></div>'+
     '<button class="btn primary" type="submit" style="align-self:flex-start">যোগ করুন</button></form>';
   var list='<div class="stack tight">'+S.committee.map(function(m){
     var _has = committeePhoto(m) ? '<button class="btn sm" data-a="memPhotoRemove" data-id="'+m.id+'">ছবি বাদ দিন</button>' : '';
-    return '<div class="card"><div class="row" style="align-items:flex-start"><div class="mem-row-photo">'+committeeAvatar(m)+'</div><div class="grow"><b>'+esc(m.name)+'</b><div class="small muted">'+esc(m.role)+(m.phone?' · '+bn(esc(m.phone)):'')+'</div><div class="mem-actions" style="margin-top:8px"><button class="btn sm" data-a="memGender" data-id="'+m.id+'">আইকন: '+(memGender(m)==='f'?'নারী → পুরুষ':'পুরুষ → নারী')+'</button><label class="mem-upload-label" for="mem-photo-'+m.id+'" style="padding:6px 12px;font-size:.85rem">📷 ছবি বদলান</label><input type="file" id="mem-photo-'+m.id+'" data-a="memPhoto" data-id="'+m.id+'" accept="image/*" hidden>'+_has+'</div></div><button class="btn sm '+(pending==='mem'+m.id?'danger':'')+'" data-a="del" data-k="mem" data-id="'+m.id+'">'+(pending==='mem'+m.id?'নিশ্চিত করুন':'সরান')+'</button></div></div>';
+    return '<div class="card"><div class="row" style="align-items:flex-start"><div class="mem-row-photo">'+committeeAvatar(m)+'</div><div class="grow"><b>'+esc(m.name)+'</b><div class="small muted">'+esc(m.role)+(m.phone?' · '+bn(esc(m.phone)):'')+'</div><div class="mem-actions" style="margin-top:8px"><button class="btn sm" data-a="memGender" data-id="'+m.id+'">আইকন: '+(memGender(m)==='f'?'নারী → পুরুষ':'পুরুষ → নারী')+'</button><label class="mem-upload-label" for="mem-photo-'+m.id+'" style="padding:6px 12px;font-size:.85rem">📷 ছবি বদলান</label><input type="file" id="mem-photo-'+m.id+'" data-a="memPhoto" data-id="'+m.id+'" accept="image/*" hidden>'+_has+'</div><div class="row" style="margin-top:8px;gap:6px"><input id="mem-bio-'+m.id+'" class="grow" autocomplete="off" placeholder="পরিচিতি (যেমন: BBA, ঢাকা বিশ্ববিদ্যালয়)" value="'+esc(m.bio||'')+'" style="min-width:0"><button class="btn sm" type="button" data-a="memBio" data-id="'+m.id+'">সেভ</button></div></div><button class="btn sm '+(pending==='mem'+m.id?'danger':'')+'" data-a="del" data-k="mem" data-id="'+m.id+'">'+(pending==='mem'+m.id?'নিশ্চিত করুন':'সরান')+'</button></div></div>';
   }).join('')+'</div>';
   return form+list;
 }
@@ -2021,6 +2054,8 @@ document.addEventListener('click',function(e){
     case 'applyGeneral':lastApp=null;step=1;location.hash='#apply';break;
     case 'nasihatGoto':var _ng=document.getElementById(el.dataset.v);if(_ng)_ng.scrollIntoView({behavior:'smooth',block:'start'});break;
     case 'dotsMenu':var _dm=document.getElementById('dotsMenu');var _db=document.getElementById('dotsBtn');if(_dm){var _o=_dm.hidden;_dm.hidden=!_o;if(_db)_db.setAttribute('aria-expanded',_o?'true':'false');}break;
+    case 'memOpen':openMemPopup(id);break;
+    case 'memBio':if(!canManageCommittee()){toast('কমিটি ম্যানেজ শুধু Admin / Super Admin করতে পারবেন।');break;}var _mb=S.committee.find(function(x){return x.id===id;});var _bi=document.getElementById('mem-bio-'+id);if(_mb&&_bi){_mb.bio=_bi.value.trim();save();toast('পরিচিতি সেভ হয়েছে।');}break;
     case 'memGender':if(!canManageCommittee()){toast('কমিটি ম্যানেজ শুধু Admin / Super Admin করতে পারবেন।');break;}var _mg=S.committee.find(function(x){return x.id===id;});if(_mg){_mg.gender=memGender(_mg)==='f'?'m':'f';save();render();}break;
     case 'memPhotoRemove':if(!canManageCommittee()){toast('ছবি বাতিল শুধু Admin / Super Admin করতে পারবেন।');break;}var _mr=S.committee.find(function(x){return x.id===id;});if(_mr){_mr.photo='';save();render();toast('ছবি বাদ দেওয়া হয়েছে।');}break;
     case 'donateShow':donateOpen=true;render();setTimeout(function(){var _dm=document.getElementById('donate-methods');if(_dm)_dm.scrollIntoView({behavior:'smooth',block:'start'});},80);break;
@@ -2112,7 +2147,7 @@ document.addEventListener('click',function(e){
       S=seed();save();pending=null;toast('ডেমো ডেটা ফিরে এসেছে');render();break;
   }
 });
-document.addEventListener('input',function(e){var t=e.target;if(t&&/^m-(name|role|phone)$/.test(t.id)){(window._memDraft=window._memDraft||{})[t.id]=t.value;}},true);
+document.addEventListener('input',function(e){var t=e.target;if(t&&/^m-(name|role|phone|bio)$/.test(t.id)){(window._memDraft=window._memDraft||{})[t.id]=t.value;}},true);
 document.addEventListener('change',function(e){var t=e.target;if(t&&t.name==='m-gender'){(window._memDraft=window._memDraft||{}).g=t.value;}},true);
 document.addEventListener('click',function(e){var t=e.target;if(t&&t.closest&&(t.closest('label.mem-upload-label')||t.type==='file')){window._picking=true;clearTimeout(window._pickT);window._pickT=setTimeout(function(){window._picking=false;},120000);}},true);
 window.addEventListener('focus',function(){if(window._picking){clearTimeout(window._pickT);window._pickT=setTimeout(function(){window._picking=false;if(window._pendRender){window._pendRender=false;render();}},4000);}});
@@ -2249,7 +2284,7 @@ document.addEventListener('submit',function(e){
     if(!canManageCommittee()){toast('কমিটি যোগ শুধু Admin / Super Admin করতে পারবেন।');return;}
     var nm=document.getElementById('m-name').value.trim(),rl=document.getElementById('m-role').value.trim();
     if(!nm||!rl){toast('নাম ও পদবি দুটোই লিখুন।',4000);return;}
-    if(nm&&rl){window._memDraft={};S.committee.push({id:'M'+Date.now(),name:nm,role:rl,phone:toEn(document.getElementById('m-phone').value),gender:(document.querySelector('input[name=m-gender]:checked')||{value:'m'}).value,photo:window._newMemPhoto||''});window._newMemPhoto='';save();toast('সদস্য যোগ হয়েছে');render();}
+    if(nm&&rl){window._memDraft={};S.committee.push({id:'M'+Date.now(),name:nm,role:rl,phone:toEn(document.getElementById('m-phone').value),gender:(document.querySelector('input[name=m-gender]:checked')||{value:'m'}).value,bio:((document.getElementById('m-bio')||{}).value||'').trim(),photo:window._newMemPhoto||''});window._newMemPhoto='';save();toast('সদস্য যোগ হয়েছে');render();}
   }
 });
 document.addEventListener('scroll',function(e){var c=e.target;if(c&&c.id==='slides')updSlideCount(c);},true);
