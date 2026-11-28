@@ -1876,7 +1876,7 @@ function viewDonation(){
     +'<p>আপনার ছোট একটি সহযোগিতাও কারও জীবনে বড় পরিবর্তনের সুযোগ তৈরি করতে পারে। আসুন, মানবসেবায় অংশ নিই এবং আমাদের অনুদানকে সদকায়ে জারিয়ার একটি মাধ্যম হিসেবে গ্রহণ করি।</p></section>';
   var cta='<section class="card stack donate-cta"><p class="muted">আপনার সহযোগিতা এই কাজ চালিয়ে যেতে সাহায্য করবে।</p>'
     +'<button class="btn primary donate-big" data-a="donateShow">Donate Now</button>'
-    +'<p class="small muted">পেমেন্ট অপশন দেখতে Donate Now চাপুন। শুরুতে কোনো পেমেন্ট নম্বর দেখানো হবে না।</p></section>';
+    +'<p class="small muted">পেমেন্ট অপশন দেখতে Donate Now চাপুন।</p></section>';
   if(!donateOpen) return hero+cta;
   var anyPay=!!(DONATE.bkash||DONATE.nagad||DONATE.rocket||DONATE.bankAcc);
   var methods='<section class="stack donate-methods" id="donate-methods"><div class="card stack" style="padding:18px"><h3>Choose Your Payment Method</h3><p class="muted">পেমেন্ট মাধ্যম বেছে নিন। Send Money করে পাঠান, রেফারেন্সে Payment লিখুন।</p></div>'
