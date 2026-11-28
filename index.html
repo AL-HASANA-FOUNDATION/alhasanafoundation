@@ -200,7 +200,8 @@ body.gate-inline main{background:transparent}
 .gm-links{display:flex;justify-content:space-between;gap:10px}
 .gm-link{background:none;border:0;padding:6px 0;font:inherit;font-weight:700;color:var(--accent);cursor:pointer}
 body.gate-inline .gate-page{filter:none}
-</style></head><body>
+</style><style>.ptr{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 8px);transform:translate(-50%,-80px);opacity:0;z-index:80;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:14px;box-shadow:0 6px 20px rgba(0,0,0,.2);pointer-events:none;white-space:nowrap}@media print{.ptr{display:none!important}}</style>
+</head><body>
 <title>আল হাসানা ফাউন্ডেশন</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@600;700&display=swap">
@@ -454,6 +455,78 @@ body.gating::before{display:none}
 .receipt .rmeta{color:#555;font-size:.9rem;margin-bottom:12px}
 @media print{header.top,nav.tabs,main,#toast,#gate,#npanel,#tsheet,#fabWrap,.noprint{display:none!important}#receipt-print{display:block!important;position:static!important;background:#fff!important;padding:0!important;overflow:visible!important}.receipt{border:0!important;max-width:none!important;padding:0!important}}
 #receipt-print:not([hidden]){position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.55);overflow:auto;padding:12px;-webkit-overflow-scrolling:touch}
+/* ---------- A4 পেমেন্ট স্লিপ (সদস্যের কপি + ফাউন্ডেশনের কপি) ---------- */
+.sl-wrap{max-width:880px;margin:0 auto}
+.sl-bar{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:0 0 10px}
+.sl-sheet{--sg:#0f5c45;--sgd:#0a4131;--sgs:#eef6f2;--sgold:#c49a3c;--sink:#17251f;--smuted:#60716a;--sline:#d7ddd9;width:210mm;height:296mm;margin:0 auto 24px;padding:8mm;background:#fff;color:var(--sink);display:flex;flex-direction:column;box-shadow:0 10px 40px rgba(0,0,0,.35);font-family:var(--f-body),sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact;line-height:1.35;text-align:left}
+.sl-sheet *{box-sizing:border-box}
+.sl-sheet h1,.sl-sheet h2,.sl-sheet h3,.sl-sheet p,.sl-sheet dl,.sl-sheet dd,.sl-sheet dt{margin:0;padding:0}
+.sl-display{font-family:var(--f-display),serif}
+@media print{.sl-wrap{max-width:none!important}.sl-sheet{margin:0!important;box-shadow:none!important;zoom:1!important}}
+.sl-copy-a{flex:0 0 166mm;position:relative;border:1.5px solid var(--sg);padding:6px}
+.sl-copy-a .sl-inner{position:relative;height:100%;border:1px solid #d8dedb;overflow:hidden;padding:9mm 10mm 7mm;display:flex;flex-direction:column}
+.sl-wm{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.sl-wm span{transform:rotate(-12deg);font-size:92px;font-weight:700;color:var(--sg);opacity:.05;white-space:nowrap}
+.sl-tag{position:absolute;top:0;left:0;background:var(--sg);color:#fff;font-size:10.5px;font-weight:600;padding:3px 10px;letter-spacing:.04em;z-index:3}
+.sl-z{position:relative;z-index:2}
+.sl-hdr{display:flex;align-items:flex-start;gap:14px}
+.sl-logo{flex:none;width:68px;height:68px;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:0 0 0 1.5px var(--sg),0 4px 10px rgba(15,92,69,.25)}
+.sl-hc{flex:1;text-align:center;padding-top:2px}
+.sl-kick{font-size:10px;font-weight:700;letter-spacing:.22em;color:var(--sgold)}
+.sl-hc h1{font-size:30px;line-height:1.1;margin-top:3px;color:var(--sgd);font-weight:700}
+.sl-sub{font-size:12.5px;color:var(--smuted);margin-top:4px;font-weight:500}
+.sl-paid{flex:none;transform:rotate(6deg);text-align:center;padding-top:2px}
+.sl-paid b{display:inline-flex;align-items:center;gap:4px;border:2px solid var(--sg);background:var(--sgs);color:var(--sg);font-size:15px;letter-spacing:.14em;padding:5px 11px}
+.sl-paid small{display:block;margin-top:3px;font-size:9.5px;font-weight:600;color:var(--smuted)}
+.sl-rule1{height:3px;background:var(--sg);margin-top:10px}
+.sl-rule2{height:1px;background:rgba(15,92,69,.4);margin-top:3px}
+.sl-metas{display:flex;gap:6px;margin-top:11px}
+.sl-meta{flex:1;border:1px solid var(--sline);background:#fbfcfb;padding:6px 9px;min-width:0}
+.sl-meta p{font-size:9.5px;font-weight:600;letter-spacing:.12em;color:var(--smuted)}
+.sl-meta div{margin-top:2px;font-size:12.5px;font-weight:600;overflow-wrap:anywhere;line-height:1.3}
+.sl-meta.strong div{font-weight:700}
+.sl-parties{display:flex;gap:18px;margin-top:13px;border:1px solid var(--sline);background:#fcfdfc;padding:10px 14px}
+.sl-party{flex:1;min-width:0}
+.sl-party h2{display:flex;align-items:center;gap:7px;font-size:13.5px;color:var(--sgd);border-bottom:2px solid var(--sg);padding-bottom:5px}
+.sl-party h2:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--sg)}
+.sl-party dl{margin-top:8px}
+.sl-party dl div{display:flex;gap:10px;margin-top:5px;font-size:13px}
+.sl-party dt{width:62px;flex:none;color:var(--smuted);font-size:12px;padding-top:1px}
+.sl-party dd{font-weight:600;overflow-wrap:anywhere}
+.sl-det{margin-top:13px}
+.sl-det h3{font-size:13px;color:#fff;background:var(--sg);padding:5px 12px;letter-spacing:.04em}
+table.t{width:100%;border-collapse:collapse;font-size:13px}
+table.t td{border:1px solid var(--sline);padding:6px 12px}
+table.t td:last-child{text-align:right;font-weight:600}
+table.t tr:nth-child(even) td{background:#fafcfb}
+table.t tr.hl td{background:var(--sgs);font-weight:700;font-size:14.5px;color:var(--sgd)}
+.sl-words{margin-top:9px;border:1px dashed var(--sg);background:#fbfdfc;padding:7px 12px;font-size:13px}
+.sl-words b{color:var(--sgd)}
+.sl-sign{display:flex;gap:26px;margin-top:auto;padding-top:14px}
+.sl-sign>div{flex:1;text-align:center;font-size:11.5px;color:#444}
+.sl-sign .sl-ln{border-top:1px solid #333;padding-top:4px;margin-top:34px}
+.sl-sign .sl-seal{display:inline-block;border:1.5px dashed #9bb5aa;border-radius:50%;width:64px;height:64px;line-height:64px;font-size:11px;color:#9bb5aa;margin-top:-6px}
+.sl-foot{margin-top:7px;text-align:center;font-size:10.5px;color:var(--smuted)}
+.sl-cut{flex:0 0 11mm;display:flex;align-items:center;gap:8px;color:#8a9a93;font-size:11px}
+.sl-cut:before,.sl-cut:after{content:"";flex:1;border-top:1.5px dashed #9aa9a2}
+.sl-copy-b{flex:1;position:relative;border:1.5px solid var(--sg);padding:5px}
+.sl-copy-b .sl-inner{position:relative;height:100%;border:1px solid #d8dedb;padding:7mm 9mm 5mm;display:flex;flex-direction:column}
+.sl-b-hdr{display:flex;align-items:center;gap:12px;border-bottom:2px solid var(--sg);padding-bottom:7px}
+.sl-b-hdr img{width:44px;height:44px;border-radius:50%;object-fit:cover}
+.sl-b-hdr h2{font-size:19px;color:var(--sgd);line-height:1.15}
+.sl-b-hdr p{font-size:11px;color:var(--smuted)}
+.sl-b-hdr .sl-rt{margin-left:auto;text-align:right;font-size:11px;color:var(--smuted)}
+.sl-b-hdr .sl-rt b{display:block;color:var(--sg);font-size:13px}
+.sl-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 22px;margin-top:10px;font-size:12.5px}
+.sl-grid div{display:flex;gap:8px;border-bottom:1px dotted #c5cec9;padding-bottom:3px}
+.sl-grid span{color:var(--smuted);width:84px;flex:none;font-size:11.5px}
+.sl-grid b{font-weight:600;overflow-wrap:anywhere}
+.sl-b-amt{margin-top:9px;display:flex;align-items:center;gap:12px;background:var(--sgs);border:1px solid #cfe3d8;padding:7px 12px}
+.sl-b-amt strong{font-size:19px;color:var(--sgd)}
+.sl-b-amt span{font-size:12.5px}
+.sl-b-sign{display:flex;gap:26px;margin-top:auto}
+.sl-b-sign>div{flex:1;text-align:center;font-size:11px;color:#444}
+.sl-b-sign .sl-ln{border-top:1px solid #333;padding-top:3px;margin-top:26px}
 .receipt .rhead{display:flex;align-items:center;gap:12px;border-bottom:2px solid #0f5c45;padding-bottom:10px;margin-bottom:10px}
 .receipt .rhead img{width:56px;height:56px;border-radius:50%;object-fit:cover}
 .receipt .rtitle{font-size:1.15rem;font-weight:800;text-align:center;background:#e8f3ee;color:#0f5c45;border-radius:8px;padding:8px;margin:10px 0}
@@ -1798,11 +1871,11 @@ function payCard(key,label,sub,badgeCls,note){
 }
 function viewDonation(){
   var hero='<h2>ডোনেশন</h2>'
-    +'<section class="card stack donate-hero"><p class="eyebrow">ভালো কাজের অংশ হোন</p>'
+    +'<section class="card stack donate-hero"><p class="eyebrow">ভালো কাজের অংশ হোন</p><h3>আল হাসানা ফাউন্ডেশন</h3>'
     +'<p>আল হাসানা ফাউন্ডেশন একটি অলাভজনক ও সমাজকল্যাণমূলক উদ্যোগ। আর্থিকভাবে অসচ্ছল ও প্রয়োজনগ্রস্ত মানুষের পাশে দাঁড়ানো এবং কর্জে হাসানার মাধ্যমে তাদের স্বাবলম্বী হতে সহযোগিতা করাই আমাদের অন্যতম লক্ষ্য।</p>'
     +'<p>আপনার ছোট একটি সহযোগিতাও কারও জীবনে বড় পরিবর্তনের সুযোগ তৈরি করতে পারে। আসুন, মানবসেবায় অংশ নিই এবং আমাদের অনুদানকে সদকায়ে জারিয়ার একটি মাধ্যম হিসেবে গ্রহণ করি।</p></section>';
-var cta='<section class="card stack donate-cta"><p class="muted">আপনার সহযোগিতা এই কাজ চালিয়ে যেতে সাহায্য করবে।</p>'
-    +'<button class="btn primary donate-big" data-a="donateShow">Donate Now</button>';
+  var cta='<section class="card stack donate-cta"><p class="muted">Your contribution can help us continue this work.<br>আপনার সহযোগিতা এই কাজ চালিয়ে যেতে সাহায্য করবে।</p>'
+    +'<button class="btn primary donate-big" data-a="donateShow">Donate Now</button>'
     +'<p class="small muted">পেমেন্ট অপশন দেখতে Donate Now চাপুন। শুরুতে কোনো পেমেন্ট নম্বর দেখানো হবে না।</p></section>';
   if(!donateOpen) return hero+cta;
   var anyPay=!!(DONATE.bkash||DONATE.nagad||DONATE.rocket||DONATE.bankAcc);
@@ -1871,19 +1944,78 @@ function viewMyLoan(){
   return '<h2>আমার ঋণ</h2>'+myLoanHead()+sum+dues+car+cp;
 }
 var VIEWS={home:viewHome,seba:viewSeba,apply:viewApply,beneficiaries:viewBen,committee:viewCommittee,nasihat:viewNasihat,donation:viewDonation,myloan:viewMyLoan,admin:viewAdmin};
+/* ---------- A4 পেমেন্ট স্লিপ: সংখ্যা → বাংলা সংখ্যা ও কথায় টাকা ---------- */
+function slipBn(n){return String(n==null?'':n).replace(/\d/g,function(d){return '০১২৩৪৫৬৭৮৯'[d];});}
+function slipMoney(n){var _n=Number(n);if(!isFinite(_n))return '৳০';return '৳'+slipBn(Math.round(_n).toLocaleString('en-IN'));}
+var BN_W=['শূন্য','এক','দুই','তিন','চার','পাঁচ','ছয়','সাত','আট','নয়','দশ','এগারো','বারো','তেরো','চৌদ্দ','পনেরো','ষোলো','সতেরো','আঠারো','উনিশ','বিশ','একুশ','বাইশ','তেইশ','চব্বিশ','পঁচিশ','ছাব্বিশ','সাতাশ','আটাশ','ঊনত্রিশ','ত্রিশ','একত্রিশ','বত্রিশ','তেত্রিশ','চৌত্রিশ','পঁয়ত্রিশ','ছত্রিশ','সাঁইত্রিশ','আটত্রিশ','ঊনচল্লিশ','চল্লিশ','একচল্লিশ','বিয়াল্লিশ','তেতাল্লিশ','চুয়াল্লিশ','পঁয়তাল্লিশ','ছেচল্লিশ','সাতচল্লিশ','আটচল্লিশ','ঊনপঞ্চাশ','পঞ্চাশ','একান্ন','বায়ান্ন','তিপ্পান্ন','চুয়ান্ন','পঞ্চান্ন','ছাপ্পান্ন','সাতান্ন','আটান্ন','ঊনষাট','ষাট','একষট্টি','বাষট্টি','তেষট্টি','চৌষট্টি','পঁয়ষট্টি','ছেষট্টি','সাতষট্টি','আটষট্টি','ঊনসত্তর','সত্তর','একাত্তর','বাহাত্তর','তিয়াত্তর','চুয়াত্তর','পঁচাত্তর','ছিয়াত্তর','সাতাত্তর','আটাত্তর','ঊনআশি','আশি','একাশি','বিরাশি','তিরাশি','চুরাশি','পঁচাশি','ছিয়াশি','সাতাশি','আটাশি','ঊননব্বই','নব্বই','একানব্বই','বিরানব্বই','তিরানব্বই','চুরানব্বই','পঁচানব্বই','ছিয়ানব্বই','সাতানব্বই','আটানব্বই','নিরানব্বই'];
+function bnWords(n){
+  n=Math.floor(Number(n)||0);if(n<=0)return BN_W[0];
+  var o=[],cr=Math.floor(n/10000000);n%=10000000;
+  var lk=Math.floor(n/100000);n%=100000;
+  var hz=Math.floor(n/1000);n%=1000;
+  var sh=Math.floor(n/100);n%=100;
+  if(cr)o.push(bnWords(cr)+' কোটি');
+  if(lk)o.push(BN_W[lk]+' লক্ষ');
+  if(hz)o.push(BN_W[hz]+' হাজার');
+  if(sh)o.push(BN_W[sh]+' শত');
+  if(n)o.push(BN_W[n]);
+  return o.join(' ');
+}
+function bnTaka(n){return bnWords(n)+' টাকা মাত্র';}
+/* d = স্লিপের তথ্য। ওপরে সদস্যের কপি, কাটার দাগ, নিচে ফাউন্ডেশনের কপি */
+function slipSheet(d){
+  var left=d.instCount-d.instNo,ph=slipBn(d.phone||''),R=esc(d.receiptNo);
+  return '<div class="sl-sheet">'
+  +'<section class="sl-copy-a"><div class="sl-tag">সদস্যের কপি</div><div class="sl-inner">'
+  +'<div class="sl-wm"><span class="sl-display">আল হাসানা</span></div>'
+  +'<div class="sl-z sl-hdr"><img class="sl-logo" src="'+LOGO+'" alt="">'
+  +'<div class="sl-hc"><div class="sl-kick">সুদমুক্ত • স্বচ্ছ • আস্থা</div><h1 class="sl-display">আল হাসানা ফাউন্ডেশন</h1><div class="sl-sub">কর্জে হাসানা • সুদমুক্ত ঋণ — কিস্তি পরিশোধের রসিদ</div></div>'
+  +'<div class="sl-paid"><b>✓ PAID</b><small>পরিশোধিত</small></div></div>'
+  +'<div class="sl-z sl-rule1"></div><div class="sl-z sl-rule2"></div>'
+  +'<div class="sl-z sl-metas"><div class="sl-meta sl-strong"><p>রসিদ নম্বর</p><div>'+R+'</div></div><div class="sl-meta"><p>আদায়ের তারিখ</p><div>'+esc(d.paidOn)+'</div></div><div class="sl-meta"><p>কিস্তি নম্বর</p><div>'+slipBn(d.instNo)+' / '+slipBn(d.instCount)+'</div></div></div>'
+  +'<div class="sl-z sl-parties">'
+  +'<section class="sl-party"><h2>প্রদানকারী</h2><dl><div><dt>নাম</dt><dd>'+esc(d.name)+'</dd></div><div><dt>মোবাইল</dt><dd>'+ph+'</dd></div><div><dt>উদ্দেশ্য</dt><dd>কর্জে হাসানা কিস্তি</dd></div></dl></section>'
+  +'<section class="sl-party"><h2>গ্রহণকারী</h2><dl><div><dt>প্রতিষ্ঠান</dt><dd>আল হাসানা ফাউন্ডেশন</dd></div><div><dt>পক্ষে</dt><dd>ফাউন্ডেশন কমিটি</dd></div><div><dt>মাধ্যম</dt><dd>'+esc(d.method)+'</dd></div></dl></section></div>'
+  +'<div class="sl-z sl-det"><h3>পেমেন্ট বিবরণ</h3><table class="sl-t">'
+  +'<tr><td>মোট ঋণ</td><td>'+slipMoney(d.loanTotal)+'</td></tr>'
+  +'<tr><td>কিস্তি নম্বর</td><td>'+slipBn(d.instNo)+' / '+slipBn(d.instCount)+'</td></tr>'
+  +'<tr><td>কিস্তির তারিখ</td><td>'+esc(d.dueDate)+'</td></tr>'
+  +'<tr class="sl-hl"><td>এই কিস্তির পরিমাণ</td><td>'+slipMoney(d.instAmt)+'</td></tr>'
+  +'<tr><td>মোট পরিশোধিত</td><td>'+slipMoney(d.paidTotal)+'</td></tr>'
+  +'<tr><td>বাকি ('+slipBn(left)+' কিস্তি)</td><td>'+slipMoney(d.remain)+'</td></tr>'
+  +(left>0&&d.nextDue?'<tr><td>পরবর্তী কিস্তির তারিখ</td><td>'+esc(d.nextDue)+'</td></tr>':'')
+  +(d.txn?'<tr><td>Transaction ID / রেফারেন্স</td><td>'+esc(d.txn)+'</td></tr>':'')
+  +'</table></div>'
+  +'<div class="sl-z sl-words"><b>কথায়:</b> '+bnTaka(d.instAmt)+'</div>'
+  +'<div class="sl-z sl-sign"><div><div class="sl-ln">প্রদানকারীর স্বাক্ষর<br><b>'+esc(d.name)+'</b></div></div><div style="flex:.55"><span class="sl-seal">সিল</span></div><div><div class="sl-ln">অনুমোদিত স্বাক্ষর ও সিল<br><b>আল হাসানা ফাউন্ডেশন কমিটি</b></div></div></div>'
+  +'<div class="sl-z sl-foot">এটি সুদবিহীন কর্জে হাসানার রসিদ। ধন্যবাদ।</div>'
+  +'</div></section>'
+  +'<div class="sl-cut">✂ এখান থেকে কাটুন</div>'
+  +'<section class="sl-copy-b"><div class="sl-inner">'
+  +'<div class="sl-b-hdr"><img src="'+LOGO+'" alt=""><div><h2 class="sl-display">আল হাসানা ফাউন্ডেশন</h2><p>ফাউন্ডেশনের কপি (অফিস সংরক্ষণ)</p></div><div class="sl-rt">রসিদ নম্বর<b>'+R+'</b></div></div>'
+  +'<div class="sl-grid">'
+  +'<div><span>আদায়ের তারিখ</span><b>'+esc(d.paidOn)+'</b></div><div><span>কিস্তির তারিখ</span><b>'+esc(d.dueDate)+'</b></div>'
+  +'<div><span>সদস্যের নাম</span><b>'+esc(d.name)+'</b></div><div><span>মোবাইল</span><b>'+ph+'</b></div>'
+  +'<div><span>মোট ঋণ</span><b>'+slipMoney(d.loanTotal)+'</b></div><div><span>কিস্তি নম্বর</span><b>'+slipBn(d.instNo)+' / '+slipBn(d.instCount)+'</b></div>'
+  +'<div><span>মোট পরিশোধিত</span><b>'+slipMoney(d.paidTotal)+'</b></div><div><span>বাকি</span><b>'+slipMoney(d.remain)+' ('+slipBn(left)+' কিস্তি)</b></div>'
+  +'<div><span>মাধ্যম</span><b>'+esc(d.method)+(d.txn?' • '+esc(d.txn):'')+'</b></div><div><span>পরবর্তী কিস্তি</span><b>'+(left>0&&d.nextDue?esc(d.nextDue):'—')+'</b></div>'
+  +'</div>'
+  +'<div class="sl-b-amt"><strong>'+slipMoney(d.instAmt)+'</strong><span>কথায়: '+bnTaka(d.instAmt)+'</span></div>'
+  +'<div class="sl-b-sign"><div><div class="sl-ln">প্রদানকারীর স্বাক্ষর</div></div><div><div class="sl-ln">গ্রহণকারীর স্বাক্ষর</div></div></div>'
+  +'</div></section></div>';
+}
 function showReceipt(loanId,idx){
-  var l=findLoan(loanId);if(!l)return;var inst=l.ins[Number(idx)];if(!inst||!inst.paidOn)return;
+  var l=findLoan(loanId);if(!l)return;idx=Number(idx);var inst=l.ins[idx];if(!inst||!inst.paidOn)return;
   var rp=document.getElementById('receipt-print');if(!rp)return;
-  var no='AHF-REC-'+esc(l.id)+'-'+bn(Number(idx)+1);
+  var paidTotal=0,remain=0;
+  l.ins.forEach(function(x,k){var a=Number(x.amt)||0;if(k<=idx)paidTotal+=a;else remain+=a;});
+  var nx=l.ins[idx+1];
+  var d={receiptNo:'AHF-REC-'+l.id+'-'+(idx+1),paidOn:slipBn(fmtDate(inst.paidOn)),name:l.name,phone:l.phone,method:METHODS[inst.method]||inst.method||'',txn:inst.txn||'',loanTotal:l.amount,instNo:idx+1,instCount:l.n,instAmt:inst.amt,paidTotal:paidTotal,remain:remain,dueDate:slipBn(fmtDate(inst.due)),nextDue:nx?slipBn(fmtDate(nx.due)):''};
   rp.hidden=false;
-  rp.innerHTML='<div class="receipt"><h2>আল হাসানা ফাউন্ডেশন</h2><div class="rmeta">কর্জে হাসানা - কিস্তি রসিদ · রসিদ নং '+no+'</div>'+
-    '<dl class="kv"><dt>নাম</dt><dd>'+esc(l.name)+'</dd><dt>মোবাইল</dt><dd>'+bn(esc(l.phone))+'</dd><dt>মোট ঋণ</dt><dd>'+money(l.amount)+'</dd>'+
-    '<dt>কিস্তি</dt><dd>'+bn(Number(idx)+1)+' / '+bn(l.n)+'</dd><dt>কিস্তির পরিমাণ</dt><dd>'+money(inst.amt)+'</dd>'+
-    '<dt>কিস্তির তারিখ</dt><dd>'+fmtDate(inst.due)+'</dd><dt>আদায়ের তারিখ</dt><dd>'+fmtDate(inst.paidOn)+'</dd>'+
-    '<dt>পরিশোধের মাধ্যম</dt><dd>'+esc(METHODS[inst.method]||inst.method||'')+'</dd>'+(inst.txn?'<dt>Transaction ID / রেফারেন্স</dt><dd>'+esc(inst.txn)+'</dd>':'')+'</dl>'+
-    '<p class="small muted" style="margin-top:12px">এটি সুদবিহীন কর্জে হাসানার রসিদ। ধন্যবাদ।</p>'+
-    '<div class="actions" style="margin-top:14px"><button class="btn primary" data-a="printReceipt">প্রিন্ট / PDF সেভ</button><button class="btn" data-a="closeReceipt">বন্ধ করুন</button></div>'+
-    '<p class="small muted">প্রিন্ট উইন্ডোতে Print → Save as PDF বেছে নিন।</p></div>';
+  rp.innerHTML='<div class="sl-wrap"><div class="sl-bar noprint"><button class="btn primary" data-a="printReceipt">প্রিন্ট / PDF সেভ (A4)</button><button class="btn" data-a="closeReceipt">বন্ধ করুন</button></div>'+slipSheet(d)+'<p class="small noprint" style="text-align:center;color:#fff">প্রিন্ট উইন্ডোতে কাগজ A4, মার্জিন None বেছে নিন। PDF করতে "Save as PDF" বেছে নিন।</p></div>';
+  var _ps=document.getElementById('slipPageStyle');if(!_ps){_ps=document.createElement('style');_ps.id='slipPageStyle';_ps.textContent='@page{size:A4;margin:0}';document.head.appendChild(_ps);}
+  var _sh=rp.querySelector('.sl-sheet');if(_sh){var _k=Math.min(1,(window.innerWidth-24)/794);if(_k<1)_sh.style.zoom=_k;}
+  copyTitle='কিস্তি-রসিদ-'+d.receiptNo;
   window.scrollTo(0,0);
 }
 function appLoan(a){return S.loans.find(function(l){return l.appNo===a.no;})||null;}
@@ -2123,7 +2255,7 @@ document.addEventListener('click',function(e){
     case 'appcopy':showAppCopy(id,el.dataset.v);break;
     case 'wacopy':var wa=findApp(id);if(wa)window.open(waLink(wa.phone,copyText(wa,el.dataset.v)),'_blank');break;
     case 'printReceipt':var _ot=document.title;if(copyTitle)document.title=copyTitle;window.print();setTimeout(function(){document.title=_ot;},1500);break;
-    case 'closeReceipt':var _rp=document.getElementById('receipt-print');if(_rp){_rp.hidden=true;_rp.innerHTML='';}copyTitle='';break;
+    case 'closeReceipt':var _rp=document.getElementById('receipt-print');if(_rp){_rp.hidden=true;_rp.innerHTML='';}var _pps=document.getElementById('slipPageStyle');if(_pps)_pps.remove();copyTitle='';break;
     case 'bell':var _dmB=document.getElementById('dotsMenu');if(_dmB)_dmB.hidden=true;var _dbB=document.getElementById('dotsBtn');if(_dbB)_dbB.setAttribute('aria-expanded','false');if(panelOpen)closePanel();else openPanel();break;
     case 'next':if(validate()){step++;window.scrollTo(0,0);}render();break;
     case 'back':step--;errs={};window.scrollTo(0,0);render();break;
@@ -2657,6 +2789,104 @@ document.addEventListener('click',function(e){
   window.scrollTo(0,0);render();
 },true);
 document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;var m=document.getElementById('fabMenu'),b=document.getElementById('fabBtn');if(m&&!m.hidden&&b)b.click();});
+/* ====== জেসচার: (১) পাতা বদলাতে আড়াআড়ি swipe (২) নিচে টেনে রিফ্রেশ (৩) পপআপ নিচে টেনে বন্ধ ====== */
+(function(){
+  var g=null,ind=null,busy=false;
+  function $(id){return document.getElementById(id);}
+  function gated(){var e=$('gate');return !!(e&&!e.hidden);}
+  function recOpen(){var e=$('receipt-print');return !!(e&&!e.hidden);}
+  function anyOverlay(){return !!($('memPop')||typeOpen>=0||panelOpen||recOpen());}
+  function kindOf(t){
+    var m=$('memPop');if(m&&m.contains(t))return 'mem';
+    var s=$('tsheet');if(typeOpen>=0&&s&&!s.hidden&&s.contains(t))return 'sheet';
+    return '';
+  }
+  function hScroll(el){
+    while(el&&el!==document.body){
+      if(el.nodeType===1){var cs=getComputedStyle(el);if(/(auto|scroll)/.test(cs.overflowX)&&el.scrollWidth>el.clientWidth+2)return true;}
+      el=el.parentNode;
+    }
+    return false;
+  }
+  function atTop(el){
+    while(el&&el!==document.body){
+      if(el.nodeType===1){var cs=getComputedStyle(el);if(/(auto|scroll)/.test(cs.overflowY)&&el.scrollHeight>el.clientHeight+2&&el.scrollTop>0)return false;}
+      el=el.parentNode;
+    }
+    return true;
+  }
+  function isField(el){return !!(el&&el.closest&&el.closest('input,textarea,select,canvas,[contenteditable="true"]'));}
+  function tabIndex(){for(var i=0;i<TABS.length;i++)if(TABS[i][0]===route)return i;return -1;}
+  function showInd(h,ready){
+    if(!ind){ind=document.createElement('div');ind.className='ptr';ind.setAttribute('aria-hidden','true');document.body.appendChild(ind);}
+    ind.textContent=ready?'ছেড়ে দিন, রিফ্রেশ হবে':'রিফ্রেশ করতে নিচে টানুন';
+    ind.style.transition='none';
+    ind.style.transform='translate(-50%,'+(Math.min(h,70)-60)+'px)';
+    ind.style.opacity=String(Math.min(1,h/40));
+  }
+  function hideInd(){if(ind){ind.style.transition='transform .15s,opacity .15s';ind.style.transform='translate(-50%,-80px)';ind.style.opacity='0';}}
+  function resetCard(c){if(!c)return;c.style.transition='transform .2s,opacity .2s';c.style.transform='';c.style.opacity='';setTimeout(function(){c.style.transition='';},230);}
+  function closeKind(k){
+    if(k==='mem'){closeMemPopup();}
+    else if(k==='sheet'){typeOpen=-1;renderSheet();}
+  }
+  document.addEventListener('touchstart',function(e){
+    g=null;
+    if(busy||e.touches.length!==1||gated())return;
+    var p=e.touches[0],t=e.target,k=kindOf(t);
+    if(!k&&anyOverlay())return;
+    g={x:p.clientX,y:p.clientY,t:Date.now(),el:t,kind:k,dx:0,dy:0,ptr:undefined};
+    if(k){
+      var root=$(k==='mem'?'memPop':'tsheet'),c=t;
+      while(c&&c.parentNode!==root)c=c.parentNode;
+      g.card=(c&&c.nodeType===1)?c:null;
+      g.top=atTop(t);
+    }
+  },{passive:true});
+  document.addEventListener('touchmove',function(e){
+    if(!g||e.touches.length!==1)return;
+    var p=e.touches[0];g.dx=p.clientX-g.x;g.dy=p.clientY-g.y;
+    if(g.kind){
+      if(g.top&&g.card&&g.dy>0&&g.dy>Math.abs(g.dx)){
+        g.card.style.transition='none';
+        g.card.style.transform='translateY('+g.dy+'px)';
+        g.card.style.opacity=String(Math.max(.4,1-g.dy/400));
+      }
+      return;
+    }
+    if(g.ptr===undefined){
+      if(Math.abs(g.dy)<8&&Math.abs(g.dx)<8)return;
+      g.ptr=(g.dy>0&&g.dy>Math.abs(g.dx)*1.2&&(window.scrollY||0)<=0&&route!=='apply'&&route!=='admin'&&!isField(g.el));
+    }
+    if(g.ptr&&g.dy>0)showInd(g.dy*0.5,g.dy>=120);
+  },{passive:true});
+  document.addEventListener('touchcancel',function(){
+    if(g){if(g.card)resetCard(g.card);if(g.ptr)hideInd();}
+    g=null;
+  },{passive:true});
+  document.addEventListener('touchend',function(){
+    if(!g)return;
+    var d=g;g=null;
+    if(d.kind){
+      if(d.top&&d.dy>110&&d.dy>Math.abs(d.dx)*1.5){closeKind(d.kind);if(d.card){d.card.style.transform='';d.card.style.opacity='';}}
+      else resetCard(d.card);
+      return;
+    }
+    if(d.ptr){
+      hideInd();
+      if(d.dy>=120){busy=true;showInd(70,true);ind.textContent='রিফ্রেশ হচ্ছে…';ind.style.opacity='1';setTimeout(function(){location.reload();},150);}
+      return;
+    }
+    var ti=tabIndex();
+    if(ti<0||Date.now()-d.t>800)return;
+    if(Math.abs(d.dx)<80||Math.abs(d.dx)<Math.abs(d.dy)*2)return;
+    if(isField(d.el)||hScroll(d.el)||(d.el.closest&&d.el.closest('#homeSlider,#slides,.tbl,.subtabs')))return;
+    var ni=d.dx<0?ti+1:ti-1;
+    if(ni<0||ni>=TABS.length)return;
+    var a=document.querySelector('#nav a.tab[href="#'+TABS[ni][0]+'"]');
+    if(a)a.click();
+  },{passive:true});
+})();
 })();
 </script>
 
